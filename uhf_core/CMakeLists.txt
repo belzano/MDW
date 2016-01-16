@@ -1,0 +1,42 @@
+cmake_minimum_required(VERSION 2.8)
+project (uhfcore)
+
+add_definitions(-DBUILD_MODULE="UHF")
+
+include_directories("include")
+include_directories(${MDW_SOURCE_DIR}/uhf/include)
+include_directories(${MDW_SOURCE_DIR}/logger/include)
+include_directories(${MDW_SOURCE_DIR}/toolbox/include)
+
+file(GLOB_RECURSE source_files src/core/configuration/*)
+file(GLOB_RECURSE source_files src/core/*)
+file(GLOB_RECURSE source_files src/core/ability/*)
+file(GLOB_RECURSE source_files src/core/component/*)
+file(GLOB_RECURSE source_files src/core/property/*)
+file(GLOB_RECURSE source_files src/behaviours/*)
+file(GLOB_RECURSE source_files src/managers/*)
+file(GLOB_RECURSE source_files src/managers/libloader/*)
+file(GLOB_RECURSE source_files src/managers/threads/*)
+file(GLOB_RECURSE source_files src/managers/events/*)
+file(GLOB_RECURSE source_files src/*)
+
+include_directories("src/core/configuration")
+include_directories("src/core")
+include_directories("src/core/component")
+include_directories("src/core/ability")
+include_directories("src/core/property")
+include_directories("src/managers")
+include_directories("src/managers/libloader")
+include_directories("src/managers/threads")
+include_directories("src/managers/tasks")
+include_directories("src/managers/events")
+include_directories("src/behaviours") 
+include_directories("src")
+
+add_library(uhfcore SHARED ${source_files})
+
+target_link_libraries (uhfcore logger)
+target_link_libraries (uhfcore toolbox)
+target_link_libraries (uhfcore uhf)
+
+target_link_libraries(uhfcore libdl.so)

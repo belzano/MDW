@@ -1,0 +1,25 @@
+{
+	"version": 42,
+    "components":
+    [
+      {
+	"type" : "",
+	"library" : "",
+	"cfg": {},
+	"properties":[
+	  {
+	    "type":"uhf.core.Runnable"
+	  }
+	]
+      },
+      {
+	"type" : "",
+	"library" : "",
+	"properties":[
+	  {
+	    "type":"uhf.core.Updatable"
+	  }
+	]
+      }
+    ]
+}

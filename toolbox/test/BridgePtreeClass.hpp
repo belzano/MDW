@@ -3,7 +3,8 @@
 #include "gtest/gtest.h"
 
 #include "toolbox/Types.hpp"
-#include "toolbox/ptree/Bridge.hpp"
+#include "PtreeBridge.hpp"
+#include "toolbox/entity/Factory.hpp"
 #include "toolbox/ptree/Helper.hpp"
 #include "toolbox/StringUtils.hpp"
 
@@ -15,7 +16,7 @@ attrtype _##attrname;
 
 
 
-class Component : public toolbox::Object
+class Component : public toolbox::ptree::PtreeEntity
 {
 public: 
     static constexpr const char* TypeName = "Component";
@@ -29,11 +30,11 @@ public:
 	registered = true;
     }
 
-    virtual void readPtree(const boost::property_tree::ptree& ptree)
+    virtual void readPtree(const toolbox::ptree::Node& ptree)
     {
 	toolbox::bridge::bridge(ptree, *this);
     }
-    void writePtree(toolbox::ptree::ptree& ){}
+    virtual void writePtree(toolbox::ptree::Node& ){}
     
     MAKE_ATTRIBUTE(std::string, String)
     
@@ -59,7 +60,7 @@ public:
 	Component::readPtree(ptree);
 	toolbox::bridge::bridge(ptree, *this);
     }
-    void writePtree(toolbox::ptree::ptree& ){}
+    void writePtree(toolbox::ptree::Node& ){}
 
     virtual std::string GetType(){ return TypeName; }
 };
@@ -70,8 +71,8 @@ TEST(BridgePtreeClass, TestReadClass)
     toolbox::bridge::BridgeClass<boost::property_tree::ptree, std::shared_ptr<Component> >::Instance() = 
 	new toolbox::ptree::BridgePtreeClassPtr<Component>();
   
-    toolbox::Maker::instance().registration<Component>();
-    toolbox::Maker::instance().registration<ComponentImpl>();
+    toolbox::entity::Factory::instance().registration<Component>();
+    toolbox::entity::Factory::instance().registration<ComponentImpl>();
 
     std::shared_ptr<Component> cmp = std::shared_ptr<Component>(nullptr);
     toolbox::DataPtr json = toolbox::MakeDataPtr("{\"$type\":\"ComponentImpl\",\"string\":\"prout\",\"U32\":21,\"S32\":-21}");

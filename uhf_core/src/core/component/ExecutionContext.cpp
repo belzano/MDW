@@ -8,8 +8,7 @@ namespace component {
 
 /////////////////////////////////////////////////////////////////////
 
-ExecutionContext::ExecutionContext(IBrokerPtr broker) 
-    : IComponent(broker)
+ExecutionContext::ExecutionContext() 
 { 
     char* envVar = ::getenv("APP_ROOT_DIR");
     if (envVar != NULL)

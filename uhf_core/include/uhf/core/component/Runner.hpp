@@ -1,7 +1,6 @@
 #pragma once
 
 #include "uhf/IComponent.hpp"
-#include "uhf/IBroker.hpp"
 
 namespace uhf {
 namespace core {
@@ -16,7 +15,7 @@ namespace component {
     public:
 	constexpr static const char* TypeName = "uhf::core::component::Runner";
 
-	Runner(IBrokerPtr broker);
+	Runner();
 	virtual ~Runner();
 
 	int run();

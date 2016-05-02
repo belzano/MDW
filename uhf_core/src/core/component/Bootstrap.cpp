@@ -7,8 +7,8 @@ namespace uhf {
 namespace core {
 namespace component {
 	
-    Bootstrap::Bootstrap(IBrokerPtr broker)
-    : IComponent(broker)
+    Bootstrap::Bootstrap()
+    : IComponent()
     , m_impl(new BootstrapImpl())
     {
 

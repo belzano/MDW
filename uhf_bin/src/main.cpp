@@ -32,20 +32,24 @@ int main (int /*argc*/, char * const * /*argv*/)
     BrokerPtr broker = BrokerPtr(new Broker());
     
     // Create resources
-    g_runner = RunnerPtr(new Runner(broker));
+    g_runner = RunnerPtr(new Runner());
+    g_runner->setBroker(broker);
     broker->registerComponent(g_runner);
      
-    ExecutionContextPtr executionContext = ExecutionContextPtr(new ExecutionContext(broker));
+    ExecutionContextPtr executionContext = ExecutionContextPtr(new ExecutionContext());
+    executionContext->setBroker(broker);
     broker->registerComponent(executionContext);
     executionContext->setApplicationName("agent");
 
-    LoggerConsolePtr logger = LoggerConsolePtr(new LoggerConsole(broker));
+    LoggerConsolePtr logger = LoggerConsolePtr(new LoggerConsole());
+    logger->setBroker(broker);
     broker->registerComponent(logger);
     
-    BootstrapPtr bootstrap = BootstrapPtr(new Bootstrap(broker));
+    BootstrapPtr bootstrap = BootstrapPtr(new Bootstrap());
+    bootstrap->setBroker(broker);
     broker->registerComponent(bootstrap);
     //bootstrap->loadComponents(executionContext->getConfigurationDir() + "/conf.json");
-    bootstrap->loadComponents("/home/belzano/projects/MDW/etc/bootstrap.json");
+    bootstrap->loadComponents("/home/belzano/github/MDW/etc/bootstrap.json");
     
     std::cout << "Hooking SIGTERM" << std::endl;
     signal(SIGTERM, handle_term);

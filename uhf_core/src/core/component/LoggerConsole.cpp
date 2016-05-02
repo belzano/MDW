@@ -8,8 +8,8 @@ namespace component {
 		
 /////////////////////////////////////////////////////////////////////
 
-LoggerConsole::LoggerConsole(IBrokerPtr broker)
-: IComponent(broker)
+LoggerConsole::LoggerConsole()
+: IComponent()
 {
 
 }

@@ -1,4 +1,5 @@
-#include "HttpTrafficHandler.hpp"
+#include "TrafficHandlerImpl.hpp"
+
 #include "HttpConnection.hpp"
 
 #include "platform.h"
@@ -19,8 +20,7 @@
 
 /////////////////////////////////////////////////////////////////////
 
-static int 
-accept_connection(MHD_Connection* connection, 
+int accept_connection(MHD_Connection* connection, 
                 const char* url, 
 				const char* method, 
 				void** ioConCtx)
@@ -47,8 +47,7 @@ accept_connection(MHD_Connection* connection,
  
 /////////////////////////////////////////////////////////////////////
 
-static int
-send_reponse (struct MHD_Connection *connection, const char *page, int status_code)
+int send_reponse (struct MHD_Connection *connection, const char *page, int status_code)
 {
     MDW_LOG_DEBUG("send_reponse");	
 	
@@ -64,8 +63,7 @@ send_reponse (struct MHD_Connection *connection, const char *page, int status_co
 
 /////////////////////////////////////////////////////////////////////
 
-static void
-on_response_sent (	void */*cls*/, 
+void on_response_sent (	void */*cls*/, 
 					struct MHD_Connection */*connection*/,
 					void **ioConCtx, 
 					enum MHD_RequestTerminationCode)
@@ -84,8 +82,7 @@ on_response_sent (	void */*cls*/,
 
 /////////////////////////////////////////////////////////////////////
 
-static int
-on_data_reception (void * /*cls*/, 
+int on_data_reception (void * /*cls*/, 
 					  struct MHD_Connection* connection,
                       const char* url, 
                       const char* method,
@@ -94,7 +91,7 @@ on_data_reception (void * /*cls*/,
                       size_t* upload_data_size, 
                       void** ioConCtx)
 {
-    MDW_LOG_DEBUG ("on_data_reception");	
+    MDW_LOG_DEBUG ("on_data_reception");
 		
 	// No context: New incoming cnx		
 	if (NULL == *ioConCtx)
@@ -107,68 +104,6 @@ on_data_reception (void * /*cls*/,
 		return send_reponse (connection, StaticPages::ClientError, MHD_HTTP_BAD_REQUEST);
 	
 	return con_info->onDataReceived(upload_data, upload_data_size);
-}
-
-////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////
-
-namespace uhf
-{
-		
-	HttpTrafficHandler::HttpTrafficHandler(int port)
-		: _port(port)
-	{}
-
-	////////////////////////////////////////////////////////////	
-
-	int HttpTrafficHandler::activate()
-	{		
-		/*
-		int daemon_opts = MHD_USE_SELECT_INTERNALLY
-						| MHD_USE_DEBUG 
-						| MHD_USE_POLL
-						| MHD_USE_THREAD_PER_CONNECTION;
-		*/
-		if (daemon != 0)
-		{
-			MDW_LOG_INFO("HttpTrafficHandler is already activated!")
-			return 0;
-		}
-		
-		daemon = (void*) MHD_start_daemon (MHD_USE_SELECT_INTERNALLY, _port, NULL, NULL,
-									&on_data_reception, NULL,
-									MHD_OPTION_NOTIFY_COMPLETED, 
-									on_response_sent,
-									NULL, MHD_OPTION_END);					
-						   
-		if (daemon == nullptr)
-		{
-			MDW_LOG_ERROR("HttpTrafficHandler returned 0");
-			return 0;
-		}
-	
-	
-		MDW_LOG_INFO("HttpTrafficHandler started OK");			
-		return 0;
-	}
-		
-	////////////////////////////////////////////////////////////	
-
-	int HttpTrafficHandler::deactivate()
-	{
-		if (daemon == 0)
-		{
-			MDW_LOG_ERROR("HttpTrafficHandler does not seem activated.");
-			return 0;
-		}	
-		
-		MHD_stop_daemon ( (struct MHD_Daemon*) daemon);
-		daemon = 0;
-		return 0;		
-	}
-
-	////////////////////////////////////////////////////////////	
-
 }
 
 ////////////////////////////////////////////////////////////	

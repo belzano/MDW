@@ -9,11 +9,11 @@
 
 #include "toolbox/Types.hpp"
 #include "toolbox/Logger.hpp"
-#include "toolbox/Maker.hpp"
 
 #include "toolbox/bridge/Bridge.hpp"
 #include "toolbox/ptree/Types.hpp"
-#include "toolbox/ptree/Specializations.hpp"
+#include "PtreeSpecializations.hpp"
+//#include "toolbox/ptree/Conversions.hpp"
 
 #include <boost/foreach.hpp>
 
@@ -42,53 +42,50 @@ namespace ptree {
     ///////////////////////////////////////////////////////////////////////////////////
 
     template <class TType>
-    class BridgePtreeClassPtr : public bridge::BridgeClass<ptree, std::shared_ptr<TType> >,
-				public bridge::BridgeClass<std::shared_ptr<TType>, ptree >
+    class BridgePtreeClassPtr : public bridge::BridgeClass<Node, std::shared_ptr<TType> >,
+				public bridge::BridgeClass<std::shared_ptr<TType>, Node >
     {
     public: 
 	BridgePtreeClassPtr()
 	{}
 	
-	void bridge(const ptree& ptree, std::shared_ptr<TType>& to) override
+	void bridge(const Node& , std::shared_ptr<TType>& ) override
 	{
-	    // read ptree["$type"] and call dynamic factory
-	    std::string trueType = ptree.get("$type", TType::TypeName);
-	    to = toolbox::Maker::instance().make<TType>(trueType);    
-	    to->readPtree(ptree);
+	    //convert(Node, to);
 	}
 	
-	void bridge(const std::shared_ptr<TType>& from, ptree& ptree) override
+	void bridge(const std::shared_ptr<TType>& , Node& ) override
 	{
-	    from->writePtree(ptree);
+		//convert(from, Node);
 	}	
     };
     
     ///////////////////////////////////////////////////////////////////////////////////
 
     template <class TType>
-    class BridgePtreeClass : public bridge::BridgeClass<toolbox::ptree::ptree, TType>,
-			     public bridge::BridgeClass<TType, toolbox::ptree::ptree >
+    class BridgePtreeClass : public bridge::BridgeClass<toolbox::ptree::Node, TType>,
+			     public bridge::BridgeClass<TType, toolbox::ptree::Node >
     {
     public: 
 	BridgePtreeClass()
 	{}
 	
-	void bridge(const toolbox::ptree::ptree& ptree, TType& to) override
+	void bridge(const toolbox::ptree::Node& ptree, TType& to) override
 	{
-	    bridge::BridgeClass<toolbox::ptree::ptree, TType>::bridge(ptree, to);
+	    bridge::BridgeClass<toolbox::ptree::Node, TType>::bridge(ptree, to);
 	}
 	
-	void bridge(const TType& from, toolbox::ptree::ptree& ptree) override
+	void bridge(const TType& from, toolbox::ptree::Node& ptree) override
 	{
-	    bridge::BridgeClass<TType, toolbox::ptree::ptree>::bridge(from, ptree);
+	    bridge::BridgeClass<TType, toolbox::ptree::Node>::bridge(from, ptree);
 	}
     };
 
     ///////////////////////////////////////////////////////////////////////////////////
 
     template <class T, class attributeType>
-    class BridgePtreeAttribute : public bridge::Bridge<ptree, T>,
-				 public bridge::Bridge<T, ptree>
+    class BridgePtreeAttribute : public bridge::Bridge<Node, T>,
+				 public bridge::Bridge<T, Node>
     {
     public: 
       
@@ -107,9 +104,9 @@ namespace ptree {
 		, m_containerType(containerType)
 	{}
 	
-	void bridge(const toolbox::ptree::ptree& ptree, T& to) override
+	void bridge(const toolbox::ptree::Node& ptree, T& to) override
 	{
-	    boost::optional< const toolbox::ptree::ptree& > child = ptree.get_child_optional( m_ptreeKey );
+	    boost::optional< const toolbox::ptree::Node& > child = ptree.get_child_optional( m_ptreeKey );
 	    if( !child )
 	    {
 		// TODO log missing element;
@@ -119,10 +116,10 @@ namespace ptree {
 	    toolbox::bridge::bridge(child.get(), m_writer(to));
 	}
 	
-	void bridge(const T& from, toolbox::ptree::ptree& ptree) override
+	void bridge(const T& from, toolbox::ptree::Node& ptree) override
 	{
-	    toolbox::ptree::ptree::iterator newNodeIt = ptree.push_back( { m_ptreeKey, toolbox::ptree::ptree() } );
-	    toolbox::ptree::ptree& child = newNodeIt->second;
+	    toolbox::ptree::Node::iterator newNodeIt = ptree.push_back( { m_ptreeKey, toolbox::ptree::Node() } );
+	    toolbox::ptree::Node& child = newNodeIt->second;
 	    toolbox::bridge::bridge(m_reader(from), child);
 	}
 	
@@ -144,8 +141,8 @@ namespace ptree {
     {
 	    MDW_LOG_DEBUG("Attribute registration for " << key);
 	    BridgePtreeAttribute<T, attributeType>* bridgeInstance = new BridgePtreeAttribute<T, attributeType>(key, constAccessor, accessor, valueType, containerType);
-	    bridge::RegisterBridgeAttribute<T, ptree>(bridgeInstance);
-	    bridge::RegisterBridgeAttribute<ptree, T>(bridgeInstance);
+	    bridge::RegisterBridgeAttribute<T, Node>(bridgeInstance);
+	    bridge::RegisterBridgeAttribute<Node, T>(bridgeInstance);
 	    
 	    return nullptr;
     }

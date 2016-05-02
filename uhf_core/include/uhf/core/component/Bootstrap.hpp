@@ -2,7 +2,6 @@
 
 #include <memory>
 #include "uhf/IComponent.hpp"
-#include "uhf/IBroker.hpp"
 
 namespace uhf {
 namespace core {
@@ -17,7 +16,7 @@ namespace component {
 	public:
 		constexpr static const char* TypeName = "uhf::core::component::Bootstrap";
 	
-		Bootstrap(IBrokerPtr broker);
+		Bootstrap();
 		~Bootstrap();
 		
 		void loadComponents(const std::string& configFilename);

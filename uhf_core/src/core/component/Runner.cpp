@@ -7,8 +7,8 @@ namespace component {
 		
 	/////////////////////////////////////////////////////////////////////
 
-	Runner::Runner(IBrokerPtr broker)
-	  : IComponent(broker)
+	Runner::Runner()
+	  : IComponent()
 	  , m_impl(new RunnerImpl())
 	{
 		

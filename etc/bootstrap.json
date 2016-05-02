@@ -3,23 +3,12 @@
     "components":
     [
       {
-	"type" : "",
-	"library" : "",
-	"cfg": {},
-	"properties":[
-	  {
-	    "type":"uhf.core.Runnable"
-	  }
-	]
-      },
-      {
-	"type" : "",
-	"library" : "",
-	"properties":[
-	  {
-	    "type":"uhf.core.Updatable"
-	  }
-	]
+		"name" : "Component_10_http_server",
+		"$type": "uhf.http.TrafficHandler",
+		"configuration":{
+			"$type": "uhf.http.TrafficHandlerConfiguration",
+			"port": 80
+		 }
       }
     ]
 }

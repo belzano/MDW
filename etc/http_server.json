@@ -1,0 +1,8 @@
+{
+	"name": "Component_10_http_server",
+	"type": "uhf.http.TrafficHandler",
+	"configuration":{
+		"$type": "uhf.http.TrafficHandlerConfiguration",
+		"port": 80
+	}
+}

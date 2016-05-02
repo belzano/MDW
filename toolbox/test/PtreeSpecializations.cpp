@@ -1,4 +1,4 @@
-#include "toolbox/ptree/Specializations.hpp"
+#include "PtreeSpecializations.hpp"
 
 #include "toolbox/StringUtils.hpp"
 #include "toolbox/Base64.hpp"
@@ -11,8 +11,8 @@ namespace bridge {
 ////////////////////////////////////////////////////////////////////
 
 #define MME_PARSE_INTEGER_TYPE(type)\
-	template<> void bridge<ptree, type>(const ptree& iNode, type& oResult) { oResult = atoi(iNode.data().c_str()); } \
-	template<> void bridge<type, ptree>(const type& iData, ptree& oNode) { oNode.data() = toolbox::ToString(iData); }
+	template<> void bridge<Node, type>(const Node& iNode, type& oResult) { oResult = atoi(iNode.data().c_str()); } \
+	template<> void bridge<type, Node>(const type& iData, Node& oNode) { oNode.data() = toolbox::ToString(iData); }
 
 MME_PARSE_INTEGER_TYPE(S8)
 MME_PARSE_INTEGER_TYPE(U8)    
@@ -28,13 +28,13 @@ MME_PARSE_INTEGER_TYPE(U64)
 ///////// /////////////////////////////////////////////////
 
 template<>
-void bridge<ptree, std::string>(const ptree& iNode, std::string& oResult)
+void bridge<Node, std::string>(const Node& iNode, std::string& oResult)
 {
 	oResult = iNode.data();
 }
 
 template<>
-void bridge<std::string, ptree>(const std::string& iData, ptree& oNode)
+void bridge<std::string, Node>(const std::string& iData, Node& oNode)
 {
 	oNode.data() = iData;
 }
@@ -42,7 +42,7 @@ void bridge<std::string, ptree>(const std::string& iData, ptree& oNode)
 //////////////////////////////////////////////////////////
 
 template<>
-void bridge<ptree, toolbox::DataPtr>(const ptree& iNode, toolbox::DataPtr& oBinaryData)
+void bridge<Node, toolbox::DataPtr>(const Node& iNode, toolbox::DataPtr& oBinaryData)
 {
 	// Handle no data case
 	if (iNode.data().empty())
@@ -51,7 +51,7 @@ void bridge<ptree, toolbox::DataPtr>(const ptree& iNode, toolbox::DataPtr& oBina
 		return;
 	}
 	
-	// Get ptree data to a DataPtr
+	// Get Node data to a DataPtr
 	toolbox::DataPtr asciiData (new toolbox::Data());
 	std::copy(iNode.data().begin(), iNode.data().end(), back_inserter(* asciiData.get()));
 	
@@ -59,7 +59,7 @@ void bridge<ptree, toolbox::DataPtr>(const ptree& iNode, toolbox::DataPtr& oBina
 }
 
 template<>
-void bridge<toolbox::DataPtr, ptree>(const toolbox::DataPtr& iBinaryData, ptree& oNode)
+void bridge<toolbox::DataPtr, Node>(const toolbox::DataPtr& iBinaryData, Node& oNode)
 {
 	// Handle no data case
 	if (iBinaryData.get() == nullptr)

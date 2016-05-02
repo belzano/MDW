@@ -33,10 +33,25 @@ namespace helper {
 	}
 
 	////////////////////////////////////////////////////////////////////
+
 	void ReadPtree(const std::string& filename, boost::property_tree::ptree& oNode)
 	{
 		boost::property_tree::read_json(filename, oNode);
 	}
+	
+	////////////////////////////////////////////////////////////////////
+		
+	void DistinctTagValues(const std::string tag, const Node& iNode, std::set<std::string>& result)
+	{
+		for(const Node::value_type& itemPair: iNode)
+		{
+			if (itemPair.first == tag)
+				result.insert(itemPair.second.data());
+					
+			DistinctTagValues(tag, itemPair.second, result);
+		}																	
+	}
+
 
 }
 }

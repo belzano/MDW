@@ -6,6 +6,7 @@
 
 
 #include "uhf/IProperty.hpp"
+#include "uhf/IComponentConfiguration.hpp"
 
 namespace  uhf {
 
@@ -15,36 +16,40 @@ namespace  uhf {
     {
     public:
 
-	// ctor
-	IComponent(std::shared_ptr<IBroker>);
+		// ctor
+		IComponent();
 
-	// Initialization
-	void initialize();
-	// Activation
-	void activate();
-	void deactivate();
-	// dtor
-	virtual ~IComponent();
+		// Initialization
+		void setBroker(std::shared_ptr<IBroker>);
+		virtual void initialize(IComponentConfigurationPtr) {}
+		
+		void initialize();
+		
+		// Activation
+		void activate();
+		void deactivate();
+		// dtor
+		virtual ~IComponent();
 
     protected:	
-	virtual void onInitialize();
-	virtual void onActivate();
-	virtual void onDeactivate();
+		virtual void onInitialize();
+		virtual void onActivate();
+		virtual void onDeactivate();
 
-	std::shared_ptr<IBroker> getBroker() { return m_broker;}
-	std::shared_ptr<IBroker> m_broker;
+		std::shared_ptr<IBroker> getBroker() { return m_broker;}
+		std::shared_ptr<IBroker> m_broker;
 
     public:		
-	template <class T>
-	bool hasProperty()				{ return getProperty(T::TypeName).get() != nullptr;}
-	bool hasProperty(const std::string& iTypeName)	{ return getProperty(iTypeName).get() != nullptr;}
+		template <class T>
+		bool hasProperty()				{ return getProperty(T::TypeName).get() != nullptr;}
+		bool hasProperty(const std::string& iTypeName)	{ return getProperty(iTypeName).get() != nullptr;}
 
-	template <class T>
-	IPropertyPtr getProperty()			{ return m_properties.get(T::TypeName);}
-	IPropertyPtr getProperty(const std::string& iTypeName) { return m_properties.get(iTypeName);}		
+		template <class T>
+		IPropertyPtr getProperty()			{ return m_properties.get(T::TypeName);}
+		IPropertyPtr getProperty(const std::string& iTypeName) { return m_properties.get(iTypeName);}		
 
     private:
-	toolbox::TypeNameRegistry<IProperty> m_properties;
+		toolbox::TypeNameRegistry<IProperty> m_properties;
 
     };
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "uhf/IComponent.hpp"
-#include "uhf/IBroker.hpp"
 #include "uhf/core/ability/Logging.hpp"
 
 namespace uhf {
@@ -17,7 +16,7 @@ namespace component {
     public:
 	constexpr static const char* TypeName = "uhf::core::component::LoggerConsole";
 
-	LoggerConsole(IBrokerPtr broker);
+	LoggerConsole();
 	virtual ~LoggerConsole();
 
 	virtual void log(const char*);

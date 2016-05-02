@@ -18,6 +18,9 @@ namespace component {
 	{
 	public:
 		void loadComponents(const std::string& configFilename, IBrokerPtr broker);
+
+	protected:
+		void loadConfiguration(const std::string& configFilename);
 		
 	private:
 		std::shared_ptr<configuration::Bootstrap> m_configuration;

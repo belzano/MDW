@@ -6,8 +6,7 @@
 namespace uhf {	
 
 //---------------------------------------------------------
-IComponent::IComponent(IBrokerPtr broker)
-:m_broker(broker)
+IComponent::IComponent()
 {
 }
 
@@ -17,9 +16,14 @@ IComponent::~IComponent()
 }
 
 //---------------------------------------------------------
-void IComponent::initialize()
+void IComponent::setBroker(IBrokerPtr broker)
 {
-	
+	m_broker = broker;
+}
+
+//---------------------------------------------------------
+void IComponent::initialize()
+{	
 	onInitialize();
 }
 
@@ -30,8 +34,7 @@ void IComponent::onInitialize()
 
 //---------------------------------------------------------
 void IComponent::activate()
-{
-	
+{	
 	onActivate();
 }
 
@@ -42,8 +45,7 @@ void IComponent::onActivate()
 
 //---------------------------------------------------------
 void IComponent::deactivate()
-{
-	
+{	
 	onDeactivate();
 }
 

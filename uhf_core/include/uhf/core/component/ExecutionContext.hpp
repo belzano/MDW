@@ -14,7 +14,7 @@ namespace component {
     public:
 	constexpr static const char* TypeName = "uhf::core::component::ExecutionContext";
 
-	ExecutionContext(IBrokerPtr broker);
+	ExecutionContext();
 	virtual ~ExecutionContext();
 	
 

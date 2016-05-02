@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 
 #include "toolbox/Types.hpp"
-#include "toolbox/ptree/Bridge.hpp"
+#include "PtreeBridge.hpp"
 #include "toolbox/ptree/Helper.hpp"
 #include "toolbox/StringUtils.hpp"
 

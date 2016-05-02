@@ -9,10 +9,10 @@
 
 #include "toolbox/Types.hpp"
 #include "toolbox/Logger.hpp"
-#include "toolbox/Maker.hpp"
 
 #include "toolbox/bridge/Bridge.hpp"
 #include "toolbox/ptree/Types.hpp"
+//#include "toolbox/ptree/Conversions.hpp"
 
 #include <boost/foreach.hpp>
 
@@ -23,29 +23,29 @@ namespace bridge {
 ///////////////////////////////////////////////
 ////////////////////////////////////////////////
 // Specializations for base types
-  using toolbox::ptree::ptree;
+  using toolbox::ptree::Node;
 
-template<> void bridge<ptree, U8>			(const ptree& iNode, U8& oResult);
-template<> void bridge<ptree, S8>			(const ptree& iNode, S8& oResult);
-template<> void bridge<ptree, U16>			(const ptree& iNode, U16& oResult);
-template<> void bridge<ptree, S16>			(const ptree& iNode, S16& oResult);
-template<> void bridge<ptree, U32>			(const ptree& iNode, U32& oResult);
-template<> void bridge<ptree, S32>			(const ptree& iNode, S32& oResult);
-template<> void bridge<ptree, U64>			(const ptree& iNode, U64& oResult);
-template<> void bridge<ptree, S64>			(const ptree& iNode, S64& oResult);
-template<> void bridge<ptree, std::string> 		(const ptree& iNode, std::string& oResult);
-template<> void bridge<ptree, toolbox::DataPtr>		(const ptree& iNode, toolbox::DataPtr& oResult);
+template<> void bridge<Node, U8>			(const Node& iNode, U8& oResult);
+template<> void bridge<Node, S8>			(const Node& iNode, S8& oResult);
+template<> void bridge<Node, U16>			(const Node& iNode, U16& oResult);
+template<> void bridge<Node, S16>			(const Node& iNode, S16& oResult);
+template<> void bridge<Node, U32>			(const Node& iNode, U32& oResult);
+template<> void bridge<Node, S32>			(const Node& iNode, S32& oResult);
+template<> void bridge<Node, U64>			(const Node& iNode, U64& oResult);
+template<> void bridge<Node, S64>			(const Node& iNode, S64& oResult);
+template<> void bridge<Node, std::string> 		(const Node& iNode, std::string& oResult);
+template<> void bridge<Node, toolbox::DataPtr>		(const Node& iNode, toolbox::DataPtr& oResult);
 
-template<> void bridge<U8, ptree>			(const U8& oResult, ptree& iNode);
-template<> void bridge<S8, ptree>			(const S8& oResult, ptree& iNode);
-template<> void bridge<U16, ptree>			(const U16& oResult, ptree& iNode);
-template<> void bridge<S16, ptree>			(const S16& oResult, ptree& iNode);
-template<> void bridge<U32, ptree>			(const U32& oResult, ptree& iNode);
-template<> void bridge<S32, ptree>			(const S32& oResult, ptree& iNode);
-template<> void bridge<U64, ptree>			(const U64& oResult, ptree& iNode);
-template<> void bridge<S64, ptree>			(const S64& oResult, ptree& iNode);
-template<> void bridge<std::string, ptree> 		(const std::string& oResult, ptree& iNode);
-template<> void bridge<toolbox::DataPtr, ptree>		(const toolbox::DataPtr& oResult, ptree& iNode);
+template<> void bridge<U8, Node>			(const U8& oResult, Node& iNode);
+template<> void bridge<S8, Node>			(const S8& oResult, Node& iNode);
+template<> void bridge<U16, Node>			(const U16& oResult, Node& iNode);
+template<> void bridge<S16, Node>			(const S16& oResult, Node& iNode);
+template<> void bridge<U32, Node>			(const U32& oResult, Node& iNode);
+template<> void bridge<S32, Node>			(const S32& oResult, Node& iNode);
+template<> void bridge<U64, Node>			(const U64& oResult, Node& iNode);
+template<> void bridge<S64, Node>			(const S64& oResult, Node& iNode);
+template<> void bridge<std::string, Node> 		(const std::string& oResult, Node& iNode);
+template<> void bridge<toolbox::DataPtr, Node>		(const toolbox::DataPtr& oResult, Node& iNode);
 
 ////////////////////////////////////////////////
 // Specializations for stl containers
@@ -53,30 +53,24 @@ template<> void bridge<toolbox::DataPtr, ptree>		(const toolbox::DataPtr& oResul
 
 // Shared ptr
 template<class K> 
-void bridgePtr(const ptree& iNode, std::shared_ptr<K>& to)
+void bridgePtr(const Node& iNode, std::shared_ptr<K>& to)
 {
-    // read iNode["$type"] and call dynamic factory
-    std::string trueType = iNode.get("$type", K::TypeName);
-    to = toolbox::Maker::instance().make<K>(trueType);
-    if (to.get())
-      bridge(iNode, *to.get());
+	convert(iNode, to);
 }
 
 template<class K> 
-void bridgePtr(const std::shared_ptr<K>& from, ptree& oNode)
+void bridgePtr(const std::shared_ptr<K>& from, Node& oNode)
 {
-    // TODO write iNode["$type"]
-    if (from.get())
-      bridge(*from.get(), oNode);
+	convert(from, oNode);
 }
 
 ////////////////////////////////////////////////
 
 // list
 template<class K> 
-void bridgeList(const ptree& iNode, std::list<K>& oResult)
+void bridgeList(const Node& iNode, std::list<K>& oResult)
 {
-    BOOST_FOREACH (const ptree::value_type& itemPair, iNode) 
+    BOOST_FOREACH (const Node::value_type& itemPair, iNode) 
     {
 	K object;
 	bridge(itemPair.second, object);
@@ -85,12 +79,12 @@ void bridgeList(const ptree& iNode, std::list<K>& oResult)
 }
 
 template<class K> 
-void bridgeList(const std::list<K>& oResult, ptree& iNode)
+void bridgeList(const std::list<K>& oResult, Node& iNode)
 {
     typename std::list<K>::const_iterator it;
     for(it  = oResult.begin(); it != oResult.end();	++it)
     {
-	ptree child;
+	Node child;
 	bridge<K>(*it, child);
 	iNode.push_back(std::make_pair("", child));
     }
@@ -98,9 +92,9 @@ void bridgeList(const std::list<K>& oResult, ptree& iNode)
 
 // ptr list
 template<class K> 
-void bridgePtrList(const ptree& iNode, std::list<std::shared_ptr<K>>& oResult)
+void bridgePtrList(const Node& iNode, std::list<std::shared_ptr<K>>& oResult)
 {
-    BOOST_FOREACH (const ptree::value_type& itemPair, iNode) 
+    BOOST_FOREACH (const Node::value_type& itemPair, iNode) 
     {
 	std::shared_ptr<K> object;
 	bridgePtr<K>(itemPair.second, object);
@@ -109,12 +103,12 @@ void bridgePtrList(const ptree& iNode, std::list<std::shared_ptr<K>>& oResult)
 }
 
 template<class K> 
-void bridgePtrList(const std::list<std::shared_ptr<K> >& oResult, ptree& iNode)
+void bridgePtrList(const std::list<std::shared_ptr<K> >& oResult, Node& iNode)
 {
     typename std::list<K>::const_iterator it;
     for(it  = oResult.begin(); it != oResult.end();	++it)
     {
-	ptree child;
+	Node child;
 	bridgePtr<K>(*it, child);
 	iNode.push_back(std::make_pair("", child));
     }
@@ -125,9 +119,9 @@ void bridgePtrList(const std::list<std::shared_ptr<K> >& oResult, ptree& iNode)
 
 // vector
 template<class K> 
-void bridgeVector(const ptree& iNode, std::vector<K>& oResult)
+void bridgeVector(const Node& iNode, std::vector<K>& oResult)
 {
-    BOOST_FOREACH (const ptree::value_type& itemPair, iNode) 
+    BOOST_FOREACH (const Node::value_type& itemPair, iNode) 
     {
 	K object;
 	bridge(itemPair.second, object);
@@ -136,12 +130,12 @@ void bridgeVector(const ptree& iNode, std::vector<K>& oResult)
 }
 
 template<class K> 
-void bridgeVector(const std::vector<K>& oResult, ptree& iNode)
+void bridgeVector(const std::vector<K>& oResult, Node& iNode)
 {
     typename std::vector<K>::const_iterator it;
     for(it  = oResult.begin(); it != oResult.end();	++it)
     {
-	ptree child;
+	Node child;
 	bridge<K>(*it, child);
 	iNode.push_back(std::make_pair("", child));
     }
@@ -151,9 +145,9 @@ void bridgeVector(const std::vector<K>& oResult, ptree& iNode)
 
 // set
 template<class K> void 
-bridgeSet(const ptree& iNode, std::set<K>& oResult)
+bridgeSet(const Node& iNode, std::set<K>& oResult)
 {
-    BOOST_FOREACH (const ptree::value_type& itemPair, iNode) 
+    BOOST_FOREACH (const Node::value_type& itemPair, iNode) 
     {
 	K object;
 	bridge(itemPair.second, object);
@@ -162,12 +156,12 @@ bridgeSet(const ptree& iNode, std::set<K>& oResult)
 }
 
 template<class K> void 
-bridgeSet(const std::set<K>& oResult, ptree& iNode)
+bridgeSet(const std::set<K>& oResult, Node& iNode)
 {
     typename std::set<K>::const_iterator it;
     for(it  = oResult.begin(); it != oResult.end();	++it)
     {
-	ptree child;
+	Node child;
 	bridge<K>(*it, child);
 	iNode.push_back(std::make_pair("", child));
     }
@@ -177,9 +171,9 @@ bridgeSet(const std::set<K>& oResult, ptree& iNode)
 
 // map
 template<class K, class V> 
-void bridgeMap(const ptree& iNode, std::map<K, V>& oResult)
+void bridgeMap(const Node& iNode, std::map<K, V>& oResult)
 {
-    BOOST_FOREACH (const ptree::value_type& itemPair, iNode) 
+    BOOST_FOREACH (const Node::value_type& itemPair, iNode) 
     {
 	K object;
 	V value;
@@ -191,12 +185,12 @@ void bridgeMap(const ptree& iNode, std::map<K, V>& oResult)
 }
 
 template<class K, class V> 
-void bridgeMap(const std::map<K, V>& from, ptree& iNode)
+void bridgeMap(const std::map<K, V>& from, Node& iNode)
 {
     typename std::map<K, V>::const_iterator it;
     for(it  = from.begin(); it != from.end();	++it)
     {
-	ptree child;
+	Node child;
 	bridge<K>(it->second, child);
 	iNode.push_back(std::make_pair(it->first, child));
     }
@@ -205,13 +199,13 @@ void bridgeMap(const std::map<K, V>& from, ptree& iNode)
 ////////////////////////////////////////////////
 
 #define MME_DECLARE_PTREE_SERIALIZER_CONTAINER_1(container, type)														\
-template<> void bridge<ptree, container<type> >	(const ptree& iNode, container<type>& oResult);	\
-template<> void bridge<container<type>, ptree >	(const container<type>& oResult, ptree& iNode);
+template<> void bridge<Node, container<type> >	(const Node& iNode, container<type>& oResult);	\
+template<> void bridge<container<type>, Node >	(const container<type>& oResult, Node& iNode);
 
 #define MME_DEFINE_PTREE_SERIALIZER_CONTAINER_1(container, type, cbk)										\
-template<> void bridge<ptree, container<type> >	(const ptree& iNode, container<type>& oResult) 	\
+template<> void bridge<Node, container<type> >	(const Node& iNode, container<type>& oResult) 	\
 { return cbk<type>(iNode, oResult); }																						\
-template<> void bridge<container<type>, ptree >	(const container<type>& oResult, ptree& iNode)	\
+template<> void bridge<container<type>, Node >	(const container<type>& oResult, Node& iNode)	\
 { return cbk<type>(oResult, iNode); }
 
 

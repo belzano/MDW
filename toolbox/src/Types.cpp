@@ -20,6 +20,13 @@ namespace toolbox
 		DataPtr data(new Data(input, input + lenght));
 		return data;
 	}
+	
+	//////////////////////////////////////////////////////////////////
+			
+	DataPtr MakeDataPtr(const std::string& input)
+	{
+		return MakeDataPtr(input.c_str(), input.size() + 1);
+	}	
 
 	//////////////////////////////////////////////////////////////////
 
@@ -31,5 +38,12 @@ namespace toolbox
 		
 		return data;
 	}
-	
+		
+	//////////////////////////////////////////////////////////////////
+			
+	std::string toString(const DataPtr& input)
+	{
+		return std::string(input->data(), input->size());
+	}
+
 }

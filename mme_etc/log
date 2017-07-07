@@ -1,0 +1,5 @@
+04:38:09 INFOS TEST test/src/main.cpp About to process data/test/in/IMAG0025.jpg
+04:38:09 WARNG TBX toolbox/src/ExecutionContext.cpp env var $APP_ROOT_DIR is not defined: defaulting to current directory.
+04:38:09 INFOS TBX toolbox/src/ExecutionContext.cpp Configuration parameter loaded: "plop" : [blahblah]
+04:38:09 WARNG TBX toolbox/src/ExecutionContext.cpp env var $APP_ROOT_DIR is not defined: defaulting to current directory.
+04:38:10 DEBUG API [Context initialization_File data decoding ] api/src/bom/QueryContext.cpp Data size:803860

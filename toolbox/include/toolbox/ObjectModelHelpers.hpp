@@ -31,7 +31,24 @@
 	*/
 
 
-#define MME_REGISTER_ATTRIBUTE_TO_PTREE(doctype, registry, attrtype, attrname)	BRIDGE_ATTRIBUTE_WITH_PTREE(doctype, attrname, get_##attrname)
+//#define MME_REGISTER_ATTRIBUTE_TO_PTREE(doctype, registry, attrtype, attrname)	BRIDGE_ATTRIBUTE_WITH_PTREE(doctype, attrname, get_##attrname)
+
+	///////////////////////////////////////////////
+
+#define MME_REGISTER_ATTRIBUTE_TO_PTREE(doctype, registry, attrtype, attrname)	\
+	registry._ptreeToObjectLambdaMap.insert(							\
+		{																\
+			"" #attrname "",													\
+			[&]( const boost::property_tree::ptree& node, doctype& doc)	\
+					-> void { ptreeToObject<attrtype>(node, doc._##attrname); }	\
+		});																\
+	registry._objectToPtreeLambdaMap.insert(							\
+		{																\
+			"" #attrname "",													\
+			[&]( const doctype& doc, boost::property_tree::ptree& node)	\
+					-> void { objectToPtree<attrtype>(doc._##attrname, node); }	\
+		});
+
 
 	///////////////////////////////////////////////
 

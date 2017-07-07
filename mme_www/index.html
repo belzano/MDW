@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8"/>
+	<title>MME Web interface</title>
+	<!-- Scripts -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script type="text/javascript" src="assets/jquery.ajaxfileupload.js"></script>
+	<!-- Styles -->
+    <link href='http://fonts.googleapis.com/css?family=Maven+Pro' rel='stylesheet' type='text/css'>	
+    <link href='css/baseline.css' rel='stylesheet' type='text/css'>	
+</head>
+
+
+
+<body>
+
+<h1>MME Web interface</h1>
+
+<p>My first paragraph.</p>
+
+
+<!-- Display result zone-->
+<div id="jobsDisplay"></div>
+
+<!-- Jobs submissions-->
+<div class="fileInputWrapper">
+	<div>Upload a file</div>	
+	<input class="fileInput" id="input" name="input" type="file"/>
+</div>
+
+<!-- Display jobs list-->
+<table class="jobsTable" id="jobsTable"></table>
+
+
+<script>
+  
+$('input[type="file"]').ajaxfileupload({
+  'action': '/postJob',
+  'params': {
+    'extra': 'info'
+  },
+  'onComplete': function(response) 	{	OnUploadEnd(response); },
+  'onStart': 	function() 			{   OnUploadSubmit(); },
+  'onCancel': 	function() 			{ }
+});
+
+function OnUploadSubmit() {
+    
+}    
+function OnUploadEnd(result) {
+	var jobId = result.JobId;
+    addJobRow(jobId);
+    updateJobStatus(jobId);
+}
+function OnGetJobStatusSuccess(jobId, data) {		
+	updateJobCell( jobId, "Status", "Completed refresh"); 
+	updateJobCell( jobId, "Progression", data.Status.Progression); 
+	updateJobCell( jobId, "JobStatus", data.Status.Status); 
+}
+function OnGetJobStatusError(jobId, data) { 		
+	updateJobCell( jobId, "Status", "ServerError on refresh"); 
+}
+function OnGetJobStatusAlways(jobId, data) { 		
+	updateJobCell( jobId, "Status", "Completed refresh (2)"); 	
+}
+
+function updateJobStatus(jobId) {	
+	var data;
+	var jqxhr = $.getJSON( "getJob?id="+jobId, data);
+	jqxhr.done(		function(data){	OnGetJobStatusSuccess(jobId, data)});
+	jqxhr.fail(		function(data){	OnGetJobStatusError(jobId, data)});
+	jqxhr.always(	function(data){	OnGetJobStatusAlways(jobId, data)});
+}
+
+function addJobRow(jobId){
+	var table = document.getElementById("jobsTable");
+	var row = table.insertRow(0);
+	row.id = jobId;
+
+	var cell0 = row.insertCell(0);
+	cell0.id = row.id+"#JobId";
+	cell0.innerHTML = jobId;
+		
+	var cell1 = row.insertCell();
+	cell1.id = row.id+"#Status";
+	cell1.innerHTML = "upload completed";		
+	
+	var cell2 = row.insertCell(2);
+	cell2.id = row.id+"#UpdateCell";
+	
+	var cell2_bt = document.createElement('button');
+	cell2_bt.type = 'button';
+	cell2_bt.id = row.id+"#UpdateButton"; 
+	cell2_bt.innerHTML = "Update";
+	var func = function(){updateJobStatus(jobId);};
+	cell2_bt.onclick = func;
+	cell2.appendChild(cell2_bt);
+	
+			
+	var cell3 = row.insertCell();
+	cell3.id = row.id+"#JobStatus";
+	cell3.innerHTML = "JobStatus";		
+
+	var cell4 = row.insertCell();
+	cell4.id = row.id+"#Progression";
+	cell4.innerHTML = "0%";		
+}
+
+function updateJobCell(jobId, colId, innerHtml){	
+	var cell = document.getElementById(jobId +"#"+colId);
+	cell.innerHTML = innerHtml;	
+}
+
+</script>
+
+</body>
+</html>

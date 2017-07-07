@@ -1,0 +1,7 @@
+{
+	"Libraries" : 
+	[
+		"libsvcmmeapi.so", 
+		"libsvcwwwget.so"
+	]
+}

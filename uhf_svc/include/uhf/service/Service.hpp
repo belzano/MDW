@@ -7,7 +7,7 @@
 #include "toolbox/utils/Registry.hpp"
 
 
-#define WTF_REGISTER_SERVICE(ServiceType, svckey)  WTF_REGISTRY_DO_REGISTRATION(uhf::service::Service, ServiceType, "" #svckey "")
+//#define WTF_REGISTER_SERVICE(ServiceType, svckey)  WTF_REGISTRY_DO_REGISTRATION(uhf::service::Service, ServiceType, "" #svckey "")
 
 namespace uhf {
 namespace service {

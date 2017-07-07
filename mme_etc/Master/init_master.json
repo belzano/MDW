@@ -1,0 +1,6 @@
+{
+	"Backends":
+	[
+		{	"Name" : "BE_Svc_MME",	"Type" : "Server"	}
+	]
+}

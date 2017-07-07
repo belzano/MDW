@@ -7,7 +7,6 @@
 
 #include "StaticPages.hpp"
 #include "uhf/http/InvocationRequest.hpp"
-#include "uhf/http/StatusCode.hpp"
 
 #include "toolbox/Logger.hpp"
 #include "toolbox/ScopedChrono.hpp"

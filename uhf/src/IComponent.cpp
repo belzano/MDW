@@ -1,5 +1,5 @@
 #include "uhf/IComponent.hpp"
-#include "uhf/IBroker.hpp"
+#include "uhf/IComponentRegistry.hpp"
 
 ////////////////////////////////////////////////////////////
 
@@ -16,9 +16,9 @@ IComponent::~IComponent()
 }
 
 //---------------------------------------------------------
-void IComponent::setBroker(IBrokerPtr broker)
+void IComponent::setComponentRegistry(IComponentRegistryPtr componentRegistry)
 {
-	m_broker = broker;
+	m_componentRegistry = componentRegistry;
 }
 
 //---------------------------------------------------------

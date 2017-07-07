@@ -2,7 +2,7 @@
 
 #include "toolbox/entity/Entity.hpp"
 #include "uhf/IComponent.hpp"
-#include "uhf/IBroker.hpp"
+#include "uhf/IComponentRegistry.hpp"
 
 struct MHD_Daemon;
 

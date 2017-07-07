@@ -36,7 +36,8 @@ namespace toolbox
 	
 	DataPtr MakeDataPtr(const char*);
 	DataPtr MakeDataPtr(const char*, int len);	
-	
+	DataPtr MakeDataPtr(const std::string&);	
+		
 	DataPtr MakeDataPtrFromFile(const std::string& fullFilename);
 	
 	class DataPtrStreamWrapper : public std::basic_streambuf<char, std::char_traits<char> > 
@@ -48,6 +49,7 @@ namespace toolbox
 		}
 	};
 
+   	std::string toString(const DataPtr& input);
 }
 
 

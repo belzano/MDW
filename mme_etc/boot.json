@@ -1,0 +1,6 @@
+{
+	"ConfDir" 	: "etc/",
+	"BinDir" 	: "bin/",
+	"LibDir" 	: "lib/",
+	"DataDir" 	: "data/"
+}

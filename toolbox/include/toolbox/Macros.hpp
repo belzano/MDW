@@ -37,10 +37,13 @@
 #endif
 
 #ifndef BUILD_FILENAME
-	#define BUILD_FILENAME __FILE__
+	//#define BUILD_FILENAME __FILE__
+	#define BUILD_FILENAME MDW_FILENAME
 #endif
 
-
+#define MDW_VERSION_MAJOR @MDW_VERSION_MAJOR@
+#define MDW_VERSION_MINOR @MDW_VERSION_MINOR@
+#define MDW_VERSION_BUILD @MDW_VERSION_BUILD@
 
 #define NAMESPACE_OPEN1(a) namespace a { 
 #define NAMESPACE_OPEN2(a, b) namespace a { namespace b 
@@ -53,7 +56,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #define MDW_ON_LIBRARY_LOAD(action)\
-void (*loader##__FILENAME__##__LINE__/*##BaseT##ExtendedT*/)(void) __attribute__ ((section (".ctors"))) = action;
+void (*loader##__FILENAME__##__LINE__)(void) __attribute__ ((section (".ctors"))) = action;
 
 //////////////////////////////////////////////////////////////////////
 

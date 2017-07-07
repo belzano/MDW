@@ -2,15 +2,17 @@
 
 #include <string>
 #include "toolbox/Types.hpp"
-#include "toolbox/utils/Registry.hpp"
-
+#include "toolbox/Typename.hpp"
+//#include "toolbox/utils/Registry.hpp"
 
 #include "uhf/IProperty.hpp"
 #include "uhf/IComponentConfiguration.hpp"
 
 namespace  uhf {
 
-    class IBroker;
+    class IComponentRegistry;
+      
+    typedef std::string ComponentTypeName;  
       
     class IComponent
     {
@@ -20,7 +22,7 @@ namespace  uhf {
 		IComponent();
 
 		// Initialization
-		void setBroker(std::shared_ptr<IBroker>);
+		void setComponentRegistry(std::shared_ptr<IComponentRegistry>);
 		virtual void initialize(IComponentConfigurationPtr) {}
 		
 		void initialize();
@@ -31,14 +33,23 @@ namespace  uhf {
 		// dtor
 		virtual ~IComponent();
 
+		template <class T>
+		static ComponentTypeName getTypename() {
+		    return type_name<T>();
+		}
+		
+		virtual ComponentTypeName getTypename() {
+		    return type_name<decltype(*this)>();
+		}
+
     protected:	
 		virtual void onInitialize();
 		virtual void onActivate();
 		virtual void onDeactivate();
 
-		std::shared_ptr<IBroker> getBroker() { return m_broker;}
-		std::shared_ptr<IBroker> m_broker;
-
+		std::shared_ptr<IComponentRegistry> getComponentRegistry() { return m_componentRegistry;}
+		std::shared_ptr<IComponentRegistry> m_componentRegistry;
+/*
     public:		
 		template <class T>
 		bool hasProperty()				{ return getProperty(T::TypeName).get() != nullptr;}
@@ -50,8 +61,11 @@ namespace  uhf {
 
     private:
 		toolbox::TypeNameRegistry<IProperty> m_properties;
-
+*/
     };
 
     typedef std::shared_ptr<IComponent> IComponentPtr;
+    
+
+
 }

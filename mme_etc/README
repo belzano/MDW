@@ -1,0 +1,149 @@
+INSTALL
+- libs opencv
+- libs boost
+- libs microhttpd
+- cmake
+- g++
+
+
+Optim/reecriture extractGraph()
+
+Sortie jpeg
+Couleurs
+
+30nov
+
+Tech enhancements
+Proto webpage
+Ovh hosting 5$ + Dns domain
+
+31dec
+
+App android
+
+30jan
+
+
+28 feb
+
+
+31mar
+
+
+Graph ->Connected set + refactor merge neighbours
+Node -> NodePtr + NodeObject
+
+Connected set processing container
+- connected set
+- statistics ?
+- simplified set ?
+- statistics ?
+- potential anchors
+
+- impliciter dependances opencv
+Geometry.h
+OS_helpers.h
+List / set / shared_ptr ?
+
+
+
+
+
+
+TODO API
+
+Graph ->Connected set + refactor merge neighbours
+Node -> NodePtr + NodeObject
+
+Connected set processing container
+- connected set
+- statistics ?
+- simplified set ?
+- statistics ?
+- potential anchors
+
+- impliciter dependances opencv
+Geometry.h
+OS_helpers.h
+List / set / shared_ptr ?
+
+organisation
+- libmmecore
+- test bin
+- daemon
+- IOS_lightcli
+-
+
+Fix reg polygon
+Shape split optim: Skip if node already visited
+Keep potential anchors in connected sets
+Shape ref size / Shape density -> shape ref size
+
+1 Suppression effets de bord (ajout de bordures)
+2 Decoupage en composantes couleurs
+1 Support tableau noir
+Conservation de la couleur sur Node
+
+? Extrapolation des impasses du graphe
+3 revue simplification du graphe
+3 revue logique d'extraction des formes
+
+4 Polygones: triangle eq, carre, pentagone, hexagone
+3 rectangles, triangles
+3 Cercle
+3 Ellipses
+2 Etoile 5 branches (penta x2)
+2 Nuage
+2 fleches simple / double
+1 Ligne
+formes non identifiees <image width="20" height="20" transform="translate(200,150)" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="/>
+
+
+2 Regularisation des formes
+2 Canevas / alignement
+1 Groupes
+1 ancres / connexion entre formes
+2 Récupération des couleurs
+? Signature dans le svg
+
+
+TODO CLIENT
+
+4 Client mobile 
+  Photo -> envoyer a moi / repertoire
+
+
+
+TODO LIVE
+
+Ovh hosting 5$ + Dns domain
+
+Inbound: http POST ->queing. Index token returned?
+Process: daemon
+Outbound: Mail ou http GET ?
+
+data/user/
+
+
+
+
+DOC
+
+api
+	inc
+		api.hpp
+	src
+		api.cpp
+		
+		basic
+		bom
+		shape
+		process
+		
+test
+	src
+		main
+
+daemon
+	src
+		main

@@ -1,0 +1,20 @@
+{
+	"handlers" :
+	{
+		"postJob" :
+		{
+			"servicename" : "ServiceCreateJob",
+			"staticparams" : { }
+		},
+		"getJob" :
+		{
+			"servicename" : "ServiceGetJob",
+			"staticparams" : { }
+		}
+	},
+	"defaulthandler" :
+	{
+		"servicename" : "ServiceGetFile",
+		"staticparams": { "rootpath":"/www"	}	
+	}
+}

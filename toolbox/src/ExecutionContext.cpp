@@ -21,7 +21,7 @@ namespace toolbox {
 		if (envVar != NULL)
 			return std::string(envVar);
 			
-		std::cout << "env var $APP_ROOT_DIR is not defined: defaulting to current directory.";	
+		std::cout << "env var $APP_ROOT_DIR is not defined: defaulting to current directory." << std::endl;	
 		return std::string("./");	
 	}
 

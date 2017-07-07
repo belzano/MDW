@@ -1,0 +1,10 @@
+{
+	"plop": 			"blahblah",
+	"ConfDir" : 		"etc/",
+	"MessageQueueName" : "/queue",
+	"DataDir" : 		"data/",
+	"BinDir" : 			"bin/",
+	"LibDir" : 			"lib/",
+	"TestDataInDir" : 	"data/test/in/",
+	"TestDataOutDir" : 	"data/test/out/"	
+}

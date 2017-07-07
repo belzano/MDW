@@ -1,0 +1,6 @@
+{
+	"Processes":
+	[
+		{	"Name" : "BE_Svc_MME",		"ProcessType" : "Server"		}
+	]
+}

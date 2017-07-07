@@ -1,0 +1,34 @@
+#include "uhf/logger/component/Console.hpp"
+
+#include <iostream>
+
+namespace uhf {
+namespace component {
+namespace logger {
+		
+/////////////////////////////////////////////////////////////////////
+
+Console::Console()
+: ILogger()
+{
+
+}
+	
+/////////////////////////////////////////////////////////////////////
+
+Console::~Console()
+{
+
+}
+
+/////////////////////////////////////////////////////////////////////
+
+void Console::log(const char* data)
+{
+    std::cout << data;
+}			
+
+
+}
+}
+}

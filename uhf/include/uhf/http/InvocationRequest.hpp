@@ -28,6 +28,8 @@ namespace http {
 	
 	//////////////////////////////////////////////////////////
 	
+	typedef toolbox::DataPtr DataPtr;
+	
 	class InvocationRequest
 	{
 
@@ -37,7 +39,10 @@ namespace http {
 		
 		const std::string& getHttpServiceName()const { return m_serviceName; }
 		
+		void setParsedData( const std::string& iKey, DataPtr data, uint64_t offset);
 		void setParsedData( const std::string& iKey, const char *data, size_t size, uint64_t offset);
+		
+		void pushRawData( DataPtr data);
 		void pushRawData( const char *data, size_t size);
 	
 		RequestType connectiontype;
@@ -47,10 +52,11 @@ namespace http {
 		 
 		std::string _post_filename;
 		
-		std::shared_ptr< std::vector<char> > _raw_post_data;
-		std::map< std::string, std::shared_ptr< std::vector<char> > > _parsed_post_data;
+		DataPtr _raw_post_data;
+		std::map< std::string, DataPtr > _parsed_post_data;
 		
-		std::shared_ptr< std::vector<char> >  answerstring;
+		DataPtr  answerstring;
+		
 		StatusCode answercode;
 		
 		const ServiceType& getType() const;

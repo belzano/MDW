@@ -78,7 +78,7 @@ bool ServiceInvocator::invoke(const Query& iQuery, Reply& ioReply)
 	
 	std::string url = "";
 	U16 idx = 0;
-	while (url.empty() && ! idx < url_tokens.size())	
+	while (url.empty() && !(idx < url_tokens.size()))	
 	{
 		url = url_tokens[idx];
 		++idx;

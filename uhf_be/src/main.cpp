@@ -11,7 +11,6 @@
 #include "uhf/core/component/ComponentRegistry.hpp"
 #include "uhf/core/property/Activable.hpp"
 
-#include "uhf/core/component/ExecutionContext.hpp"
 #include "uhf/core/component/Runner.hpp"
 #include "uhf/core/component/ILogger.hpp"
 #include "uhf/kvs/component/KeyValueStorage.hpp"
@@ -101,6 +100,7 @@ int main (int argc, char * const * argv)
     MDW_LOG_INFO("Bootstraping components from [" << bootstrapFile << "]");
     bootstrap->setBootstrapFile(bootstrapFile);
 	bootstrap->run();
+	
     MDW_LOG_INFO("Hooking SIGTERM");
     signal(SIGTERM, handle_term);
     

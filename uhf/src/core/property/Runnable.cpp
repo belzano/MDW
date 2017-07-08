@@ -1,7 +1,7 @@
 #include "uhf/core/property/Runnable.hpp"
 
 #include "uhf/IComponent.hpp"
-#include "uhf/core/component/IRunnable.hpp"
+#include "uhf/core/aspects/IRunnable.hpp"
 
 #include "toolbox/ptree/Helper.hpp"
 

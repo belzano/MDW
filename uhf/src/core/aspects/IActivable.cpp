@@ -1,4 +1,4 @@
-#include "uhf/core/component/IActivable.hpp"
+#include "uhf/core/aspects/IActivable.hpp"
 #include "toolbox/Logger.hpp"
 
 namespace uhf {

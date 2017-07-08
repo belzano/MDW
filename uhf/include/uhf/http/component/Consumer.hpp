@@ -1,6 +1,6 @@
 #pragma once
 
-#include "uhf/core/component/IConsumer.hpp"
+#include "uhf/core/aspects/IConsumer.hpp"
 #include "uhf/http/InvocationRequest.hpp"
 #include "toolbox/Types.hpp"
 

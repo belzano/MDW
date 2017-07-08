@@ -1,7 +1,7 @@
 
 
 #include "uhf/core/property/Updatable.hpp"
-#include "uhf/core/component/IUpdatable.hpp"
+#include "uhf/core/aspects/IUpdatable.hpp"
 #include "uhf/IComponent.hpp"
 
 #include "toolbox/ptree/Helper.hpp"

@@ -1,4 +1,4 @@
-#include "uhf/core/component/IUpdatable.hpp"
+#include "uhf/core/aspects/IUpdatable.hpp"
 
 namespace uhf {
 namespace component {

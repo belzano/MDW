@@ -1,4 +1,4 @@
-#include "uhf/core/component/IRunnable.hpp"
+#include "uhf/core/aspects/IRunnable.hpp"
 
 namespace uhf {
 namespace component {

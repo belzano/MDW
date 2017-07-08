@@ -1,7 +1,7 @@
 #pragma once
 
 #include "uhf/IComponentRegistry.hpp"
-#include "uhf/core/component/IActivable.hpp"
+#include "uhf/core/aspects/IActivable.hpp"
 
 namespace uhf {
 namespace component {

@@ -1,7 +1,7 @@
 #include "uhf/core/property/Activable.hpp"
 
 #include "uhf/IComponent.hpp"
-#include "uhf/core/component/IActivable.hpp"
+#include "uhf/core/aspects/IActivable.hpp"
 
 #include "toolbox/ptree/Helper.hpp"
 

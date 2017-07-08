@@ -180,10 +180,16 @@ int HttpConnection::onDataReceptionCompleted()
 	std::string reply( 	m_request.answerstring->begin(),
 						m_request.answerstring->end());
 	// send response
-	struct MHD_Response *response =
-			MHD_create_response_from_data(m_request.answerstring->size(), 
+   
+    //memory management options for buffer; 
+	// MHD_RESPMEM_PERSISTENT if the buffer is static/global memory, 
+	// MHD_RESPMEM_MUST_FREE if the buffer is heap-allocated and should be freed by MHD 
+	// MHD_RESPMEM_MUST_COPY if the buffer is in transient memory (i.e. on the stack) and must be copied by MHD;
+	struct MHD_Response *response = 
+		MHD_create_response_from_buffer (m_request.answerstring->size(), 
 										 (void *) m_request.answerstring->data(),
-                                          0 /*must_free*/, 0 /*must_copy*/);   			     
+										  MHD_RESPMEM_PERSISTENT);   		
+	
 	if (!response)
 		return MHD_NO;
 
@@ -197,9 +203,14 @@ int HttpConnection::onDataReceptionCompleted()
 
 int HttpConnection::sendResponse(const char *page, int status_code)
 {
-	// MDW_LOG_DEBUG("send_reponse");	
-	
-	struct MHD_Response *response = MHD_create_response_from_data(strlen (page), (void *) page, 0 /*must_free*/, 0 /*must_copy*/);   			     
+	// send response
+   
+    //memory management options for buffer; 
+	// MHD_RESPMEM_PERSISTENT if the buffer is static/global memory, 
+	// MHD_RESPMEM_MUST_FREE if the buffer is heap-allocated and should be freed by MHD 
+	// MHD_RESPMEM_MUST_COPY if the buffer is in transient memory (i.e. on the stack) and must be copied by MHD;
+	struct MHD_Response *response = MHD_create_response_from_buffer (strlen (page), (void *) page, MHD_RESPMEM_PERSISTENT);   	
+				     
 	if (!response)
 		return MHD_NO;
 

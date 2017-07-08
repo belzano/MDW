@@ -20,10 +20,17 @@ namespace http {
 	}
 		
 	////////////////////////////////////////////////////////////	
+			
+	void InvocationRequest::setParsedData( const std::string& iKey, DataPtr data, uint64_t offset)
+	{
+		setParsedData(iKey, data->data(), data->size(), offset);
+	}
+				
+	////////////////////////////////////////////////////////////	
 	
 	void InvocationRequest::setParsedData(const std::string& iKey, 
-						  const char *data, size_t size, 
-						  uint64_t offset)
+										  const char *data, size_t size, 
+										  uint64_t offset)
 	{
 		if (size <= 0)
 			return;
@@ -50,6 +57,13 @@ namespace http {
 
 	//////////////////////////////////////////////////////////////////
 		
+	void InvocationRequest::pushRawData(DataPtr data)
+	{
+		pushRawData( data->data(), data->size());
+	}
+		
+	//////////////////////////////////////////////////////////////////
+	
 	void InvocationRequest::pushRawData( const char *data, size_t size)
 	{
 		if (size <= 0)

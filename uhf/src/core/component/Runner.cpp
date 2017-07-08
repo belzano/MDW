@@ -1,4 +1,5 @@
 #include "uhf/core/component/Runner.hpp"
+#include "toolbox/Logger.hpp"
 #include "RunnerImpl.hpp"
 
 namespace uhf {
@@ -7,7 +8,8 @@ namespace component {
 	/////////////////////////////////////////////////////////////////////
 
 	Runner::Runner()
-	  : IComponent()
+	  :IComponent(),
+	   IActivable()
 	  , m_impl(new RunnerImpl())
 	{
 		
@@ -22,9 +24,18 @@ namespace component {
 	
 	/////////////////////////////////////////////////////////////////////
 
-	int Runner::run()
+	void Runner::onActivate()
 	{
-		return m_impl->run();
+		MDW_LOG_INFO("Runner activation")
+		m_impl->asyncStart();
 	}			
+	
+	/////////////////////////////////////////////////////////////////////
+
+	void Runner::onPassivate()
+	{
+		MDW_LOG_INFO("Runner passivation")
+		m_impl->asyncStop();
+	}	
 }
 }

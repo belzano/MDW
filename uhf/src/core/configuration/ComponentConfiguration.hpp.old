@@ -1,0 +1,53 @@
+#pragma once
+
+#include "toolbox/Types.hpp"
+
+#include "toolbox/ptree/Types.hpp"
+#include "toolbox/ptree/Conversions.hpp"
+
+#include "uhf/IComponentConfiguration.hpp"
+#include "Configuration.hpp"
+
+#include <list>
+
+namespace uhf {
+namespace core {
+namespace configuration {
+      
+    //////////////////////////////////////////////////////////////////////////////////////
+    
+    class ComponentConfiguration: public IComponentConfiguration, public toolbox::ptree::PtreeEntity
+    {
+    public:	
+		ComponentConfiguration(){} 
+		
+		virtual void readPtree(const toolbox::ptree::Node&) override;
+		virtual void writePtree(toolbox::ptree::Node& ) const override {}
+	  
+		virtual std::ostream& toStream(std::ostream& stream) const override;
+		  
+		U32& 		getVersion() 	   {return m_version;}
+		U32 const& 	getVersion() const {return m_version;}
+		
+		std::string& 		getName() 	   {return m_name;}
+		std::string const& 	getName() const {return m_name;}
+		
+		std::string& 		getType() 	   {return m_type;}
+		std::string const& 	getType() const {return m_type;}
+
+		//std::list< std::string>& 	getLibraries()       {return m_libraries;}
+		//std::list< std::string> const& getLibraries() const {return m_libraries;}
+				
+		U32 m_version;
+		std::string m_name;
+		std::string m_type;
+		//std::list< std::string> m_libraries;
+    };
+    
+    MDW_SHARED_POINTER(ComponentConfiguration)
+  
+}
+}
+}
+
+MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::core::configuration::ComponentConfiguration)

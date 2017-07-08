@@ -1,0 +1,21 @@
+#include "uhf/core/component/IRunnable.hpp"
+
+namespace uhf {
+namespace component {
+		
+	/////////////////////////////////////////////////////////////////////
+
+	IRunnable::IRunnable()
+	  : IComponent()
+	{
+	
+	}
+		
+	/////////////////////////////////////////////////////////////////////
+
+	IRunnable::~IRunnable()
+	{
+	}	
+		
+}
+}

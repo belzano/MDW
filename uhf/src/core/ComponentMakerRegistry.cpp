@@ -16,6 +16,13 @@ ComponentMakerRegistry& ComponentMakerRegistry::instance()
 }
 
 ////////////////////////////////////////////////////////////////////
+   
+bool ComponentMakerRegistry::isRegistered(const uhf::ComponentTypeName& componentName) const 
+{
+	return (_makers.find(componentName) != _makers.end());
+}
+
+////////////////////////////////////////////////////////////////////
     
 IComponentMakerPtr ComponentMakerRegistry::getComponentMaker(const std::string& componentName) const
 {

@@ -134,7 +134,7 @@ namespace WTF
 		}
 		catch (std::exception& e)
 		{
-			MDW_LOG_ERROR("Caught exception" << std::cerr << e.what() << ".");
+			MDW_LOG_ERROR("Caught exception" << e.what() << ".");
 		}
 	
 		return 0;

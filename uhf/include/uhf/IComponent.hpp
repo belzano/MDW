@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <list>
 #include "toolbox/Types.hpp"
 #include "toolbox/Typename.hpp"
 //#include "toolbox/utils/Registry.hpp"
@@ -17,20 +18,7 @@ namespace  uhf {
     class IComponent
     {
     public:
-
-		// ctor
 		IComponent();
-
-		// Initialization
-		void setComponentRegistry(std::shared_ptr<IComponentRegistry>);
-		virtual void initialize(IComponentConfigurationPtr) {}
-		
-		void initialize();
-		
-		// Activation
-		void activate();
-		void deactivate();
-		// dtor
 		virtual ~IComponent();
 
 		template <class T>
@@ -42,30 +30,50 @@ namespace  uhf {
 		    return type_name<decltype(*this)>();
 		}
 
-    protected:	
-		virtual void onInitialize();
-		virtual void onActivate();
-		virtual void onDeactivate();
+		template<class T>
+		bool isA() const { 
+			std::shared_ptr<T> ptr = std::dynamic_pointer_cast<T>(this);
+			return ptr != nullptr;
+		}
 
+	// Initialization
+	public:
+		bool initialize(std::shared_ptr<IComponent> iThis,
+		                std::shared_ptr<IComponentRegistry> registry, 
+		                std::list<IPropertyPtr> properties,
+		                IComponentConfigurationPtr config);
+		bool isInitialized() const { return m_isInitialized; }
+	protected:
+		virtual void onInitialize() {}
+
+	private: 
+		bool m_isInitialized;
+		
+	// Component registry
+    protected:
 		std::shared_ptr<IComponentRegistry> getComponentRegistry() { return m_componentRegistry;}
 		std::shared_ptr<IComponentRegistry> m_componentRegistry;
-/*
-    public:		
+	
+	// Properties
+    public:	
 		template <class T>
-		bool hasProperty()				{ return getProperty(T::TypeName).get() != nullptr;}
-		bool hasProperty(const std::string& iTypeName)	{ return getProperty(iTypeName).get() != nullptr;}
+		bool hasProperty() { return hasProperty(IProperty::getTypename<T>());}
+		bool hasProperty(const std::string& iTypeName);
 
 		template <class T>
-		IPropertyPtr getProperty()			{ return m_properties.get(T::TypeName);}
-		IPropertyPtr getProperty(const std::string& iTypeName) { return m_properties.get(iTypeName);}		
+		IPropertyPtr getProperty() { return getProperty(IProperty::getTypename<T>());}
+		IPropertyPtr getProperty(const std::string& iTypeName);	
 
     private:
-		toolbox::TypeNameRegistry<IProperty> m_properties;
-*/
+		std::list<IPropertyPtr> m_properties;
+
+	// Component registry
+    protected:
+		IComponentConfigurationPtr getConfiguration() { return m_configuration;}
+	private:
+		IComponentConfigurationPtr m_configuration;
+
     };
 
     typedef std::shared_ptr<IComponent> IComponentPtr;
-    
-
-
 }

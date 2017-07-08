@@ -4,7 +4,7 @@
 #include <memory>
 #include "toolbox/Image.hpp"
 
-#include "toolbox/StorageCell.hpp"
+#include "uhf/kvs/component/KeyValueStorage.hpp"
 #include "toolbox/PtreeHelper.hpp"
 #include "toolbox/ObjectModelHelpers.hpp"
 
@@ -18,9 +18,10 @@ namespace API
 		
 	class Query
 	{
+		typedef uhf::kvs::component::KeyValueStoragePtr KeyValueStoragePtr;
 	public:
 
-		Query(toolbox::StorageCellPtr storageCell);
+		Query(KeyValueStoragePtr& storageCell);
 
 		void setInput(const std::string& iFileName);
 		void setInput(toolbox::Image::DataPtr );
@@ -43,6 +44,6 @@ namespace API
 		const toolbox::Image::DataPtr getInput() const;
 		void setOutput(toolbox::Image::DataPtr );	
 		
-		toolbox::StorageCellPtr _storage;		
+		KeyValueStoragePtr _storage;		
 	};
 }

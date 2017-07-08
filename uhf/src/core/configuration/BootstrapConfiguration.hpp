@@ -29,11 +29,15 @@ namespace configuration {
 		U32& 		getVersion() 	   {return m_version;}
 		U32 const& 	getVersion() const {return m_version;}
 		
-		std::list< ComponentPtr>& 	getComponents()       {return m_components;}
-		std::list< ComponentPtr> const& getComponents() const {return m_components;}
+		std::list< toolbox::ptree::Node>& 	getComponents()       {return m_components;}
+		std::list< toolbox::ptree::Node> const& getComponents() const {return m_components;}
 		
+		std::list< std::string>& 	getLibraries()       {return m_libraries;}
+		std::list< std::string> const& getLibraries() const {return m_libraries;}
+				
 		U32 m_version;
-		std::list< ComponentPtr> m_components;
+		std::list< std::string> m_libraries;
+		std::list< toolbox::ptree::Node> m_components;
     };
     
     MDW_SHARED_POINTER(BootstrapConfiguration)

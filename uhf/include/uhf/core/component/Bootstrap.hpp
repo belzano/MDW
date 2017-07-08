@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include "uhf/IComponent.hpp"
+#include "uhf/core/component/IRunnable.hpp"
 
 namespace uhf {
 namespace component {
@@ -10,13 +10,15 @@ namespace component {
 		
 	/////////////////////////////////////////////////////////////////////
 		
-	class Bootstrap : public IComponent
+	class Bootstrap : public uhf::component::IRunnable
 	{
 	public:
 		Bootstrap();
 		~Bootstrap();
 		
-		void loadComponents(const std::string& configFilename);
+		void setBootstrapFile(const std::string& configFilename);
+
+		void run() override;
 
 	private:
 		

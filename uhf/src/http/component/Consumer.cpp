@@ -17,8 +17,8 @@ using boost::property_tree::ptree;
 using std::make_pair;
 
 namespace uhf {
-namespace component {
 namespace http {
+namespace component {
 
 
 Consumer::Consumer()	
@@ -43,7 +43,7 @@ int Consumer::preprocess()
 
 ///////////////////////////////////////////////////////////////
 
-int Consumer::consume(std::shared_ptr<uhf::component::http::InvocationRequest> invocationRequest)
+int Consumer::consume(uhf::http::InvocationRequestPtr invocationRequest)
 {
 	try
 	{

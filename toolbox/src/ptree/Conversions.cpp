@@ -38,6 +38,13 @@ void convert(const std::string& iData, Node& oNode)
 
 //////////////////////////////////////////////////////////
 
+void convert(const Node& iData, Node& oNode)
+{
+	oNode = iData;
+}
+
+//////////////////////////////////////////////////////////
+
 void convert(const Node& iNode, toolbox::DataPtr& oBinaryData)
 {
 	// Handle no data case
@@ -82,6 +89,7 @@ void convert(const Node& iNode, toolbox::ptree::PtreeEntity& oEntity)
 MDW_PTREE_CONVERSION_OBJECT_DEFINE(U32)
 MDW_PTREE_CONVERSION_OBJECT_DEFINE(S32)
 MDW_PTREE_CONVERSION_OBJECT_DEFINE(std::string)
+MDW_PTREE_CONVERSION_OBJECT_DEFINE(Node)
 
 MDW_PTREE_CONVERSION_ENTITY_DEFINE(toolbox::ptree::PtreeEntity)
 

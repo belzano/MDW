@@ -1,14 +1,31 @@
 {
 	"version": 42,
-    "components":
-    [
-      {
-		"name" : "Component_10_http_server",
-		"$type": "uhf.http.TrafficHandler",
-		"configuration":{
-			"$type": "uhf.http.TrafficHandlerConfiguration",
-			"port": 80
-		 }
-      }
+    "libraries":[],
+    "components": [
+    	{
+		  "typename": "uhf::logger::component::Console",
+		  "configuration":{
+		  },
+		  "properties": [
+			  {
+				"$type": "uhf::core::property::NamedObject",
+				"name": "defaultLogger"
+			  }
+		  ]
+		},
+		{
+		  "typename": "uhf::component::Runner",
+		  "configuration":{
+		  },
+		  "properties": [
+			  {
+				"$type": "uhf::core::property::NamedObject",
+				"name": "Runner"
+			  },
+			  {
+				"$type": "uhf::core::property::Activable"
+			  }
+		  ]
+		}
     ]
 }

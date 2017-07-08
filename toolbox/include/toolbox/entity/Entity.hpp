@@ -23,14 +23,3 @@ namespace entity {
 }
 
 std::ostream& operator<<(std::ostream& iStream, const toolbox::entity::Entity& iEntity);
-
-#include <memory>
-
-template<class T>
-std::ostream& operator<<(std::ostream& iStream, const std::shared_ptr<T>& iPtr)
-{ 
-	if (nullptr == iPtr.get())
-		return iStream << "#NULL"; 
-	return iStream << *iPtr.get(); 
-}
-

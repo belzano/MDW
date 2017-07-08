@@ -53,7 +53,7 @@ QueryContext::~QueryContext()
 ////////////////////////////////////////////////////////////////////
 
 bool QueryContext::init(toolbox::DataPtr iData, 
-						toolbox::StorageCellPtr iCell)
+						KeyValueStoragePtr iCell)
 {	
 	MDW_LOG_CONTEXT("Context initialization");
 	

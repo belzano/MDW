@@ -1,0 +1,23 @@
+{
+	"version": 42,
+    "libraries":[],
+    "components": [
+		{
+		  "typename": "uhf::component::BootstrapCluster",
+		  "configuration":{
+			"$type": "uhf::component::BootstrapClusterConfiguration",
+			"forkFrom": "agent"
+		  },
+		  "properties": [
+			  {
+				"$type": "uhf::core::property::Activable"
+			  },
+			  {
+				"$type": "uhf::core::property::NamedObject",
+				"name": "bootstrap_cluster"
+			  }
+		  ]
+		}
+
+    ]
+}

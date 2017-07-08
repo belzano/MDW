@@ -1,0 +1,21 @@
+#include "uhf/core/component/IUpdatable.hpp"
+
+namespace uhf {
+namespace component {
+		
+	/////////////////////////////////////////////////////////////////////
+
+	IUpdatable::IUpdatable()
+	  : IComponent()
+	{
+	
+	}
+		
+	/////////////////////////////////////////////////////////////////////
+
+	IUpdatable::~IUpdatable()
+	{
+	}	
+		
+}
+}

@@ -1,0 +1,14 @@
+{
+	"version": 42,
+    "components":
+    [
+      {
+		"name" : "Component_10_http_server",
+		"$type": "uhf::http::Component::TrafficHandler",
+		"configuration":{
+			"$type": "uhf.http.TrafficHandlerConfiguration",
+			"port": 80
+		 }
+      }
+    ]
+}

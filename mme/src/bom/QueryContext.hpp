@@ -6,7 +6,7 @@
 #include <set>
 
 #include "toolbox/Types.hpp"
-#include "toolbox/StorageCell.hpp"
+#include "uhf/kvs/component/KeyValueStorage.hpp"
 #include "Parameters.hpp"
 
 #include "Geometry.hpp"
@@ -20,6 +20,7 @@ class Node;
 
 class QueryContext
 {
+	typedef uhf::kvs::component::KeyValueStoragePtr KeyValueStoragePtr;
 
 public:
  
@@ -27,7 +28,7 @@ public:
 	~QueryContext();
 	
 	bool init ( toolbox::DataPtr iData, 
-				toolbox::StorageCellPtr iCell);
+				KeyValueStoragePtr iCell);
 		
 	void log(const PointMatrix& iImg);
 	void log(const std::set<Node*>& iGraph);
@@ -42,7 +43,7 @@ public:
 
 private:
 	
-	toolbox::StorageCellPtr _storageCell;
+	KeyValueStoragePtr _storageCell;
 	PointMatrix	_srcImg;
 	
 	// Process state tracking

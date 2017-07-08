@@ -41,7 +41,7 @@ namespace component {
 
 	////////////////////////////////////////////////////////////	
 		
-	int RunnerImpl::run()
+	int RunnerImpl::asyncStart()
 	{
 // 		// Load the configuration. It will be looked up in conf_dir/Master/boot.json 
 // 		// initialize the ProcessManager
@@ -59,6 +59,13 @@ namespace component {
 // 		WTF_LOG_INFO("Deactivating managers");
 // 		m_processManager->deactivate();
 // 		
+		return 0;
+	}
+	
+	////////////////////////////////////////////////////////////	
+			
+	int RunnerImpl::asyncStop()
+	{
 		return 0;
 	}
 	

@@ -17,6 +17,7 @@ namespace configuration{
 	  toolbox::ptree::PtreeEntity::readPtree(ptree);
 	  
 	  toolbox::ptree::bridge("version", ptree, m_version);
+      toolbox::ptree::bridge("libraries", ptree, m_libraries);
       toolbox::ptree::bridge("components", ptree, m_components);
   }
 	
@@ -24,12 +25,16 @@ namespace configuration{
   
   std::ostream& BootstrapConfiguration::toStream(std::ostream& stream) const 
   {
-	  PtreeEntity::toStream(stream);
-	  
-	  stream << "Bootstrap version [" << m_version << "]" << std::endl;
-	  for (auto comp: m_components)
-		stream << comp << std::endl;
-	  return stream;
+	PtreeEntity::toStream(stream);
+
+	stream << "Bootstrap version:" << m_version << "] ;";
+	stream << " Libraries: ";
+	for (auto lib: m_libraries)
+		stream << lib << "; " << std::endl;
+	stream << " Components: ";
+	//for (auto comp: m_components)
+	//	stream << comp << std::endl;
+	return stream;
   }
 	
   //////////////////////////////////////////////////////////////////////////////////////

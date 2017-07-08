@@ -5,7 +5,7 @@ add_definitions(-DBUILD_MODULE="MME")
 
 
 include_directories(${MDW_SOURCE_DIR}/toolbox/include)
-include_directories(${MDW_SOURCE_DIR}/kvs/include)
+include_directories(${MDW_SOURCE_DIR}/uhf/include)
 include_directories(${MDW_SOURCE_DIR}/mme/include)
 
 add_subdirectory( src )
@@ -32,7 +32,7 @@ add_library(mme SHARED ${api_source_files} )
 
 
 target_link_libraries( mme toolbox)
-target_link_libraries( mme kvs)
+target_link_libraries( mme uhf)
 
 target_link_libraries( mme libopencv_core.so )
 target_link_libraries( mme libopencv_features2d.so )

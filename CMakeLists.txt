@@ -47,34 +47,15 @@ add_subdirectory (gtest)
 # core modules
 add_subdirectory (toolbox)
 add_subdirectory (logger)
-add_subdirectory (kvs)
 
 # uhf
 add_subdirectory (uhf)
-#add_subdirectory (uhf_core)
 add_subdirectory (uhf_be)
-
 # helpers modules for uhf
-#add_subdirectory (bus)
-#add_subdirectory (uhf_tasks)
-#add_subdirectory (uhf_kvs)
-#add_subdirectory (uhf_cmd)
-#add_subdirectory (uhf_svc)
-
-
+add_subdirectory (uhf_sysmon)
+add_subdirectory (uhf_mhd)
 #add_subdirectory (pistache)
-add_subdirectory (uhf_http)
-
-
-add_subdirectory (wtf_job)
-add_subdirectory (wtf_svc)
-add_subdirectory (wtf_be)
-add_subdirectory (wtf_daemon)
-
-add_subdirectory (wtf_svc_sysmon)
-add_subdirectory (wtf_svc_wwwget)
 
 add_subdirectory (mme)
 add_subdirectory (mme_bin)
 add_subdirectory (mme_uhf)
-add_subdirectory (mme_wtf)

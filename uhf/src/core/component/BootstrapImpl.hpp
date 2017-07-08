@@ -6,25 +6,34 @@
 #include "Configuration.hpp"
 #include "LibraryManager.hpp"
 
+using uhf::core::configuration::BootstrapPtr;
+using uhf::core::configuration::ComponentInstancePtr;
+
 namespace uhf {
 namespace component {
 		
 	/////////////////////////////////////////////////////////////////////
-	
-	class ProcessConfiguration;
 		
 	class BootstrapImpl
 	{
 	public:
-		void loadComponents(const std::string& configFilename, IComponentRegistryPtr componentRegistry);
-
-	protected:
-		void loadConfiguration(const std::string& configFilename);
+		void setBootstrapFile(const std::string& bootstrapFile)
+		{	
+			_bootstrapFile = bootstrapFile;
+		}
 		
-	private:
-		std::shared_ptr<uhf::core::configuration::Bootstrap> m_configuration;
+		bool doBootstrap(uhf::IComponentRegistryPtr registry);
+		
+	protected:
+		BootstrapPtr loadConfiguration();
+		bool createComponents(BootstrapPtr,uhf::IComponentRegistryPtr registry);
+		bool createComponent(ComponentInstancePtr, uhf::IComponentRegistryPtr registry);
+		void getUnregisteredTypes(toolbox::ptree::Node& bootstrapConfig, std::set<std::string>& unkownDynTypes);
+		void tryMissingLibLoading(std::set<std::string>& unkownDynTypes);
+  
+	private:	
+		std::string _bootstrapFile;
 		uhf::core::LibraryManager m_libraryManager;
-		//std::shared_ptr<ProcessConfiguration> m_processConfig;
 	};
 }
 }

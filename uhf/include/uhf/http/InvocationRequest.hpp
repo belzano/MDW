@@ -66,6 +66,8 @@ namespace http {
 		
 	};
 	
+	typedef std::shared_ptr<InvocationRequest> InvocationRequestPtr;
+	
 	//////////////////////////////////////////////////////////////
 }
 }

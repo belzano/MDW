@@ -4,8 +4,8 @@
 #include "uhf/IComponent.hpp"
 
 namespace uhf {
-namespace component {
 namespace kvs {
+namespace component {
 
 	typedef toolbox::DataKey DataKey;
 	typedef toolbox::DataPtr DataPtr;

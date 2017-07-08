@@ -11,8 +11,8 @@
 #include "toolbox/Logger.hpp"
 
 namespace uhf {
-namespace component {
 namespace kvs {
+namespace component {	
 
 /////////////////////////////////////////////////////////////////////
 

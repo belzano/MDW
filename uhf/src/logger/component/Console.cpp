@@ -1,15 +1,15 @@
-#include "uhf/logger/component/Console.hpp"
+#include "logger/component/Console.hpp"
 
 #include <iostream>
 
 namespace uhf {
-namespace component {
 namespace logger {
+namespace component {
 		
 /////////////////////////////////////////////////////////////////////
 
 Console::Console()
-: ILogger()
+: uhf::component::ILogger()
 {
 
 }

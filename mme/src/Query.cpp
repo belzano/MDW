@@ -3,7 +3,7 @@
 
 #include "toolbox/StringUtils.hpp"
 #include "toolbox/ExecutionContext.hpp"
-#include "toolbox/StorageCellLocalMemory.hpp"
+//#include "toolbox/StorageCellLocalMemory.hpp"
 #include "toolbox/Logger.hpp"
  
 
@@ -27,7 +27,7 @@ namespace API
 	
 //////////////////////////////////////////////////////////////////////
 
-Query::Query(toolbox::StorageCellPtr storage)
+Query::Query(KeyValueStoragePtr& storage)
 {
 	_storage = storage;
 }

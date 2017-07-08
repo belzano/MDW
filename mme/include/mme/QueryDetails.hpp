@@ -4,7 +4,7 @@
 #include <memory>
 #include "toolbox/Image.hpp"
 
-#include "toolbox/StorageCell.hpp"
+//include "uhf/kvs/component/KeyValueStorage.hpp"
 #include "toolbox/PtreeHelper.hpp"
 #include "toolbox/ObjectModelHelpers.hpp"
 
@@ -15,6 +15,8 @@ namespace API
 	
 	class Requestor : public toolbox::PtreeDocument<Requestor>
 	{
+		//typedef uhf::kvs::component::KeyValueStorage KeyValueStoragePtr;
+		
 		public:	
 			Requestor()
 				: toolbox::PtreeDocument<Requestor>()

@@ -10,6 +10,15 @@
 #include <sstream>
 
 
+template<class T>
+std::ostream& operator<<(std::ostream& iStream, const std::shared_ptr<T>& iPtr)
+{ 
+	if (nullptr == iPtr.get())
+		return iStream << "#nullptr"; 
+	return iStream << *iPtr.get();
+}
+
+
 namespace toolbox
 {
 

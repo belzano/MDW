@@ -14,10 +14,11 @@ namespace component {
 			RunnerImpl();
 			virtual ~RunnerImpl();
 			
-			int run();
-			      
-			void requestShutdown();
-			bool shutdownRequested() const;
+			int asyncStart();
+					      
+			int asyncStop();
+			
+			//bool shutdownRequested() const;
 		  
 		private:
 			// Read the conf, Load libraries, instanciate/initialize components

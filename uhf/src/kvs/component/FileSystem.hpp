@@ -3,8 +3,8 @@
 #include "uhf/kvs/component/KeyValueStorage.hpp"
 
 namespace uhf {
-namespace component {
 namespace kvs {
+namespace component {	
 
 	class FileSystem : public KeyValueStorage
 	{

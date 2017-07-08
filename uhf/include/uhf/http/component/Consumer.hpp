@@ -8,8 +8,8 @@
 #include <map>
 
 namespace uhf {
-namespace component {
 namespace http {
+namespace component {
 	
 	typedef uhf::http::InvocationRequest InvocationRequest;
 	

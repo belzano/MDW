@@ -1,6 +1,10 @@
 #pragma once
 
-#include "uhf/IProperty.hpp"
+#include "uhf/core/property/PtreeProperty.hpp"
+#include "uhf/IComponent.hpp"
+
+#include "toolbox/ptree/Types.hpp"
+#include "toolbox/ptree/Conversions.hpp"
 
 namespace uhf {
 namespace core {
@@ -8,13 +12,17 @@ namespace property {
 	
     /////////////////////////////////////////////////////////////////////
 
-    class Runnable : public IProperty
+    class Runnable : public PtreeProperty
     {
     public:
-	constexpr static const char* TypeName = "uhf::core::ability::Logging";
-
-	virtual void log(const char*) = 0;
+		virtual bool checkConsistency(IComponentPtr componentInstance) const override;
+		
+		virtual void readPtree(const toolbox::ptree::Node&) override;	
     };
+    
+	typedef std::shared_ptr<Runnable> RunnablePtr;
 }
 }
 }
+
+MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::core::property::Runnable)

@@ -7,8 +7,8 @@
 #include <iterator>
 
 namespace uhf {
-namespace component {
 namespace kvs {
+namespace component {	
 
 	EnvVar::EnvVar()
 	{}

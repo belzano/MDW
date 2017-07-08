@@ -26,6 +26,8 @@ class ComponentMakerRegistry
 {
 public:
     
+    bool isRegistered(const uhf::ComponentTypeName&) const;
+    
     IComponentMakerPtr getComponentMaker(const uhf::ComponentTypeName&) const;
 
     void registerComponentMaker(const uhf::ComponentTypeName& componentName, 

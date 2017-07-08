@@ -11,9 +11,9 @@
 #include "toolbox/Logger.hpp"
 #include "toolbox/ScopedChrono.hpp"
 
-#include "toolbox/StorageCell.hpp"
-#include "toolbox/StorageCellLocalMemory.hpp"
-#include "toolbox/StorageCellFileSystem.hpp"
+#include "uhf/kvs/component/KeyValueStorage.hpp"
+//#include "toolbox/StorageCellLocalMemory.hpp"
+//#include "toolbox/StorageCellFileSystem.hpp"
 
 
 #include "mme/Query.hpp"
@@ -79,12 +79,12 @@ int main (int argc, char* argv[])
 		std::string filenamenoext = toolbox::split(filenamebase, '/')[0];
 		
 		// Create a query with memory storage in release mode (for perf debug)
-		toolbox::StorageCellPtr testStorage;
+		uhf::kvs::component::KeyValueStoragePtr testStorage;
 #ifdef MDW_DEBUG
-		std::string dataRootPath = toolbox::ExecutionContext::instance().getDirData() + "/" + filenamenoext +"/";
-		testStorage = toolbox::StorageCellPtr( (toolbox::StorageCell*) new toolbox::StorageCellFileSystem(dataRootPath) );
+		//std::string dataRootPath = toolbox::ExecutionContext::instance().getDirData() + "/" + filenamenoext +"/";
+		//testStorage = toolbox::StorageCellPtr( (toolbox::StorageCell*) new toolbox::StorageCellFileSystem(dataRootPath) );
 #else
-		testStorage = toolbox::StorageCellPtr( (toolbox::StorageCell*) new toolbox::StorageCellLocalMemory() );
+		//testStorage = toolbox::StorageCellPtr( (toolbox::StorageCell*) new toolbox::StorageCellLocalMemory() );
 #endif
 		
 		API::Query aQuery(testStorage);

@@ -4,8 +4,8 @@
 #include <map>
 
 namespace uhf {
-namespace component {	
 namespace kvs {
+namespace component {	
 
 	class LocalMemory : public KeyValueStorage
 	{

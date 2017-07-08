@@ -41,6 +41,8 @@ void convert(const S32& oResult, Node& iNode);
 void convert(const U64& oResult, Node& iNode);
 void convert(const S64& oResult, Node& iNode);
 
+void convert(const Node& iNode, Node& oResult);
+
 void convert(const Node& iNode, std::string& oResult);
 void convert(const std::string& oResult, Node& iNode);
 
@@ -108,6 +110,7 @@ MDW_PTREE_CONVERSION_CONTAINER_1_DEFINE(std::vector, K)
 MDW_PTREE_CONVERSION_OBJECT_DECLARE(U32)
 MDW_PTREE_CONVERSION_OBJECT_DECLARE(S32)
 MDW_PTREE_CONVERSION_OBJECT_DECLARE(std::string)
+MDW_PTREE_CONVERSION_OBJECT_DECLARE(Node)
 
 
 #define MDW_PTREE_CONVERSION_ENTITY_DECLARE(type)	\

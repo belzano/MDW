@@ -5,7 +5,7 @@ add_definitions(-DBUILD_MODULE="TEST")
 
 include_directories(${MDW_SOURCE_DIR}/mme/include)
 include_directories(${MDW_SOURCE_DIR}/toolbox/include)
-include_directories(${MDW_SOURCE_DIR}/kvs/include)
+include_directories(${MDW_SOURCE_DIR}/uhf/include)
 
 file(   GLOB_RECURSE
         source_files
@@ -16,7 +16,7 @@ add_executable(mme_bin ${source_files})
 
 target_link_libraries(mme_bin mme) 
 target_link_libraries(mme_bin toolbox)
-target_link_libraries(mme_bin kvs)
+target_link_libraries(mme_bin uhf)
 
 target_link_libraries(mme_bin ${Boost_FILESYSTEM_LIBRARY} ${Boost_SYSTEM_LIBRARY})
 target_link_libraries(mme_bin libopencv_core.so )

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "uhf/IComponent.hpp"
+#include "uhf/core/component/IActivable.hpp"
 
 namespace uhf {
 namespace component {
@@ -9,14 +10,14 @@ namespace component {
 
     /////////////////////////////////////////////////////////////////////
 
-    class Runner: public IComponent
+    class Runner: public uhf::IComponent, public IActivable
     {
     public:
 		Runner();
 		virtual ~Runner();
 
-		int run();
-		void requestShutdown(){}
+		virtual void onActivate();
+		virtual void onPassivate();
 
 		private:
 		RunnerImpl* m_impl;

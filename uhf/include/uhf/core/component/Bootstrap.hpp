@@ -1,7 +1,8 @@
 #pragma once
 
 #include <memory>
-#include "uhf/core/aspects/IRunnable.hpp"
+#include "uhf/IComponent.hpp"
+#include "uhf/core/aspects/IActivable.hpp"
 
 namespace uhf {
 namespace component {
@@ -10,19 +11,19 @@ namespace component {
 		
 	/////////////////////////////////////////////////////////////////////
 		
-	class Bootstrap : public uhf::component::IRunnable
+	class Bootstrap : public uhf::IComponent, public uhf::component::IActivable
 	{
 	public:
 		Bootstrap();
 		~Bootstrap();
 		
-		void setBootstrapFile(const std::string& configFilename);
+		void setBootstrapFile(const std::string& bootstrapFilename);
 
-		void run() override;
+		void onActivate() override;
+		void onPassivate() override;
 
 	private:
-		
-		BootstrapImpl* m_impl;
+		std::string _bootstrapFilename;
 	};
 	
 	typedef std::shared_ptr<Bootstrap> BootstrapPtr;

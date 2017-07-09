@@ -5,11 +5,9 @@
 namespace uhf {
 namespace component {
 
-    class RunnerImpl;
-
     /////////////////////////////////////////////////////////////////////
 
-    class IRunnable: public IComponent
+    class IRunnable
     {
     public:
 		IRunnable();

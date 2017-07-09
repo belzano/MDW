@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <list>
 #include "toolbox/Types.hpp"
 #include "toolbox/Typename.hpp"
 //#include "uhf/IComponent.hpp"
@@ -37,5 +38,6 @@ namespace  uhf {
 	};
 	
 	typedef std::shared_ptr<IProperty> IPropertyPtr;
+	
 }
 

@@ -7,7 +7,7 @@ namespace component {
 
     /////////////////////////////////////////////////////////////////////
 
-    class IUpdatable: public IComponent
+    class IUpdatable
     {
     public:
 		IUpdatable();

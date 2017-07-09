@@ -64,6 +64,8 @@ namespace  uhf {
 		IPropertyPtr getProperty() { return getProperty(IProperty::getTypename<T>());}
 		IPropertyPtr getProperty(const std::string& iTypeName);	
 
+		std::list<IPropertyPtr> getProperties() { return m_properties;}
+
     private:
 		std::list<IPropertyPtr> m_properties;
 

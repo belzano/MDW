@@ -1,5 +1,5 @@
 #include "uhf/core/component/Bootstrap.hpp"
-#include "BootstrapImpl.hpp"
+#include "uhf/core/command/Bootstrap.hpp"
 #include "toolbox/Logger.hpp"
 
 #include "uhf/core/aspects/IActivable.hpp"
@@ -11,9 +11,7 @@ namespace uhf {
 namespace component {
 	
     Bootstrap::Bootstrap()
-    : IRunnable()
-    , m_impl(new BootstrapImpl())
-    {
+	{
 
     }	
 
@@ -21,40 +19,29 @@ namespace component {
 
     Bootstrap::~Bootstrap()
     {
-		delete m_impl;
+
     }	
 
     ////////////////////////////////////////////////////////////
 
-    void Bootstrap::setBootstrapFile(const std::string& configFileName)
+    void Bootstrap::setBootstrapFile(const std::string& bootstrapFilename)
     {
-		m_impl->setBootstrapFile(configFileName);
+		_bootstrapFilename = bootstrapFilename;
     }
 
     ////////////////////////////////////////////////////////////
 
-    void Bootstrap::run()
+    void Bootstrap::onActivate()
     {
 		// Create and insert components
-		m_impl->doBootstrap(getComponentRegistry());
-		
-		// Activate Activable components
-		std::list<IComponentPtr> components;
-		getComponentRegistry()->getComponents(components);
-		MDW_LOG_INFO("Looking for activable components (" << components.size() << " to verify)");
-		for (auto comp : components) 
-		{
-			if (comp->hasProperty<uhf::core::property::Activable>())
-			{		
+		uhf::command::Bootstrap().doBootstrap(_bootstrapFilename, getComponentRegistry());
+    }
+    
+    ////////////////////////////////////////////////////////////
 
-				uhf::component::IActivablePtr activableComp = std::dynamic_pointer_cast<uhf::component::IActivable>(comp);
-				if (!activableComp->isActive())
-				{
-					MDW_LOG_INFO("Activating " << comp->getTypename());
-					activableComp->activate();
-				}
-			}
-		}
+	void Bootstrap::onPassivate()
+    {
+		
     }
 
 }

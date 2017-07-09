@@ -10,19 +10,14 @@ using uhf::core::configuration::BootstrapPtr;
 using uhf::core::configuration::ComponentInstancePtr;
 
 namespace uhf {
-namespace component {
+namespace manager {
 		
 	/////////////////////////////////////////////////////////////////////
 		
-	class BootstrapImpl
+	class Bootstrap
 	{
 	public:
-		void setBootstrapFile(const std::string& bootstrapFile)
-		{	
-			_bootstrapFile = bootstrapFile;
-		}
-		
-		bool doBootstrap(uhf::IComponentRegistryPtr registry);
+		bool doBootstrap(const std::string& bootstrapFile, uhf::IComponentRegistryPtr registry);
 		
 	protected:
 		BootstrapPtr loadConfiguration();
@@ -31,7 +26,7 @@ namespace component {
 		void getUnregisteredTypes(toolbox::ptree::Node& bootstrapConfig, std::set<std::string>& unkownDynTypes);
 		void tryMissingLibLoading(std::set<std::string>& unkownDynTypes);
   
-	private:	
+	private:
 		std::string _bootstrapFile;
 		uhf::core::LibraryManager m_libraryManager;
 	};

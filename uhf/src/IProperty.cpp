@@ -1,4 +1,5 @@
 #include "uhf/IProperty.hpp"
+#include "uhf/IComponent.hpp"
 
 ////////////////////////////////////////////////////////////
 
@@ -13,6 +14,5 @@ IProperty::IProperty()
 IProperty::~IProperty()
 {
 }
-
 
 }

@@ -1,4 +1,4 @@
-#include "BootstrapImpl.hpp"
+#include "Bootstrap.hpp"
 #include "LibraryManager.hpp"
 
 #include "toolbox/StringUtils.hpp"
@@ -11,12 +11,14 @@
 ////////////////////////////////////////////////////////////
 
 namespace uhf {
-namespace component {
+namespace manager {
 
     ////////////////////////////////////////////////////////////
     
-	bool BootstrapImpl::doBootstrap(uhf::IComponentRegistryPtr registry)
-	{
+	bool Bootstrap::doBootstrap(const std::string& bootstrapFile, uhf::IComponentRegistryPtr registry)
+	{		
+		_bootstrapFile = bootstrapFile;
+		
 		// Step 1: Parse Json config
 		BootstrapPtr config = loadConfiguration();
 		if (config.get() == nullptr){
@@ -47,7 +49,7 @@ namespace component {
 
 		//std::shared_ptr<ProcessConfiguration> m_processConfig;
      */
-    BootstrapPtr BootstrapImpl::loadConfiguration()
+    BootstrapPtr Bootstrap::loadConfiguration()
     {
 		MDW_LOG_DEBUG("Parsing Bootstrap configuration.")
 		toolbox::ptree::Node bootstrapConfigAsJson;
@@ -77,7 +79,7 @@ namespace component {
 	
     ////////////////////////////////////////////////////////////
 
-    void BootstrapImpl::getUnregisteredTypes(toolbox::ptree::Node& bootstrapConfigAsJson, std::set<std::string>& unkownDynTypes)
+    void Bootstrap::getUnregisteredTypes(toolbox::ptree::Node& bootstrapConfigAsJson, std::set<std::string>& unkownDynTypes)
     {
 		// Get all dynamic type in the config file.
 		std::set<std::string> dynTypes;
@@ -100,7 +102,7 @@ namespace component {
 
     ////////////////////////////////////////////////////////////
 
-    void BootstrapImpl::tryMissingLibLoading(std::set<std::string>& unkownDynTypes)
+    void Bootstrap::tryMissingLibLoading(std::set<std::string>& unkownDynTypes)
     {
 		// Compute libraries required
 		std::set<std::string> libraries;
@@ -126,7 +128,7 @@ namespace component {
 		
     ////////////////////////////////////////////////////////////
   
-	bool BootstrapImpl::createComponents(BootstrapPtr configuration, 
+	bool Bootstrap::createComponents(BootstrapPtr configuration, 
 										 uhf::IComponentRegistryPtr registry)
     {
 		for (ComponentInstancePtr componentInstanceConfig : configuration->getComponents())
@@ -142,7 +144,7 @@ namespace component {
 	
     ////////////////////////////////////////////////////////////
   
-	bool BootstrapImpl::createComponent(ComponentInstancePtr componentInstanceConfig, 
+	bool Bootstrap::createComponent(ComponentInstancePtr componentInstanceConfig, 
 										 uhf::IComponentRegistryPtr registry)
 	{
 		IComponentPtr componentInstance = uhf::core::ComponentFactory::instance().make(componentInstanceConfig->getTypename());

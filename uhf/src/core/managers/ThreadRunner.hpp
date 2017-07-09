@@ -4,15 +4,15 @@
 #include <memory>
 
 namespace uhf {
-namespace component {
+namespace manager {
 
 	//////////////////////////////////////////////////////////////
 
-	class RunnerImpl
+	class ThreadRunner
 	{
 		public:	
-			RunnerImpl();
-			virtual ~RunnerImpl();
+			ThreadRunner();
+			virtual ~ThreadRunner();
 			
 			int asyncStart();
 					      

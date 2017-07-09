@@ -3,31 +3,40 @@
 #include "toolbox/Types.hpp"
 
 namespace uhf{
-namespace threads{	
+namespace manager{	
+
+/*	
+	typedef enum ThreadState 
+	{
+		
+	} ThreadState;
+	*/
 	
-	class WorkerThread 
+	class Thread
 	{
 		public:	
-			WorkerThread(const std::string& name);
+			Thread(const std::string& name);
 						
 			virtual void initialize();
 			virtual int activate();
 			
-			virtual int run() = 0;
+			virtual void run() = 0;
+			
+			void pthreadRun();
 			
 			void requestShutdown();
 			bool shutdownRequested() const;
+			bool isCompleted() const;
 			
 			virtual int waitForCompletion();
 			
 		protected:
 			bool OneEyeSleepMs(int time, int checkPeriod = 100);
-			
-		private:
+
 			std::string 			_name;
 			pthread_t  				_processingThread;
-			
-			bool 			_shutdownRequested;
+			bool 					_shutdownRequested;
+			bool 					_completed;
 	};
 }
 }

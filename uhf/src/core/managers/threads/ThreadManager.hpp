@@ -4,16 +4,16 @@
 #include <memory>
 
 namespace uhf {
-namespace threads {
+namespace manager {
 		
-	class WorkerThread;
+	class Thread;
 	
 	/////////////////////////////////////////////////////////////////////
-		
-	class WorkerThreadManager
+	
+	class ThreadManager
 	{
 		public:
-			WorkerThreadManager();
+			ThreadManager();
 			
 			void initialize();
 			
@@ -22,10 +22,10 @@ namespace threads {
 			
 			void waitForCompletion();
 			
-			void registerWorker(WorkerThread*){}
+			void registerThread(std::shared_ptr<Thread>);
 
 		private:
-			std::list<WorkerThread*> m_workers;		
+			std::list<std::shared_ptr<Thread> > m_workers;		
 	};
 }
 }

@@ -1,6 +1,5 @@
-#include "WorkerThread.hpp"
+#include "Thread.hpp"
 
-#include "toolbox/ExecutionContext.hpp"
 #include "toolbox/Logger.hpp"
 #include "toolbox/ScopedChrono.hpp"
 
@@ -13,46 +12,62 @@
 
 void* processingThread(void *param)
 {
-	MDW_LOG_INFO("WorkerThread started OK");
+	MDW_LOG_INFO("Thread started OK");
 	
-	uhf::threads::WorkerThread* callback = (uhf::threads::WorkerThread*) param;
-	while(! callback->shutdownRequested())
-	{
-		callback->run();
-	}
+	uhf::manager::Thread* theThread = (uhf::manager::Thread*) param;
+	theThread->pthreadRun();
 	
-	MDW_LOG_INFO("WorkerThread thread exited");
+	MDW_LOG_INFO("Thread exited");
 	return 0;
 }
 
-namespace uhf{
-namespace threads{
+namespace uhf {
+namespace manager {
 	
 	/////////////////////////////////////////////////////////////////////
 
-	WorkerThread::WorkerThread(const std::string& name) 
+	Thread::Thread(const std::string& name) 
 		: _name(name)
 	{
 		
 	}
+		
+	/////////////////////////////////////////////////////////////////////
+
+	void Thread::pthreadRun() 
+	{
+		_completed = false;
+		
+		run();
+		
+		_completed = true;
+		// Notify the manager so he can clean me up ?
+	}	
 	
 	/////////////////////////////////////////////////////////////////////
 
-	void WorkerThread::initialize() 
+	void Thread::initialize() 
 	{
 	
 	}
 
 	/////////////////////////////////////////////////////////////////////
 
-	bool WorkerThread::shutdownRequested() const
+	bool Thread::shutdownRequested() const
 	{
 		return _shutdownRequested;
 	}
 
 	/////////////////////////////////////////////////////////////////////
 
-	void WorkerThread::requestShutdown()
+	bool Thread::isCompleted() const
+	{
+		return _completed;
+	}
+
+	/////////////////////////////////////////////////////////////////////
+
+	void Thread::requestShutdown()
 	{
 		MDW_LOG_INFO("Shutdown requested!");
 		_shutdownRequested = true;
@@ -60,7 +75,7 @@ namespace threads{
 
 	/////////////////////////////////////////////////////////////////////
 
-	bool WorkerThread::OneEyeSleepMs(int time, int checkPeriod)
+	bool Thread::OneEyeSleepMs(int time, int checkPeriod)
 	{
 		for(int timeToSleep = std::min(time, checkPeriod);
 			timeToSleep > 0;
@@ -79,12 +94,12 @@ namespace threads{
 
 	////////////////////////////////////////////////////////////	
 		
-	int WorkerThread::activate()
-	{	
+	int Thread::activate()
+	{		
 		// Create processing thread
 		if ( 0 != pthread_create(&_processingThread, 0 , processingThread, this))
 		{
-			MDW_LOG_FATAL("Processing thread creation failed");	
+			MDW_LOG_FATAL("Processing thread creation failed");
 			exit(1);
 		}
 		MDW_LOG_INFO("Processing threads creation OK. Waiting for completion...");
@@ -93,8 +108,8 @@ namespace threads{
 	
 	////////////////////////////////////////////////////////////	
 		
-	int WorkerThread::waitForCompletion()
-	{		
+	int Thread::waitForCompletion()
+	{
 		pthread_join(_processingThread, 0);
 		return 0;
 	}

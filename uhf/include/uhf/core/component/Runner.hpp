@@ -6,7 +6,7 @@
 namespace uhf {
 namespace component {
 
-    class RunnerImpl;
+    //class RunnerImpl;
 
     /////////////////////////////////////////////////////////////////////
 
@@ -19,8 +19,8 @@ namespace component {
 		virtual void onActivate();
 		virtual void onPassivate();
 
-		private:
-		RunnerImpl* m_impl;
+		//private:
+		//RunnerImpl* m_impl;
     };
 
     typedef std::shared_ptr<Runner> RunnerPtr;

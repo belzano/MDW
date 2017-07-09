@@ -1,6 +1,6 @@
-#include "WorkerThreadManager.hpp"
+#include "ThreadManager.hpp"
 
-#include "WorkerThread.hpp"
+#include "Thread.hpp"
 
 #include "toolbox/Logger.hpp"
 #include "toolbox/ScopedChrono.hpp"
@@ -9,25 +9,33 @@
 ////////////////////////////////////////////////////////////
 
 namespace uhf {
-namespace threads {
+namespace manager {
 	
-	WorkerThreadManager::WorkerThreadManager()
+	ThreadManager::ThreadManager()
 	{
 		
 	}
 	
 	////////////////////////////////////////////////////////////
 
-	void WorkerThreadManager::initialize()
+	void ThreadManager::initialize()
 	{
 		
 	}
 
 	////////////////////////////////////////////////////////////
-
-	void WorkerThreadManager::activate()
+			
+	void ThreadManager::registerThread(std::shared_ptr<Thread> worker)
 	{
-		std::list<WorkerThread*>::iterator workerIt;
+		m_workers.push_back(worker);
+		// TODO start asasp if activated
+	}
+
+	////////////////////////////////////////////////////////////
+
+	void ThreadManager::activate()
+	{
+		std::list<std::shared_ptr<Thread>>::iterator workerIt;
 		for(workerIt  = m_workers.begin();
 			workerIt != m_workers.end();
 			++workerIt)
@@ -38,9 +46,9 @@ namespace threads {
 	
 	////////////////////////////////////////////////////////////
 		
-	void WorkerThreadManager::deactivate()
+	void ThreadManager::deactivate()
 	{
-		std::list<WorkerThread*>::iterator workerIt;
+		std::list<std::shared_ptr<Thread>>::iterator workerIt;
 		for(workerIt  = m_workers.begin();
 			workerIt != m_workers.end();
 			++workerIt)
@@ -51,12 +59,12 @@ namespace threads {
 	
 	////////////////////////////////////////////////////////////
 			
-	void WorkerThreadManager::waitForCompletion()
+	void ThreadManager::waitForCompletion()
 	{
 		// TODO check if deactivate() was called before. 
 		// All workers should be terminating
 		
-		std::list<WorkerThread*>::iterator workerIt;
+		std::list<std::shared_ptr<Thread>>::iterator workerIt;
 		for(workerIt  = m_workers.begin();
 			workerIt != m_workers.end();
 			++workerIt)

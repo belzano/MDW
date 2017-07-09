@@ -1,4 +1,4 @@
-#include "RunnerImpl.hpp"
+#include "ThreadRunner.hpp"
 
 #include "toolbox/ExecutionContext.hpp"
 #include "toolbox/Logger.hpp"
@@ -10,18 +10,18 @@
 #include <signal.h>
 
 namespace uhf {
-namespace component {
+namespace manager {
  
 	/////////////////////////////////////////////////////////////////////
 
-	RunnerImpl::RunnerImpl()
+	ThreadRunner::ThreadRunner()
 	{
 	
 	}
 	
 	/////////////////////////////////////////////////////////////////////
 
-	RunnerImpl::~RunnerImpl()
+	ThreadRunner::~ThreadRunner()
 	{
 	
 	}
@@ -41,7 +41,7 @@ namespace component {
 
 	////////////////////////////////////////////////////////////	
 		
-	int RunnerImpl::asyncStart()
+	int ThreadRunner::asyncStart()
 	{
 // 		// Load the configuration. It will be looked up in conf_dir/Master/boot.json 
 // 		// initialize the ProcessManager
@@ -64,7 +64,7 @@ namespace component {
 	
 	////////////////////////////////////////////////////////////	
 			
-	int RunnerImpl::asyncStop()
+	int ThreadRunner::asyncStop()
 	{
 		return 0;
 	}

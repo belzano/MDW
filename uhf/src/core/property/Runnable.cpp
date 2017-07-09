@@ -29,6 +29,15 @@ namespace property {
 	{
 	  PtreeProperty::readPtree(ptree);
 	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	bool Runnable::equals(IPropertyPtr other) const 
+	{
+		RunnablePtr otherRunnable = std::dynamic_pointer_cast<Runnable>(other);
+		return otherRunnable != nullptr;
+	}
+	
 }
 }
 }

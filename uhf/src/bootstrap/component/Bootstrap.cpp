@@ -1,5 +1,5 @@
-#include "uhf/core/component/Bootstrap.hpp"
-#include "uhf/core/command/Bootstrap.hpp"
+#include "uhf/bootstrap/component/Bootstrap.hpp"
+#include "uhf/bootstrap/command/Bootstrap.hpp"
 #include "toolbox/Logger.hpp"
 
 #include "uhf/core/aspects/IActivable.hpp"

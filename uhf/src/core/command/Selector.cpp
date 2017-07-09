@@ -41,8 +41,6 @@ namespace command {
 				}
 			}
 		}
-		
-		MDW_LOG_INFO("Filter returned " << result.size() << " macthes");
 	}
 
     

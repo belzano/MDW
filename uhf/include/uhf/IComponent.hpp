@@ -59,10 +59,12 @@ namespace  uhf {
 		template <class T>
 		bool hasProperty() { return hasProperty(IProperty::getTypename<T>());}
 		bool hasProperty(const std::string& iTypeName);
+		bool hasProperty(const IPropertyPtr iProperty);
 
 		template <class T>
 		IPropertyPtr getProperty() { return getProperty(IProperty::getTypename<T>());}
 		IPropertyPtr getProperty(const std::string& iTypeName);	
+		IPropertyPtr getProperty(const IPropertyPtr iProperty);
 
 		std::list<IPropertyPtr> getProperties() { return m_properties;}
 

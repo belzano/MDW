@@ -18,5 +18,6 @@ namespace manager{
 		private:
 			uhf::component::IUpdatablePtr _updatable;
 	};
+
 }
 }

@@ -18,6 +18,16 @@ namespace property {
 	{
 	  toolbox::ptree::PtreeEntity::readPtree(ptree);
 	}
+		
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	bool PtreeProperty::equals(IPropertyPtr other) const 
+	{
+		PtreePropertyPtr otherPtreeProperty = std::dynamic_pointer_cast<PtreeProperty>(other);
+		return otherPtreeProperty != nullptr;
+	}
+
+	
 }
 }
 }

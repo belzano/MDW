@@ -1,12 +1,11 @@
-#include <chrono>
-#include <thread>
+#include "uhf/core/component/Updater.hpp"
+
+#include "Updater.hpp"
 
 #include "toolbox/Logger.hpp"
-
 #include "uhf/IProperty.hpp"
 
 #include "uhf/core/command/Selector.hpp"
-#include "uhf/core/component/Updater.hpp"
 #include "uhf/core/aspects/IUpdatable.hpp"
 #include "uhf/core/property/Updatable.hpp"
 
@@ -14,6 +13,41 @@
 
 namespace uhf {
 namespace component {
+
+/////////////////////////////////////////////////////////////////////
+
+Updater::Updater()
+:m_impl(new uhf::manager::Updater)
+{
+
+}
+
+/////////////////////////////////////////////////////////////////////
+
+Updater::~Updater()
+{
+	delete m_impl;
+}
+
+
+/////////////////////////////////////////////////////////////////////
+
+void Updater::onActivate()
+{
+	MDW_LOG_DEBUG("Updater activation");
+	// TODO we should look for the shared ptr from the registry that contains this
+	uhf::IComponentPtr badThis(this);
+	
+	IUpdatablePtr updatable = std::dynamic_pointer_cast<uhf::component::IUpdatable>(badThis);
+	m_impl->start(updatable);
+}
+
+/////////////////////////////////////////////////////////////////////
+
+void Updater::onPassivate() 
+{
+	m_impl->stop();
+}
 
 /////////////////////////////////////////////////////////////////////
 
@@ -45,20 +79,6 @@ void Updater::update()
 	}
 	
 	update(updatablesTyped);	
-}
-
-/////////////////////////////////////////////////////////////////////
-
-void Updater::run()
-{
-	while (true)	
-	{
-		update();
-				
-		uint sleepTime = 100;
-		std::chrono::milliseconds duration( sleepTime );
-		std::this_thread::sleep_for(duration);
-	}	
 }
 
 }

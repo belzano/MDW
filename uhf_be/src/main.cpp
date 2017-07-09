@@ -7,12 +7,12 @@
 
 #include "toolbox/Logger.hpp"
 
-#include "uhf/core/command/Bootstrap.hpp"
 #include "uhf/core/command/Activator.hpp"
 
 #include "uhf/core/component/Process.hpp"
 #include "uhf/core/component/ComponentRegistry.hpp"
 
+#include "uhf/bootstrap/command/Bootstrap.hpp"
 
 using namespace uhf;
 
@@ -76,7 +76,7 @@ int main (int argc, char * const * argv)
 										  uhf::IComponentConfigurationPtr());
 	if (!processInit) {
 		MDW_LOG_ERROR("Failed to initialize component::Process. Exiting.");
-		exit(-1);
+		return -1;
 	}
 	MDW_LOG_INFO("Hooking SIGTERM");
     signal(SIGTERM, handle_term);
@@ -84,7 +84,11 @@ int main (int argc, char * const * argv)
 	
 
     MDW_LOG_INFO("Bootstraping components from [" << bootstrapFile << "]");
-    uhf::command::Bootstrap().doBootstrap(bootstrapFile, componentRegistry);
+    if (! uhf::command::Bootstrap().doBootstrap(bootstrapFile, componentRegistry))
+    {
+		MDW_LOG_INFO("Bootstraping failed. Exiting");
+		return -1;
+	}
 
     MDW_LOG_INFO("Activating components");
     uhf::command::Activator().activateComponents(componentRegistry);

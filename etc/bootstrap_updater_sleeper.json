@@ -1,0 +1,30 @@
+{
+	"version": 42,
+    "libraries":[],
+    "components": [
+		{
+		  "typename": "uhf::component::Updater",
+		  "configuration":{
+		  },
+		  "properties": [
+			  {
+				"$type": "uhf::core::property::NamedObject",
+				"name": "Updater"
+			  },
+			  {
+				"$type": "uhf::core::property::Activable"
+			  }
+		  ]
+		},
+		{
+		  "typename": "uhf::component::UpdateSleeper",
+		  "configuration":{
+		  },
+		  "properties": [
+			  {
+				"$type": "uhf::core::property::Updatable"
+			  }
+		  ]
+		}
+    ]
+}

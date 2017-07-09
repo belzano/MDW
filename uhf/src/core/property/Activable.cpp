@@ -22,7 +22,15 @@ namespace property {
 		IActivablePtr upcastedInstance = std::dynamic_pointer_cast<IActivable>(componentInstance);
 		return upcastedInstance != nullptr;
 	}
-	
+		
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	bool Activable::equals(IPropertyPtr other) const 
+	{
+		ActivablePtr otherActivable = std::dynamic_pointer_cast<Activable>(other);
+		return otherActivable != nullptr;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	void Activable::readPtree(const ptree::Node& ptree)

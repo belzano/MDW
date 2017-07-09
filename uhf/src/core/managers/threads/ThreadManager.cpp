@@ -27,6 +27,7 @@ namespace manager {
 			
 	void ThreadManager::registerThread(std::shared_ptr<Thread> worker)
 	{
+		MDW_LOG_DEBUG("Registering thread" << worker->getName() );
 		m_workers.push_back(worker);
 		// TODO start asasp if activated
 	}
@@ -40,7 +41,9 @@ namespace manager {
 			workerIt != m_workers.end();
 			++workerIt)
 		{
-			(*workerIt)->activate();
+			ThreadPtr thread = *workerIt;
+			MDW_LOG_DEBUG("Activating thread" << thread->getName() );
+			thread->activate();
 		}
 	}
 	

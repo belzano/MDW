@@ -21,17 +21,15 @@ namespace  uhf {
 		
 		template <class T>
 		static PropertyTypeName getTypename() {
-		    return type_name<T>();
+			return type_name<T>();
 		}
 		
 		virtual PropertyTypeName getTypename() {
-		    return type_name<decltype(*this)>();
+			return typeid(*this).name();
+		    //return type_name<decltype(*this)>();
 		}
 		
-		// Try to cast and hope?
-		//template<class T>
-		//bool isA() const { return isA(T::getTypename());} 
-
+		virtual bool equals(std::shared_ptr<IProperty> other) const = 0; 
 		
 		virtual bool checkConsistency(std::shared_ptr<uhf::IComponent>) const { return true; }
 

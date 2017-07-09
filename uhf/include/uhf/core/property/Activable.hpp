@@ -18,6 +18,8 @@ namespace property {
 		virtual bool checkConsistency(IComponentPtr componentInstance) const override;
 		
 		virtual void readPtree(const toolbox::ptree::Node&) override;	
+		
+		virtual bool equals(IPropertyPtr other) const override;
     };
     
 	typedef std::shared_ptr<Activable> ActivablePtr;

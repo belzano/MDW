@@ -24,6 +24,8 @@ namespace property {
 		virtual bool checkConsistency(uhf::IComponentPtr componentInstance) const override;
 		
 		virtual void readPtree(const toolbox::ptree::Node&) override;
+		
+		virtual bool equals(IPropertyPtr other) const override;
 
 		virtual std::ostream& toStream(std::ostream& stream) const override;	
     };	

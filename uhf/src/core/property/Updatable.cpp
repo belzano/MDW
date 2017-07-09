@@ -23,19 +23,27 @@ namespace property {
 		uhf::component::IUpdatablePtr upcastedInstance = std::dynamic_pointer_cast<uhf::component::IUpdatable>(componentInstance);
 		return upcastedInstance != nullptr;
 	}
-
-  //////////////////////////////////////////////////////////////////////////////////////
 	
-  void Updatable::readPtree(const ptree::Node& ptree)
-  {
+	//////////////////////////////////////////////////////////////////////////////////////
+	
+	bool Updatable::equals(IPropertyPtr other) const 
+	{
+		UpdatablePtr otherUpdatable = std::dynamic_pointer_cast<Updatable>(other);
+		return otherUpdatable != nullptr;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	void Updatable::readPtree(const ptree::Node& ptree)
+	{
 	  PtreeProperty::readPtree(ptree);
-  }
+	}
 	 
-  std::ostream& Updatable::toStream(std::ostream& stream) const 
-  {
+	std::ostream& Updatable::toStream(std::ostream& stream) const 
+	{
 	  PtreeProperty::toStream(stream);
 	  return stream;
-  }
+	}
 
 }
 }

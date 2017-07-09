@@ -4,8 +4,11 @@
 
 #include "uhf/core/ComponentMakerRegistry.hpp"
 
-#include "uhf/core/component/Bootstrap.hpp"
 #include "uhf/core/component/Runner.hpp"
+#include "uhf/core/component/Updater.hpp"
+#include "uhf/core/component/UpdateSleeper.hpp"
+#include "uhf/core/component/Sleeper.hpp"
+#include "uhf/bootstrap/component/Bootstrap.hpp"
 #include "kvs/component/LocalMemory.hpp"
 #include "kvs/component/FileSystem.hpp"
 #include "kvs/component/EnvVar.hpp"
@@ -38,6 +41,9 @@ void* onLibInitUhfCore()
   
   uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::component::Bootstrap>();
   uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::component::Runner>();
+  uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::component::Updater>();
+  uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::component::UpdateSleeper>();
+  uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::component::Sleeper>();
   uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::kvs::component::LocalMemory>();
   uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::kvs::component::FileSystem>();
   uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::kvs::component::EnvVar>();

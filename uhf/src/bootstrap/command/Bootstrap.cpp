@@ -1,4 +1,4 @@
-#include "uhf/core/command/Bootstrap.hpp"
+#include "uhf/bootstrap/command/Bootstrap.hpp"
 #include "Bootstrap.hpp"
 #include "toolbox/Logger.hpp"
 

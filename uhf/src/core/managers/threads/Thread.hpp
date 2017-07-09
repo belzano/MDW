@@ -27,6 +27,7 @@ namespace manager{
 			void requestShutdown();
 			bool shutdownRequested() const;
 			bool isCompleted() const;
+			std::string getName() const { return _name; }
 			
 			virtual int waitForCompletion();
 			
@@ -38,5 +39,8 @@ namespace manager{
 			bool 					_shutdownRequested;
 			bool 					_completed;
 	};
+	
+	typedef std::shared_ptr<Thread> ThreadPtr;
+
 }
 }

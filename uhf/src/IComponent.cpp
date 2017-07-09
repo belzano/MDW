@@ -59,6 +59,13 @@ namespace uhf {
 	{ 
 		return getProperty(iTypeName) != nullptr;
 	}
+	
+	/////////////////////////////////////////////////////////////////////////////////
+
+	bool IComponent::hasProperty(const IPropertyPtr iProperty)	
+	{ 
+		return getProperty(iProperty) != nullptr;
+	}
 
 	/////////////////////////////////////////////////////////////////////////////////
 
@@ -66,8 +73,23 @@ namespace uhf {
 	{ 
 		for(auto prop : m_properties)
 		{
+			MDW_LOG_DEBUG("Checking if property matches" << iTypeName);
 			// TOD handle inheritance if (prop->isA(iTypeName))
 			if (iTypeName == prop->getTypename())
+				return prop;
+		}
+		
+		MDW_LOG_DEBUG("No property " << iTypeName << " on that comopnent");
+		return IPropertyPtr();
+	}
+
+	/////////////////////////////////////////////////////////////////////////////////
+
+	IPropertyPtr IComponent::getProperty(const IPropertyPtr iProperty)
+	{ 
+		for(auto prop : m_properties)
+		{
+			if (iProperty->equals(prop))
 				return prop;
 		}
 		return IPropertyPtr();

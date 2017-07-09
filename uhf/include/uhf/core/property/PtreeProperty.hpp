@@ -23,6 +23,7 @@ namespace property {
 		virtual std::ostream& toStream(std::ostream& stream) const override { 
 			return toolbox::ptree::PtreeEntity::toStream(stream);
 		}		
+		virtual bool equals(IPropertyPtr other) const;
     };
     
 	typedef std::shared_ptr<PtreeProperty> PtreePropertyPtr;

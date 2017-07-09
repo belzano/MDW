@@ -22,6 +22,8 @@ namespace property {
 
 		virtual std::ostream& toStream(std::ostream& stream) const override ;
 		
+		virtual bool equals(IPropertyPtr other) const override;
+		
 	private:
 		std::string m_name;
     };

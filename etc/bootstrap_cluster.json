@@ -10,10 +10,10 @@
 		  },
 		  "properties": [
 			  {
-				"$type": "uhf::core::property::Activable"
+				"$type": "uhf::bootstrap::property::Activable"
 			  },
 			  {
-				"$type": "uhf::core::property::NamedObject",
+				"$type": "uhf::bootstrap::property::NamedObject",
 				"name": "bootstrap_cluster"
 			  }
 		  ]

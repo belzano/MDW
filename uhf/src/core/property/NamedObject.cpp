@@ -7,8 +7,6 @@
 
 ////////////////////////////////////////////////////////////
 
-MDW_PTREE_CONVERSION_ENTITY_DEFINE(uhf::core::property::NamedObject)
-
 using namespace toolbox;
 
 namespace uhf {	
@@ -24,18 +22,10 @@ namespace property {
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
-
-	void NamedObject::readPtree(const ptree::Node& ptree)
-	{
-	  PtreeProperty::readPtree(ptree);
-	  
-	  toolbox::ptree::bridge("name", ptree, m_name);
-	}
 	 
 	std::ostream& NamedObject::toStream(std::ostream& stream) const 
 	{
-	  PtreeProperty::toStream(stream);
-	  stream << "NamedObject: " << m_name << " "; 
+	  stream << "Name: " << m_name << " "; 
 	  return stream;
 	}
 

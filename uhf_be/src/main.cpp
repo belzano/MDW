@@ -64,8 +64,10 @@ int parse_args(int argc, char * const * argv, std::string& bootstrapFile)
 int main (int argc, char * const * argv)
 {
 	std::string bootstrapFile = "";
-	parse_args(argc, argv, bootstrapFile);
-
+	if (parse_args(argc, argv, bootstrapFile) != 0)
+	{
+		return -1;
+	}	
 
 	component::ComponentRegistryPtr componentRegistry(new component::ComponentRegistry());
 

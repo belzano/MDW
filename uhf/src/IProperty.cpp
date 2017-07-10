@@ -15,4 +15,12 @@ IProperty::~IProperty()
 {
 }
 
+//---------------------------------------------------------
+std::ostream& IProperty::toStream(std::ostream& stream) const 	
+{
+	return stream;
+}
+				
+//---------------------------------------------------------
+		
 }

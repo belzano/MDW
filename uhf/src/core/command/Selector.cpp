@@ -32,14 +32,11 @@ namespace command {
 	{
 		for (auto comp : components) 
 		{
-			for (auto prop : comp->getProperties()) 
+			if (comp->hasProperty(iCriteria))
 			{
-				if (prop->getTypename() == iCriteria->getTypename())
-				{
-					result.push_back(comp);
-					break;
-				}
+				result.push_back(comp);
 			}
+
 		}
 	}
 

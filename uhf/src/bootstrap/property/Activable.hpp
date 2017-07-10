@@ -1,26 +1,27 @@
 #pragma once
 
-#include "uhf/IProperty.hpp"
+#include "uhf/core/property/Activable.hpp"
+#include "PtreeProperty.hpp"
 #include "uhf/IComponent.hpp"
 
 #include "toolbox/ptree/Types.hpp"
 #include "toolbox/ptree/Conversions.hpp"
 
 namespace uhf {
-namespace core {
+namespace bootstrap {
 namespace property {
 	
     /////////////////////////////////////////////////////////////////////
 
-    class Activable : public IProperty
+    class Activable : public PtreeProperty, public uhf::core::property::Activable
     {
     public:
-		virtual bool checkConsistency(IComponentPtr componentInstance) const override;
-				
-		virtual bool equals(IPropertyPtr other) const override;
+		virtual void readPtree(const toolbox::ptree::Node&) override;	
     };
     
 	typedef std::shared_ptr<Activable> ActivablePtr;
 }
 }
 }
+
+MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::bootstrap::property::Activable)

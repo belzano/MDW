@@ -1,7 +1,7 @@
 #pragma once
 
 #include "toolbox/Types.hpp"
-#include "uhf/core/property/PtreeProperty.hpp"
+#include "uhf/IProperty.hpp"
 #include "uhf/IComponent.hpp"
 
 #include "toolbox/ptree/Types.hpp"
@@ -18,16 +18,14 @@ namespace property {
 	 
 	//////////////////////////////////////////////////////////////////////////////////////
 	
-	class Updatable: public PtreeProperty
+	class Updatable: public IProperty
 	{
 	public:
 		virtual bool checkConsistency(uhf::IComponentPtr componentInstance) const override;
-		
-		virtual void readPtree(const toolbox::ptree::Node&) override;
-		
+				
 		virtual bool equals(IPropertyPtr other) const override;
 
-		virtual std::ostream& toStream(std::ostream& stream) const override;	
+		virtual std::ostream& toStream(std::ostream& stream) const;	
     };	
 
 	typedef std::shared_ptr<Updatable> UpdatablePtr;
@@ -36,4 +34,3 @@ namespace property {
 }
 }
 
-MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::core::property::Updatable)

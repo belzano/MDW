@@ -8,7 +8,7 @@
 		  },
 		  "properties": [
 			  {
-				"$type": "uhf::core::property::NamedObject",
+				"$type": "uhf::bootstrap::property::NamedObject",
 				"name": "defaultLogger"
 			  }
 		  ]
@@ -19,11 +19,11 @@
 		  },
 		  "properties": [
 			  {
-				"$type": "uhf::core::property::NamedObject",
+				"$type": "uhf::bootstrap::property::NamedObject",
 				"name": "Runner"
 			  },
 			  {
-				"$type": "uhf::core::property::Activable"
+				"$type": "uhf::bootstrap::property::Activable"
 			  }
 		  ]
 		}

@@ -1,30 +1,23 @@
 #pragma once
 
-#include "uhf/IProperty.hpp"
+#include "uhf/core/property/NamedObject.hpp"
+#include "PtreeProperty.hpp"
 
 #include "toolbox/ptree/Types.hpp"
 #include "toolbox/ptree/Conversions.hpp"
 
 namespace uhf {
-namespace core {
+namespace bootstrap {
 namespace property {
 	
     /////////////////////////////////////////////////////////////////////
 
-    class NamedObject : public IProperty
+    class NamedObject : public PtreeProperty, public uhf::core::property::NamedObject
     {
     public:
-		std::string getName() { 
-			return m_name; 
-		}
-		
-		virtual bool equals(IPropertyPtr other) const override;
-		
+		virtual void readPtree(const toolbox::ptree::Node&) override;
+
 		virtual std::ostream& toStream(std::ostream& stream) const override ;
-		
-		
-	protected:
-		std::string m_name;
     };
     
 	typedef std::shared_ptr<NamedObject> NamedObjectPtr;
@@ -32,3 +25,5 @@ namespace property {
 }
 }
 }
+
+MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::bootstrap::property::NamedObject)

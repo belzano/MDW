@@ -33,6 +33,8 @@ namespace  uhf {
 		
 		virtual bool checkConsistency(std::shared_ptr<uhf::IComponent>) const { return true; }
 
+		virtual std::ostream& toStream(std::ostream& stream) const ;
+
 	};
 	
 	typedef std::shared_ptr<IProperty> IPropertyPtr;

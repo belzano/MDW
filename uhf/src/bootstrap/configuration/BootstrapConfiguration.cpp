@@ -4,12 +4,12 @@
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-MDW_PTREE_CONVERSION_ENTITY_DEFINE(uhf::core::configuration::BootstrapConfiguration)
+MDW_PTREE_CONVERSION_ENTITY_DEFINE(uhf::bootstrap::configuration::BootstrapConfiguration)
 
 using namespace toolbox;
     
 namespace uhf{
-namespace core{
+namespace bootstrap{
 namespace configuration{
 
   void BootstrapConfiguration::readPtree(const ptree::Node& ptree)

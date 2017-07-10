@@ -15,10 +15,10 @@
 #include "logger/component/Console.hpp"
 #include "http/component/ServiceGetFile.hpp"
 
-#include "uhf/core/property/Runnable.hpp"
-#include "uhf/core/property/Updatable.hpp"
-#include "uhf/core/property/Activable.hpp"
-#include "uhf/core/property/NamedObject.hpp"
+#include "Runnable.hpp"
+#include "Updatable.hpp"
+#include "Activable.hpp"
+#include "NamedObject.hpp"
 
 #include "toolbox/entity/Factory.hpp"
 #include "toolbox/ptree/Helper.hpp"
@@ -29,17 +29,19 @@ void* onLibInitUhfCore()
 {
   MDW_LOG_INFO("libuhfcore.so: ctor")
   
-  toolbox::entity::Factory::instance().registration<uhf::core::configuration::Bootstrap>();
-  toolbox::entity::Factory::instance().registration<uhf::core::configuration::BootstrapConfiguration>();
-  toolbox::entity::Factory::instance().registration<uhf::core::configuration::ComponentInstance>();
-  toolbox::entity::Factory::instance().registration<uhf::core::configuration::ComponentConfiguration>();
+  toolbox::entity::Factory::instance().registration<uhf::bootstrap::configuration::Bootstrap>();
+  toolbox::entity::Factory::instance().registration<uhf::bootstrap::configuration::BootstrapConfiguration>();
+  toolbox::entity::Factory::instance().registration<uhf::bootstrap::configuration::ComponentInstance>();
+  toolbox::entity::Factory::instance().registration<uhf::bootstrap::configuration::ComponentConfiguration>();
   
-  toolbox::entity::Factory::instance().registration<uhf::core::property::Runnable>();
-  toolbox::entity::Factory::instance().registration<uhf::core::property::Updatable>();
-  toolbox::entity::Factory::instance().registration<uhf::core::property::Activable>();
-  toolbox::entity::Factory::instance().registration<uhf::core::property::NamedObject>();
+  toolbox::entity::Factory::instance().registration<uhf::bootstrap::property::Runnable>();
+  toolbox::entity::Factory::instance().registration<uhf::bootstrap::property::Updatable>();
+  toolbox::entity::Factory::instance().registration<uhf::bootstrap::property::Activable>();
+  toolbox::entity::Factory::instance().registration<uhf::bootstrap::property::NamedObject>();
   
-  uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::component::Bootstrap>();
+  uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::component::Bootstrap>();  
+  
+  
   uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::component::Runner>();
   uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::component::Updater>();
   uhf::core::ComponentMakerRegistry::registerComponentMaker<uhf::component::UpdateSleeper>();

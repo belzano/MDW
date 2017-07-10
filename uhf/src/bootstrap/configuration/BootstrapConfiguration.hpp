@@ -11,7 +11,7 @@
 #include <list>
 
 namespace uhf {
-namespace core {
+namespace bootstrap {
 namespace configuration {
       
     //////////////////////////////////////////////////////////////////////////////////////
@@ -46,4 +46,4 @@ namespace configuration {
 }
 }
 
-MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::core::configuration::BootstrapConfiguration)
+MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::bootstrap::configuration::BootstrapConfiguration)

@@ -4,13 +4,14 @@
 
 #include "toolbox/ptree/Types.hpp"
 #include "toolbox/ptree/Conversions.hpp"
-#include "uhf/core/property/PtreeProperty.hpp"
 #include "uhf/IComponentConfiguration.hpp"
+
+#include "PtreeProperty.hpp"
 
 #include <list>
 
 namespace uhf {
-namespace core {
+namespace bootstrap {
 namespace configuration {
 
     //////////////////////////////////////////////////////////////////////////////////////
@@ -43,14 +44,14 @@ namespace configuration {
 		std::string& 		getTypename() 	   {return m_typename;}
 		std::string const& 	getTypename() const {return m_typename;}
 
-		std::list<uhf::core::property::PtreePropertyPtr>& 		getProperties() 	  {return m_properties;}
-		std::list<uhf::core::property::PtreePropertyPtr> const& getProperties() const {return m_properties;}
+		std::list<uhf::bootstrap::property::PtreePropertyPtr>& 		getProperties() 	  {return m_properties;}
+		std::list<uhf::bootstrap::property::PtreePropertyPtr> const& getProperties() const {return m_properties;}
 
 		ComponentConfigurationPtr & 	 getConfiguration()  		{return m_configuration;}
 		ComponentConfigurationPtr const& getConfiguration() const   {return m_configuration;}
 
 		std::string 		 								m_typename;
-		std::list<uhf::core::property::PtreePropertyPtr> 	m_properties;
+		std::list<uhf::bootstrap::property::PtreePropertyPtr> 	m_properties;
 		ComponentConfigurationPtr 							m_configuration;
     };
     
@@ -88,8 +89,8 @@ namespace configuration {
 }
 }
 
-MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::core::configuration::Bootstrap)
-MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::core::configuration::ComponentInstance)
-MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::core::configuration::ComponentConfiguration)
+MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::bootstrap::configuration::Bootstrap)
+MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::bootstrap::configuration::ComponentInstance)
+MDW_PTREE_CONVERSION_ENTITY_DECLARE(uhf::bootstrap::configuration::ComponentConfiguration)
 
     

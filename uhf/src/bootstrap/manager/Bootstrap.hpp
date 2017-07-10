@@ -6,8 +6,8 @@
 #include "Configuration.hpp"
 #include "LibraryManager.hpp"
 
-using uhf::core::configuration::BootstrapPtr;
-using uhf::core::configuration::ComponentInstancePtr;
+using uhf::bootstrap::configuration::BootstrapPtr;
+using uhf::bootstrap::configuration::ComponentInstancePtr;
 
 namespace uhf {
 namespace manager {

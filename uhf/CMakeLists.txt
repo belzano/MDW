@@ -30,6 +30,8 @@ include_directories("src/logger/")
 include_directories("src/logger/component") 
 include_directories("src/bootstrap/") 
 include_directories("src/bootstrap/manager") 
+include_directories("src/bootstrap/property") 
+include_directories("src/bootstrap/configuration") 
 include_directories("src")
 
 add_library(uhf SHARED ${source_files})

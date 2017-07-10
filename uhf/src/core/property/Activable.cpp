@@ -10,8 +10,6 @@
 using namespace toolbox;
 using namespace uhf::component;
 
-MDW_PTREE_CONVERSION_ENTITY_DEFINE(uhf::core::property::Activable)
-
 namespace uhf {	
 namespace core {
 namespace property {
@@ -31,12 +29,6 @@ namespace property {
 		return otherActivable != nullptr;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////
-
-	void Activable::readPtree(const ptree::Node& ptree)
-	{
-	  PtreeProperty::readPtree(ptree);
-	}
 }
 }
 }

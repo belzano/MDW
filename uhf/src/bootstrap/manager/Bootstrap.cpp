@@ -17,6 +17,8 @@ namespace manager {
     
 	bool Bootstrap::doBootstrap(const std::string& bootstrapFile, uhf::IComponentRegistryPtr registry)
 	{		
+		MDW_LOG_SCOPE_CHRONO("Bootstrap::doBootstrap");
+		
 		_bootstrapFile = bootstrapFile;
 		
 		// Step 1: Parse Json config

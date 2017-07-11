@@ -1,0 +1,42 @@
+{
+	"version": 42,
+    "libraries":[
+		"libuhfmhd.so"
+    ],
+    "components": [
+		{
+		  "typename": "uhf::component::Updater",
+		  "configuration":{
+		  },
+		  "properties": [
+			  {
+				"$type": "uhf::bootstrap::property::NamedObject",
+				"name": "HttpStarter"
+			  },
+			  {
+				"$type": "uhf::bootstrap::property::Activable"
+			  }
+		  ]
+		},
+		{
+		  "typename": "uhf::component::UpdateSleeper",
+		  "configuration":{
+		  },
+		  "properties": [
+			  {
+				"$type": "uhf::bootstrap::property::Updatable"
+			  }
+		  ]
+		},
+		{
+		  "typename": "uhf::mhd::component::TrafficHandler",
+		  "configuration":{
+		  },
+		  "properties": [
+			  {
+				"$type": "uhf::bootstrap::property::Activable"
+			  }
+		  ]
+		}
+    ]
+}

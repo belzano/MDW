@@ -1,11 +1,12 @@
 #pragma once
 
 #include <memory>
+#include "uhf/IObject.hpp"
 
 namespace uhf
 {
 
-	class LibLoaderObject
+	class LibLoaderObject : public uhf::IObject
 	{
 	public:
 
@@ -20,7 +21,7 @@ namespace uhf
 		void * _lib_handle;
 	};
 
-	typedef std::shared_ptr<LibLoaderObject> LibLoader;
+	typedef std::shared_ptr<LibLoaderObject> Library;
 
 } // namespace uhf ends
 

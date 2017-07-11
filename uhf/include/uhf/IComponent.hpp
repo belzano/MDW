@@ -6,6 +6,7 @@
 #include "toolbox/Typename.hpp"
 //#include "toolbox/utils/Registry.hpp"
 
+#include "uhf/IObject.hpp"
 #include "uhf/IProperty.hpp"
 #include "uhf/IComponentConfiguration.hpp"
 
@@ -15,7 +16,7 @@ namespace  uhf {
       
     typedef std::string ComponentTypeName;  
       
-    class IComponent
+    class IComponent : public IObject
     {
     public:
 		IComponent();
@@ -41,6 +42,7 @@ namespace  uhf {
 		bool initialize(std::shared_ptr<IComponent> iThis,
 		                std::shared_ptr<IComponentRegistry> registry, 
 		                std::list<IPropertyPtr> properties,
+		                std::list<IObjectPtr> dependencies,
 		                IComponentConfigurationPtr config);
 		bool isInitialized() const { return m_isInitialized; }
 	protected:
@@ -71,12 +73,17 @@ namespace  uhf {
     private:
 		std::list<IPropertyPtr> m_properties;
 
-	// Component registry
+	// Component configuration
     protected:
 		IComponentConfigurationPtr getConfiguration() { return m_configuration;}
 	private:
 		IComponentConfigurationPtr m_configuration;
 
+	// Component dependencies
+		std::list<IObjectPtr> getDependencies() const { return m_dependencies;}
+
+    private:
+		std::list<IObjectPtr> m_dependencies;
     };
 
     typedef std::shared_ptr<IComponent> IComponentPtr;

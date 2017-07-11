@@ -22,6 +22,7 @@ namespace uhf {
 	bool IComponent::initialize(IComponentPtr iThis,
 								IComponentRegistryPtr componentRegistry, 
 								std::list<IPropertyPtr> properties,
+								std::list<IObjectPtr> dependencies,
 								IComponentConfigurationPtr iConfiguration)
 	{
 		if (iThis.get() != this) {
@@ -43,6 +44,7 @@ namespace uhf {
 		m_componentRegistry = componentRegistry;
 		m_properties = properties;
 		m_configuration = iConfiguration;
+		m_dependencies = dependencies;
 		
 		onInitialize();
 				

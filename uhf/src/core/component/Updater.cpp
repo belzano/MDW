@@ -1,6 +1,8 @@
 #include "uhf/core/component/Updater.hpp"
 
 #include "Updater.hpp"
+#include <thread>
+#include <chrono>
 
 #include "toolbox/Logger.hpp"
 #include "uhf/IProperty.hpp"
@@ -76,6 +78,13 @@ void Updater::update()
 	for (auto updatable : updatables )
 	{
 		updatablesTyped.push_back(std::dynamic_pointer_cast<IUpdatable>(updatable));
+	}
+	
+	if (updatablesTyped.empty())
+	{
+		int napTime = 5000;
+		MDW_LOG_WARNING("Nothing registered in my update loop... Gonna take a nap " << napTime << "ms ");
+		std::this_thread::sleep_for(std::chrono::milliseconds(napTime));
 	}
 	
 	update(updatablesTyped);	

@@ -75,14 +75,16 @@ int main (int argc, char * const * argv)
     bool processInit = g_process->initialize(g_process,
 										  componentRegistry,
 										  std::list<uhf::IPropertyPtr>(), 
+										  std::list<uhf::IObjectPtr>(), 
 										  uhf::IComponentConfigurationPtr());
 	if (!processInit) {
 		MDW_LOG_ERROR("Failed to initialize component::Process. Exiting.");
 		return -1;
 	}
-	MDW_LOG_INFO("Hooking SIGTERM");
+	MDW_LOG_INFO("Hooking signals");
     signal(SIGTERM, handle_term);
     signal(SIGINT, handle_term);
+    signal(SIGSEGV, handle_term);
 	
 
     MDW_LOG_INFO("Bootstraping components from [" << bootstrapFile << "]");

@@ -171,7 +171,11 @@ int HttpConnection::onDataReceptionCompleted()
 {
 	MDW_LOG_DEBUG( "Service invocation for url [" << m_request._url << "]");
 
-	// TODO process query
+	// TODO get a component with has a property Processor<HttpRequest>
+	// Check this component has a property HttpAcceptor sa/ property->accept(url)
+	
+	m_request.answerstring = toolbox::MakeDataPtr("Service lookup logic is not implemented yet. Come and see in HttpConnection::onDataReceptionCompleted()  \n");
+	
 	//static uhf::ServiceInvocator invocator;
 	//invocator.invoke(iTrx->m_request, iTrx->m_request);
 

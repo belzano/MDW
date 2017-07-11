@@ -7,7 +7,7 @@
 #include "uhf/IComponentRegistry.hpp"
 #include "uhf/core/ComponentFactory.hpp"
 #include "uhf/core/ComponentMakerRegistry.hpp"
-
+#include "LibraryManager.hpp"
 ////////////////////////////////////////////////////////////
 
 namespace uhf {
@@ -21,6 +21,8 @@ namespace manager {
 		
 		_bootstrapFile = bootstrapFile;
 		
+		std::list<IObjectPtr> dependencies;
+		
 		// Step 1: Parse Json config
 		BootstrapPtr config = loadConfiguration();
 		if (config.get() == nullptr){
@@ -31,12 +33,18 @@ namespace manager {
 		
 		// Step 2:  Load specified libraries
 		MDW_LOG_INFO("Initializing libraries. ("<< config->getLibraries().size() <<" to load)")
-		m_libraryManager.initialize(config->getLibraries());
-		m_libraryManager.activate();
+		
+		uhf::core::LibraryManager libraryManager;
+		libraryManager.initialize(config->getLibraries());
+		libraryManager.activate();
 		MDW_LOG_INFO("libraries initialization: Done.")
+		std::list<Library> loadedLibraries = libraryManager.getLoadedLibraries();
+		for (auto library : loadedLibraries) {
+			dependencies.push_back(std::dynamic_pointer_cast<uhf::IObject>(library));
+		}
 		
 		// Step 3: instanciate components
-		if (!createComponents(config, registry)){
+		if (!createComponents(config, registry, dependencies)){
 			MDW_LOG_ERROR("Failed to create or initialize components. Exiting.");
 			return false;	
 		}		
@@ -80,7 +88,7 @@ namespace manager {
 	 * */
 	
     ////////////////////////////////////////////////////////////
-
+/*
     void Bootstrap::getUnregisteredTypes(toolbox::ptree::Node& bootstrapConfigAsJson, std::set<std::string>& unkownDynTypes)
     {
 		// Get all dynamic type in the config file.
@@ -101,9 +109,9 @@ namespace manager {
 		}
 		return;
 	}
-
+*/
     ////////////////////////////////////////////////////////////
-
+/*
     void Bootstrap::tryMissingLibLoading(std::set<std::string>& unkownDynTypes)
     {
 		// Compute libraries required
@@ -127,15 +135,16 @@ namespace manager {
 		m_libraryManager.activate();
 		MDW_LOG_INFO("libraries initialization: Done.")
 	}
-		
+*/
     ////////////////////////////////////////////////////////////
   
 	bool Bootstrap::createComponents(BootstrapPtr configuration, 
-										 uhf::IComponentRegistryPtr registry)
+										 uhf::IComponentRegistryPtr registry,
+										 std::list<IObjectPtr>& dependencies)
     {
 		for (ComponentInstancePtr componentInstanceConfig : configuration->getComponents())
 		{
-			if (! createComponent(componentInstanceConfig, registry))
+			if (! createComponent(componentInstanceConfig, registry, dependencies))
 			{
 				MDW_LOG_ERROR("Failed to create component [" << componentInstanceConfig << "]");
 				return false;
@@ -147,7 +156,8 @@ namespace manager {
     ////////////////////////////////////////////////////////////
   
 	bool Bootstrap::createComponent(ComponentInstancePtr componentInstanceConfig, 
-										 uhf::IComponentRegistryPtr registry)
+									uhf::IComponentRegistryPtr registry,
+									std::list<IObjectPtr>& dependencies)
 	{
 		IComponentPtr componentInstance = uhf::core::ComponentFactory::instance().make(componentInstanceConfig->getTypename());
 		if (componentInstance == nullptr) {
@@ -161,7 +171,7 @@ namespace manager {
 		}
 		uhf::IComponentConfigurationPtr componentConfig = std::dynamic_pointer_cast<uhf::IComponentConfiguration>(componentInstanceConfig->getConfiguration());
 		
-		bool initResult = componentInstance->initialize(componentInstance, registry, properties, componentConfig);
+		bool initResult = componentInstance->initialize(componentInstance, registry, properties, dependencies, componentConfig);
 		return initResult;
 	}
 

@@ -19,7 +19,6 @@ namespace manager {
 		void start(uhf::component::IUpdatablePtr iUpdatable);
 		void stop();
 		
-		
 	private:
 		ThreadManager _manager;
     };

@@ -1,7 +1,7 @@
 #include <string.h>
 #include <iostream>
 
-#include "LibLoader.hpp"
+#include "Library.hpp"
 
 #include <dlfcn.h>
 #include <cstdio>

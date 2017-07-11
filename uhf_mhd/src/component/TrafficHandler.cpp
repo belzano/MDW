@@ -1,4 +1,4 @@
-#include "TrafficHandler.hpp"
+#include "uhf/mhd/component/TrafficHandler.hpp"
 #include "TrafficHandlerImpl.hpp"
 
 #include "toolbox/Logger.hpp"
@@ -8,11 +8,13 @@
 ////////////////////////////////////////////////////////////
 
 namespace uhf {
-namespace http {
+namespace mhd {
+namespace component {
 		
 	TrafficHandler::TrafficHandler()
 		: IComponent()
-		, _port(888)
+		, m_impl(nullptr)
+		, _port(8888)
 	{}
 
 	////////////////////////////////////////////////////////////	
@@ -27,7 +29,7 @@ namespace http {
 
 	////////////////////////////////////////////////////////////	
 
-	int TrafficHandler::activate()
+	void TrafficHandler::onActivate()
 	{		
 		/*
 		int daemon_opts = MHD_USE_SELECT_INTERNALLY
@@ -37,8 +39,8 @@ namespace http {
 		*/
 		if (m_impl != nullptr)
 		{
-			MDW_LOG_INFO("HttpTrafficHandler is already activated!")
-			return 0;
+			MDW_LOG_WARNING("HttpTrafficHandler is already activated!")
+			return;
 		}
 		
 		m_impl = MHD_start_daemon (MHD_USE_SELECT_INTERNALLY, _port, NULL, NULL,
@@ -49,32 +51,31 @@ namespace http {
 						   
 		if (m_impl == nullptr)
 		{
-			MDW_LOG_ERROR("HttpTrafficHandler returned 0");
-			return 0;
+			MDW_LOG_ERROR("MHD_start_daemon failed to initialize. Check the provided port number "
+			 << _port <<" is free and does not require root privileges (<1024)");
+			return;
 		}
 	
-	
-		MDW_LOG_INFO("HttpTrafficHandler started OK");			
-		return 0;
+		MDW_LOG_INFO("HttpTrafficHandler started OK on port " << _port);			
 	}
 		
 	////////////////////////////////////////////////////////////	
 
-	int TrafficHandler::deactivate()
+	void TrafficHandler::onPassivate()
 	{
 		if (m_impl == nullptr)
 		{
 			MDW_LOG_ERROR("HttpTrafficHandler does not seem activated.");
-			return 0;
+			return;
 		}	
 		
 		MHD_stop_daemon (m_impl);
 		m_impl = nullptr;
-		return 0;		
 	}
 
 	////////////////////////////////////////////////////////////	
 
+}
 }
 }
 

@@ -3,32 +3,33 @@
 #include "toolbox/entity/Entity.hpp"
 #include "uhf/IComponent.hpp"
 #include "uhf/IComponentRegistry.hpp"
+#include "uhf/core/aspects/IActivable.hpp"
 
 struct MHD_Daemon;
 
 namespace uhf {
-namespace http {
+namespace mhd {
+namespace component {
 
 	/////////////////////////////////////////////////////////////////////
 		
-	class TrafficHandler: public IComponent, public toolbox::entity::Entity
+	class TrafficHandler: public IComponent, public uhf::component::IActivable, public toolbox::entity::Entity
 	{
 	public:
 		
 		TrafficHandler();
 		virtual ~TrafficHandler();
 		
-		int activate();
-		int deactivate();
-	
-		//int start();
-		//void requestShutdown(){}
-		
+		void onActivate() override;
+		void onPassivate()override;
+			
 	private:
+		MHD_Daemon* m_impl = nullptr;		
 		int _port;
-		MHD_Daemon* m_impl = nullptr;
 	};
+	
 	//MDW_SHARED_POINTER(TrafficHandler)
 
+}
 }
 }

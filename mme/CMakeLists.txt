@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 project (mme)
 
 add_definitions(-DBUILD_MODULE="MME")
-
+#set(CMAKE_VERBOSE_MAKEFILE on)
 
 include_directories(${MDW_SOURCE_DIR}/toolbox/include)
 include_directories(${MDW_SOURCE_DIR}/uhf/include)
@@ -37,5 +37,8 @@ target_link_libraries( mme uhf)
 target_link_libraries( mme libopencv_core.so )
 target_link_libraries( mme libopencv_features2d.so )
 target_link_libraries( mme libopencv_imgproc.so )
-target_link_libraries( mme libopencv_imgcodecs )
+target_link_libraries( mme libopencv_highgui.so )
+
+# Only available for opencv > 3.0
+#target_link_libraries( mme libopencv_imgcodecs.so )
 

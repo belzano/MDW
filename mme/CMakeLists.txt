@@ -37,5 +37,5 @@ target_link_libraries( mme uhf)
 target_link_libraries( mme libopencv_core.so )
 target_link_libraries( mme libopencv_features2d.so )
 target_link_libraries( mme libopencv_imgproc.so )
-
+target_link_libraries( mme libopencv_imgcodecs )
 

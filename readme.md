@@ -1,22 +1,25 @@
-##DISCLAIMER
+## DISCLAIMER
 
 Purposes of that repo:
 * This is my playground: 
- * code snippets, 
- * tests of technical features 
- * attempts of new patterns. 
+   * code snippets, 
+   * tests of technical features 
+   * attempts of new patterns. 
+   * archiving
 * Ability to quickly setup/start a new C++ application by providing common "blocks".
 
-None of the code in that repository was ever run on production. 
+None of the code in that repository was ever run on production.
 
-##CONTENTS
+## CONTENTS
 
 ### UHF (Standing for Ultimate Hosting Framework) is a modular application execution framework.
 UHF allows definition of reusable code blocks (aka "components"): Updaters and Updatable, Listeners (Queue, Event, networks) and consumers, etc.
 An application behaviour can then be quickly defined, by specifying its components and interactions as a json file.
 
 some .json bootstrap files are availables in etc/ 
-bin/uhf_bin -b ~/MDW/etc/bootstrap.json
+```
+build/debug/bin/uhf_bin -b ~/MDW/etc/bootstrap.json
+```
 
 Coming next:
 * Refactoring existing components as Entity / Rewrite boostrap decoding accordingly 
@@ -31,12 +34,13 @@ Coming next:
 It analyses whiteboard pictures during meetings and produces a clean, vectorized output (as svg) to embed in meeting minutes.
 
 
-### toolbox is a common utility library with generic helpers / OS wrappers etc.
+### toolbox is a common utility library 
+Containing generic helpers / OS wrappers etc. 
 
 
 ##INSTALLATION
 
-Some dependencies are required:
+The following dependencies are required:
 * cmake, g++
 * libs open-cv: libopencv-highgui-dev libopencv-features2d-dev
 * libs boost: libboost-dev libboost-filesystem-dev 

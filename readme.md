@@ -38,7 +38,7 @@ It analyses whiteboard pictures during meetings and produces a clean, vectorized
 Containing generic helpers / OS wrappers etc. 
 
 
-##INSTALLATION
+## INSTALLATION
 
 The following dependencies are required:
 * cmake, g++

@@ -78,6 +78,5 @@ namespace entity {
 }      
 }
 
-#define MDW_REGISTER_OBJECT_MAKER(type)\
-  MDW_ON_LIBRARY_LOAD(toolbox::entity::Factory::instance().registration<type>())
+#define MDW_REGISTER_ENTITY_MAKER(type) toolbox::entity::Factory::instance().registration<type>())
 

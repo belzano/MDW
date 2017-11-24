@@ -10,9 +10,14 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 public class RuntimeCompiler {
 
@@ -24,58 +29,58 @@ public class RuntimeCompiler {
     }
 
     public void buildDir(String rootDir) throws Exception {
-        File handle =  new File(rootDir);
-        if (! handle.isDirectory()) {
-            return;
-        }
 
-        for (File file: handle.listFiles()){
-            buildRecursive(Paths.get(""), file);
-        }
+        File handle =  new File(rootDir);
+        List<String> filesInDir = recursiveCollectFiles(handle);
+
+        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+        DiagnosticCollector diagnostics = getDiagnosticListener();
+
+        StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics,  Locale.ENGLISH, Charset.defaultCharset());
+        Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromStrings(filesInDir);
+
+        Iterable<String> options = Arrays.asList("-d", _tmpDirectory, "-sourcepath", rootDir);
+
+        JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, options,  null, compilationUnits);
+        task.call();
+
+        printDiagnostics(diagnostics);
+        fileManager.close();
     }
 
-    private void buildRecursive(Path relPath, File handle) throws Exception {
+    private List<String> recursiveCollectFiles(File handle) {
+        List<String> result = new ArrayList<>();
+
         if (handle.isFile()) {
-            buildSourceFile(new SourceFile(handle.getName(), relPath, new FileInputStream(handle.getPath())));
-            return;
+            result.add(handle.getPath());
+            return result;
         }
 
         if (handle.isDirectory()) {
-            Path subPath = Paths.get(relPath.toString(),  handle.getName());
             for (File file: handle.listFiles()) {
-                buildRecursive(subPath, file);
+                result.addAll(recursiveCollectFiles(file));
             }
-            return;
+            return result;
         }
-
-        System.err.println("Skipping file " + handle.getPath());
+        return result;
     }
 
-    private void buildSourceFile(SourceFile source) throws Exception {
+    private void printDiagnostics(DiagnosticCollector diagnostics) {
+        List<Diagnostic> diagnosticsList =  diagnostics.getDiagnostics();
+        for (Diagnostic diagnostic : diagnosticsList) {
+            System.out.println(diagnostic.getCode());
+            System.out.println(diagnostic.getKind());
+            System.out.println(diagnostic.getPosition());
+            System.out.println(diagnostic.getStartPosition());
+            System.out.println(diagnostic.getEndPosition());
+            System.out.println(diagnostic.getSource());
+            System.out.println(diagnostic.getMessage(null));
+        }
+    }
 
-        Path sourcePath = Paths.get(_tmpDirectory, source.getRelativePath().toString(), source.getFilename());
-        Files.createDirectories(sourcePath.getParent());
-
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        SimpleJavaFileObject jfo = new SimpleJavaFileObject(URI.create(""), JavaFileObject.Kind.SOURCE) {
-           @Override
-            public CharSequence getCharContent(boolean var1) throws IOException {
-               return source.readCode();
-            }
-        };
-        Iterable<? extends JavaFileObject> fileObjects = ImmutableList.of(jfo).asList();
-
-        StandardJavaFileManager mgr = compiler.getStandardFileManager(null, null, null);
-        mgr.setLocation(StandardLocation.CLASS_OUTPUT, ImmutableSet.of(Paths.get(_tmpDirectory).toFile()).asList());
-
-        JavaCompiler.CompilationTask task = compiler.getTask(null, mgr, null, null, null, fileObjects);
-        task.call();
-
-        URL classUrl = new File(_tmpDirectory).toURI().toURL();
-        URLClassLoader classLoader = URLClassLoader.newInstance(new URL[]{classUrl});
-        String className = source.getClassName();
-        Class<?> clazz = Class.forName(className, true, classLoader);
-        System.out.println("Built " + clazz);
+    DiagnosticCollector getDiagnosticListener() {
+        DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
+        return diagnostics;
     }
 
 }

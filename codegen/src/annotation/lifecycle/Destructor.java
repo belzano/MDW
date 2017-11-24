@@ -1,11 +1,21 @@
 package annotation.lifecycle;
 
-import annotation.EntityModelDecorator;
+import annotation.EntityTypeDecorator;
+import annotation.TypeDecorator;
+import model.EntityTypeModel;
+import model.EntityModelContext;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
-@EntityModelDecorator(decorator = annotation.lifecycle.processor.Destructor.class)
+@EntityTypeDecorator(decorators = Destructor.Decorator.class)
 public @interface Destructor {
+
+    class Decorator implements TypeDecorator {
+        @Override
+        public void updateModel(EntityTypeModel model, EntityModelContext context) {
+
+        }
+    }
 }

@@ -1,8 +1,10 @@
 package package1;
 
 import annotation.accessors.*;
+import annotation.*;
 
-class Bobby54 {
+@Template
+public class Bobby54 {
 
     @GetterSetter
     int prout;

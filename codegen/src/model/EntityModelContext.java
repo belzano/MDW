@@ -1,16 +1,16 @@
 package model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class EntityModelContext {
 
-    private Set<EntityModel> _entityModels ;
+    private Set<EntityTypeModel> _entityModels = new HashSet<>();
 
-    public EntityModelContext(Set<EntityModel> _entityModels) {
-        this._entityModels = _entityModels;
+    public EntityModelContext() {
     }
 
-    public Set<EntityModel> getEntityModels() {
+    public Set<EntityTypeModel> getEntityModels() {
         return _entityModels;
     }
 }

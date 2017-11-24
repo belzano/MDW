@@ -1,6 +1,6 @@
+import com.google.common.collect.ImmutableSet;
 import compiler.RuntimeCompiler;
-import generation.CodeGenDriver;
-import generation.TargetOutput;
+import generation.CodeGenManager;
 import model.EntityModelContext;
 import model.EntityModelFactory;
 import reflection.Collector;
@@ -48,14 +48,14 @@ public class Main {
         System.out.println("Code inspection: Done.");
 
 
-        System.out.println("Building entity models...");
+        System.out.println("Building driver models...");
         EntityModelFactory genProcessor = new EntityModelFactory();
         EntityModelContext context = genProcessor.generate(codeGenClasses);
-        System.out.println("Building entity models: Done.");
+        System.out.println("Building driver models: Done.");
 
         System.out.println("Generating code in target lang...");
-        CodeGenDriver codeGenerator = new CodeGenDriver(args.getOutputDir());
-        codeGenerator.generate(args.getTargetOutput(), context);
+        CodeGenManager codeGenerator = new CodeGenManager(args.getOutputDir());
+        codeGenerator.generate(args.getTargetOutputs(), context);
         System.out.println("Generating code in target lang: Done.");
     }
 

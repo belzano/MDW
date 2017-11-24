@@ -1,5 +1,8 @@
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import generation.TargetOutput;
+
+import java.util.Set;
 
 public class Arguments {
 
@@ -8,7 +11,7 @@ public class Arguments {
     private String _buildDir = "/home/guillaume.evrard/dev/MDW/codegen/tmp/build";
     private String _outputDir = "/home/guillaume.evrard/dev/MDW/codegen/tmp/out";
     private String _entityModelsRootDir ="/home/guillaume.evrard/dev/MDW/codegen/testmodel";
-    private TargetOutput _targetOutput = TargetOutput.CPP;
+    private Set<TargetOutput> _targetOutput = ImmutableSet.copyOf(TargetOutput.values());
 
     public String getTmpBuildDir() {
         return _buildDir;
@@ -22,7 +25,7 @@ public class Arguments {
         return _entityModelsRootDir;
     }
 
-    public TargetOutput getTargetOutput() {
+    public Set<TargetOutput> getTargetOutputs() {
         return _targetOutput;
     }
 

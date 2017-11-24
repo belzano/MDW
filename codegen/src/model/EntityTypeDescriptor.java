@@ -19,7 +19,8 @@ public abstract class EntityTypeDescriptor {
                     return ImmutableList.of();
                 }
                 String packageName = clazz.getPackage().getName();
-                return ImmutableList.copyOf(packageName.split("."));
+
+                return ImmutableList.copyOf(packageName.split("\\."));
             }
             @Override
             public String getClassName() {

@@ -1,19 +1,14 @@
 package generation.writer.helper;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import model.EntityTypeDescriptor;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class WriterHelperCpp {
-
-    final public static String QUOTE = "\"";
-    final public static String EOL = "\n";
-    final public static String TAB = "\t";
+public class WriterHelperCpp extends WriterHelper {
 
     public static String getNamespaceStart(List<String> namespaces) {
         StringBuilder res = new StringBuilder();
@@ -24,11 +19,7 @@ public class WriterHelperCpp {
     }
 
     public static String getNamespaceEnd(List<String> namespaces) {
-        StringBuilder res = new StringBuilder();
-        for (String namespace : namespaces) {
-            res.append("}" + EOL);
-        }
-        return res.toString();
+        return Strings.repeat("}" + EOL, namespaces.size());
     }
 
     public static String getNamespacePrefix(List<String> namespaces) {
@@ -52,10 +43,9 @@ public class WriterHelperCpp {
     }
 
     public static String toIncludeResourceFileName(EntityTypeDescriptor desc) {
-        String descName = desc.getClassName();
-        String exception = includeExceptionsMap().get(descName);
-        if (exception!= null) {
-            return exception;
+        String specific = TypeMappingCpp.INCLUDES_MAP.get(desc);
+        if (specific != null) {
+            return specific;
         }
         String resourceWithPath = String.join("/",
                 ImmutableList.<String>builder()
@@ -63,18 +53,6 @@ public class WriterHelperCpp {
                         .add(desc.getClassName())
                         .build());
         return QUOTE + resourceWithPath + ".hpp" + QUOTE;
-    }
-
-    static Map<String, String> includeExceptionsMap() {
-        return ImmutableMap.<String, String>builder()
-                .put("String", "<string>")
-                .put("int", "<cstdint>")
-                .put("long", "<cstdint>")
-                .put("Map", "<map>")
-                .put("List", "<list>")
-                .put("Set", "<set>")
-                .put("Array", "<vector>")
-                .build();
     }
 
 }

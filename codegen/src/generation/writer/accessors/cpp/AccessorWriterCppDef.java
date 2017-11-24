@@ -2,8 +2,10 @@ package generation.writer.accessors.cpp;
 
 
 import generation.writer.accessors.AccessorWriterHelper;
+import generation.writer.helper.TypeMappingCpp;
 import generation.writer.helper.WriterHelperCpp;
 import model.EntityDataField;
+import model.EntityTypeDescriptor;
 import model.EntityTypeModel;
 import generation.writer.EntityWriter;
 
@@ -18,11 +20,12 @@ public class AccessorWriterCppDef extends EntityWriter {
 
         for(EntityDataField field : fields) {
 
+            EntityTypeDescriptor typeDesc = TypeMappingCpp.convertType(field.getDescriptor());
+
             if (AccessorWriterHelper.hasAnnotationGetter(field)) {
-                buffer.append(WriterHelperCpp.getNamespacePrefix(field.getDescriptor().getNamespace()));
-                buffer.append(field.getDescriptor().getClassName());
-                buffer.append(" ");
-                buffer.append(WriterHelperCpp.getNamespacePrefix(entityModel.getDescriptor().getNamespace()));
+                buffer.append("const ");
+                buffer.append(TypeMappingCpp.qualifiedTypeOf(typeDesc));
+                buffer.append("& ");
                 buffer.append(field.getGetterName());
                 buffer.append("() const {" + WriterHelperCpp.EOL);
                 buffer.append(WriterHelperCpp.TAB + "return ");
@@ -35,8 +38,7 @@ public class AccessorWriterCppDef extends EntityWriter {
                 buffer.append(WriterHelperCpp.getNamespacePrefix(entityModel.getDescriptor().getNamespace()));
                 buffer.append(field.getSetterName());
                 buffer.append("(const ");
-                buffer.append(WriterHelperCpp.getNamespacePrefix(field.getDescriptor().getNamespace()));
-                buffer.append(field.getDescriptor().getClassName());
+                buffer.append(TypeMappingCpp.qualifiedTypeOf(typeDesc));
                 buffer.append("& val) {" + WriterHelperCpp.EOL);
                 buffer.append(WriterHelperCpp.TAB);
                 buffer.append(field.getMemberName());

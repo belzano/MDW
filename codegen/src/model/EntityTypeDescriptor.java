@@ -10,6 +10,18 @@ public abstract class EntityTypeDescriptor {
 
     public abstract String getClassName();
 
+    @Override
+    public int hashCode() {
+        return getNamespace().hashCode() + 31*getClassName().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        EntityTypeDescriptor other = (EntityTypeDescriptor) o;
+        return getNamespace().equals(other.getNamespace())
+                && getClassName().equals(other.getClassName());
+    }
+
     public static EntityTypeDescriptor of(Class<?> clazz) {
         return new EntityTypeDescriptor() {
             @Override
@@ -29,11 +41,11 @@ public abstract class EntityTypeDescriptor {
         };
     }
 
-    public static EntityTypeDescriptor of(List<String> namespace, String name) {
+    public static EntityTypeDescriptor of(String[] namespace, String name) {
         return new EntityTypeDescriptor() {
             @Override
             public List<String> getNamespace() {
-                return namespace;
+                return ImmutableList.copyOf(namespace);
             }
             @Override
             public String getClassName() {

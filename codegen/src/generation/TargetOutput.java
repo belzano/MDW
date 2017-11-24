@@ -3,5 +3,7 @@ package generation;
 public enum TargetOutput {
     CPP,
     HPP,
-    JAVA,
+    JAVA;
+
+    public static TargetOutput[] ALL = TargetOutput.values();
 }

@@ -29,6 +29,18 @@ public class EntityDataField {
         _annotations.addAll(a);
     }
 
+    public boolean hasAnnotation(Class<? extends Annotation> clazz) {
+        return getAnnotation(clazz) != null;
+    }
+
+    public Annotation getAnnotation(Class<? extends Annotation> clazz) {
+        for (Annotation an : _annotations) {
+            if (an.getClass() == clazz)
+                return an;
+        }
+        return null;
+    }
+
     public EntityTypeDescriptor getDescriptor() {
         return _fieldType;
     }

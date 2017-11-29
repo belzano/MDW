@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@EntityFieldDecorator(decorators = {Getter.Decorator.class, Setter.Decorator.class})
+@EntityFieldDecorator(extend = {Getter.class, Setter.class})
 public @interface GetterSetter {
-
 }

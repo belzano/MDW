@@ -2,11 +2,22 @@ package generation.driver.cpp;
 
 import generation.TargetOutput;
 import generation.driver.ContextGenDriver;
+import generation.driver.FilesystemHelper;
 import generation.writer.helper.WriterHelperCpp;
 import model.EntityTypeDescriptor;
 import model.EntityTypeModel;
 import model.EntityModelContext;
 import generation.writer.EntityWriter;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileAttribute;
+import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 public class ContextGenDriverCppDecl implements ContextGenDriver {
 
@@ -14,6 +25,7 @@ public class ContextGenDriverCppDecl implements ContextGenDriver {
 
     public ContextGenDriverCppDecl(String outDir) {
         _outDir = outDir;
+        FilesystemHelper.mkdir(new File(_outDir));
     }
 
     @Override
@@ -25,13 +37,23 @@ public class ContextGenDriverCppDecl implements ContextGenDriver {
     }
 
     void writeEntityCode(EntityTypeModel entityModel) {
-        // Header
         StringBuffer headerBuffer = new StringBuffer();
         buildDeclaration(entityModel, headerBuffer);
 
-        System.out.println("Generated declaration: \n" + headerBuffer.toString());
+        EntityTypeDescriptor desc = entityModel.getDescriptor();
+        FilesystemHelper.mkFile(getEntityTypeAbsPath(desc), getEntityTypeFileName(desc),headerBuffer.toString());
+    }
 
-        // TODO dump to FS
+    String getEntityTypeAbsPath(EntityTypeDescriptor desc) {
+        return Paths.get(_outDir, getEntityTypeRelPath(desc)).toString();
+    }
+
+    String getEntityTypeRelPath(EntityTypeDescriptor desc) {
+        return desc.getNamespace().stream().collect(Collectors.joining("/"));
+    }
+
+    String getEntityTypeFileName(EntityTypeDescriptor desc) {
+        return desc.getClassName() + ".hpp";
     }
 
     void writeContextCode(EntityModelContext entityModelContext) {

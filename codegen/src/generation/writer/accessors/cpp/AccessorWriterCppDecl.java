@@ -1,8 +1,9 @@
 package generation.writer.accessors.cpp;
 
 
+import annotation.accessors.Getter;
+import annotation.accessors.Setter;
 import generation.writer.EntityWriter;
-import generation.writer.accessors.AccessorWriterHelper;
 import generation.writer.helper.TypeMappingCpp;
 import generation.writer.helper.WriterHelperCpp;
 import model.EntityDataField;
@@ -12,6 +13,10 @@ import model.EntityTypeModel;
 import java.util.Set;
 
 public class AccessorWriterCppDecl extends EntityWriter {
+
+    public AccessorWriterCppDecl() {
+        super(Type.CONTENT_ACCESSORS);
+    }
 
     @Override
     public String writeEntityContent(EntityTypeModel entityModel) {
@@ -23,7 +28,7 @@ public class AccessorWriterCppDecl extends EntityWriter {
 
             EntityTypeDescriptor typeDesc = TypeMappingCpp.convertType(field.getDescriptor());
 
-            if (AccessorWriterHelper.hasAnnotationGetter(field)) {
+            if (field.hasAnnotation(Getter.class)) {
                 buffer.append(WriterHelperCpp.TAB);
                 buffer.append("const ");
                 buffer.append(TypeMappingCpp.qualifiedTypeOf(typeDesc));
@@ -32,7 +37,7 @@ public class AccessorWriterCppDecl extends EntityWriter {
                 buffer.append("() const;" + WriterHelperCpp.EOL);
             }
 
-            if (AccessorWriterHelper.hasAnnotationSetter(field)) {
+            if (field.hasAnnotation(Setter.class)) {
                 buffer.append(WriterHelperCpp.TAB);
                 buffer.append("void ");
                 buffer.append(field.getSetterName());

@@ -1,6 +1,7 @@
 package generation;
 
 import generation.driver.ContextGenDriver;
+import generation.driver.cpp.ContextGenDriverCmake;
 import generation.driver.cpp.ContextGenDriverCppDecl;
 import generation.driver.cpp.ContextGenDriverCppDef;
 import generation.driver.java.ContextGenDriverJava;
@@ -35,6 +36,9 @@ public class CodeGenManager {
         }
         if (target.contains(TargetOutput.HPP)) {
             generators.add(new ContextGenDriverCppDecl(_outDirectory + "/cpp/include"));
+        }
+        if (target.contains(TargetOutput.CMAKE)) {
+            generators.add(new ContextGenDriverCmake(_outDirectory + "/cpp"));
         }
         if (target.contains(TargetOutput.JAVA)) {
             generators.add(new ContextGenDriverJava(_outDirectory + "/java"));

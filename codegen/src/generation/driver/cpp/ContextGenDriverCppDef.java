@@ -3,10 +3,15 @@ package generation.driver.cpp;
 import com.google.common.collect.ImmutableSet;
 import generation.TargetOutput;
 import generation.driver.ContextGenDriver;
+import generation.driver.FilesystemHelper;
+import model.EntityTypeDescriptor;
 import model.EntityTypeModel;
 import model.EntityModelContext;
 import generation.writer.EntityWriter;
 import generation.writer.helper.WriterHelperCpp;
+
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 public class ContextGenDriverCppDef implements ContextGenDriver {
 
@@ -24,15 +29,24 @@ public class ContextGenDriverCppDef implements ContextGenDriver {
         writeContextCode(context);
     }
 
-
     public void writeEntityCode(EntityTypeModel entityModel) {
-        // Source
         StringBuffer sourceBuffer = new StringBuffer();
         buildDefinition(entityModel, sourceBuffer);
 
-        System.out.println("Generated definition: \n" + sourceBuffer.toString());
+        EntityTypeDescriptor desc = entityModel.getDescriptor();
+        FilesystemHelper.mkFile(getEntityTypeAbsPath(desc), getEntityTypeFileName(desc), sourceBuffer.toString());
+    }
 
-        // TODO dump to FS
+    String getEntityTypeAbsPath(EntityTypeDescriptor desc) {
+        return Paths.get(_outDir, getEntityTypeRelPath(desc)).toString();
+    }
+
+    String getEntityTypeRelPath(EntityTypeDescriptor desc) {
+        return desc.getNamespace().stream().collect(Collectors.joining("/"));
+    }
+
+    String getEntityTypeFileName(EntityTypeDescriptor desc) {
+        return desc.getClassName() + ".cpp";
     }
 
     public void writeContextCode(EntityModelContext entityModelContext) {
@@ -40,7 +54,10 @@ public class ContextGenDriverCppDef implements ContextGenDriver {
         buildContextFiles(entityModelContext, headerBuffer);
 
         // TODO dump to FS
+
+
     }
+
 
     void buildDefinition(EntityTypeModel model, StringBuffer buffer) {
         // My own include
@@ -63,4 +80,5 @@ public class ContextGenDriverCppDef implements ContextGenDriver {
     void buildContextFiles(EntityModelContext entityModelContext, StringBuffer buffer) {
 
     }
+
 }

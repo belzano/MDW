@@ -10,35 +10,27 @@ public class EntityDataField {
    private EntityTypeDescriptor _fieldType;
    private String _fieldName;
 
-   public Set<Annotation> _annotations = new HashSet<>();
+   public Set<Class<? extends Annotation>> _annotations = new HashSet<>();
 
    public EntityDataField(EntityTypeDescriptor fieldType, String fieldName) {
       _fieldType = fieldType;
       _fieldName = fieldName;
    }
 
-    public Set<Annotation> getAnnotations() {
+    public Set<Class<? extends Annotation>> getAnnotations() {
         return _annotations;
     }
 
-    public void addAnnotation(Annotation a) {
+    public void addAnnotation(Class<? extends Annotation> a) {
         _annotations.add(a);
     }
 
-    public void addAnnotations(Collection<Annotation> a) {
+    public void addAnnotations(Collection<Class<? extends Annotation>> a) {
         _annotations.addAll(a);
     }
 
     public boolean hasAnnotation(Class<? extends Annotation> clazz) {
-        return getAnnotation(clazz) != null;
-    }
-
-    public Annotation getAnnotation(Class<? extends Annotation> clazz) {
-        for (Annotation an : _annotations) {
-            if (an.getClass() == clazz)
-                return an;
-        }
-        return null;
+        return _annotations.contains(clazz);
     }
 
     public EntityTypeDescriptor getDescriptor() {

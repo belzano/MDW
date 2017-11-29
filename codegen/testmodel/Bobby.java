@@ -11,9 +11,9 @@ public class Bobby {
 
     @Getter
     Bobby54 otherBobby;
-    
-    @Const
-    @Pointer
+
+    //@Const
+    //@Pointer
     @GetterSetter
     Bobby54 BobbyConstPtr;
 }

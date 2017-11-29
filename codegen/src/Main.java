@@ -50,7 +50,7 @@ public class Main {
 
         System.out.println("Building driver models...");
         EntityModelFactory genProcessor = new EntityModelFactory();
-        EntityModelContext context = genProcessor.generate(codeGenClasses);
+        EntityModelContext context = genProcessor.buildContext(args.getProjectName(), codeGenClasses);
         System.out.println("Building driver models: Done.");
 
         System.out.println("Generating code in target lang...");

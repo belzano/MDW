@@ -12,6 +12,10 @@ import java.util.Set;
 
 public class MembersWriterCppDecl extends EntityWriter {
 
+    public MembersWriterCppDecl() {
+        super(Type.CONTENT_MEMBERS);
+    }
+
     @Override
     public String writeEntityContent(EntityTypeModel entityModel) {
         Set<EntityDataField> fields = entityModel.getDataFields();

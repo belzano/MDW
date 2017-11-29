@@ -25,6 +25,11 @@ public class Arguments {
         return _entityModelsRootDir;
     }
 
+    public String getProjectName() {
+        String[] split = _entityModelsRootDir.split("\\/");
+        return split[split.length-1];
+    }
+
     public Set<TargetOutput> getTargetOutputs() {
         return _targetOutput;
     }

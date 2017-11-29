@@ -1,16 +1,15 @@
 package annotation;
 
 import com.google.common.collect.ImmutableList;
-import model.EntityDataField;
-import model.EntityModelContext;
-import model.EntityTypeDescriptor;
-import model.EntityTypeModel;
+import model.*;
 
 import java.lang.annotation.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -22,40 +21,21 @@ public @interface Template {
         public void updateModel(EntityTypeModel model, EntityModelContext context) {
 
             for (Field field: model.getEntityClass().getDeclaredFields()) {
-                for (Annotation annotation : field.getAnnotations()) {
-                    EntityFieldDecorator codegenAnnotation = asFieldDecorator(annotation);
-                    if (codegenAnnotation == null) {
-                        continue;
-                    }
-                    for(FieldDecorator processor : getProcessors(codegenAnnotation)) {
-                        processor.updateModel(model, context);
-                    }
+
+                if (field.getDeclaringClass() != model.getEntityClass()) {
+                    continue;
                 }
 
-                if (field.getDeclaringClass() == model.getEntityClass()) {
-                    EntityDataField df = new EntityDataField(EntityTypeDescriptor.of(field.getType()), field.getName());
-                    df.addAnnotations(ImmutableList.copyOf(field.getAnnotations()));
-                    model.addDataField(df);
-                }
-            }
-        }
+                Set<Class<? extends Annotation>> codegenAnnotations = AnnotationCollector.collectFieldTypeAnnotation(field);
 
-        private EntityFieldDecorator asFieldDecorator(Annotation annotation) {
-            EntityFieldDecorator codegenAnnotation = annotation.annotationType().getAnnotation(EntityFieldDecorator.class);
-            return codegenAnnotation;
-        }
-
-        private List<FieldDecorator> getProcessors(EntityFieldDecorator codegenAnnotation) {
-            try {
-                Class<? extends FieldDecorator>[] clazzes = codegenAnnotation.decorators();
-                List<FieldDecorator> result = new ArrayList<>();
-                for (Class<? extends FieldDecorator> clazz:clazzes) {
-                    Constructor<? extends FieldDecorator> ctor = clazz.getConstructor();
-                    result.add(ctor.newInstance());
+                for(FieldDecorator processor : AnnotationCollector.getFieldTypeProcessors(codegenAnnotations)) {
+                    processor.updateModel(model, context);
                 }
-                return result;
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
+
+                EntityDataField df = new EntityDataField(EntityTypeDescriptor.of(field.getType()), field.getName());
+                df.addAnnotations(codegenAnnotations);
+                model.addDataField(df);
+
             }
         }
 

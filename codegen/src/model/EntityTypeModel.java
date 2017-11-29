@@ -3,26 +3,34 @@ package model;
 import generation.TargetOutput;
 import generation.writer.EntityWriter;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.lang.annotation.Annotation;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class EntityTypeModel {
 
     private Class<?> _entityClass;
+    private Set<Class<? extends Annotation>> _entityAnnotations;
     private Map<TargetOutput, Set<EntityWriter>> _writers = new HashMap<>();
     private Set<EntityTypeDescriptor> _additionalDependencies = new HashSet<>();
 
     private Set<EntityDataField> _dataFields = new HashSet<>();
 
-    public EntityTypeModel(Class<?> entityClass) {
+    public EntityTypeModel(Class<?> entityClass, Set<Class<? extends Annotation>> entityAnnotations) {
         _entityClass = entityClass;
+        _entityAnnotations = entityAnnotations;
     }
 
     public Class<?> getEntityClass() {
         return _entityClass;
+    }
+
+    public Set<Class<? extends Annotation>> getAnnotations() {
+        return _entityAnnotations;
+    }
+
+    public boolean hasAnnotation(Class<? extends Annotation> annotation) {
+        return _entityAnnotations.contains(annotation);
     }
 
     public EntityTypeDescriptor getDescriptor() {
@@ -63,7 +71,12 @@ public class EntityTypeModel {
 
     public void addWriter(TargetOutput target, EntityWriter e) {
         if (_writers.get(target) == null) {
-            _writers.put(target, new HashSet<>());
+            _writers.put(target, new TreeSet<>(new Comparator<EntityWriter>() {
+                @Override
+                public int compare(EntityWriter t0, EntityWriter t1) {
+                    return t0.getType().compareTo(t1.getType());
+                }
+            }));
         }
         _writers.get(target).add(e);
     }

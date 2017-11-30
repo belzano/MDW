@@ -15,13 +15,13 @@ import java.util.Set;
 public class AccessorWriterCppDecl extends EntityWriter {
 
     public AccessorWriterCppDecl() {
-        super(Type.CONTENT_ACCESSORS);
+        super(Type.ACCESSORS);
     }
 
     @Override
     public String writeEntityContent(EntityTypeModel entityModel) {
         Set<EntityDataField> fields = entityModel.getDataFields();
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("public:" + WriterHelperCpp.EOL);
 
         for(EntityDataField field : fields) {

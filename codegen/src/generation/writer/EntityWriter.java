@@ -6,16 +6,34 @@ public abstract class EntityWriter {
 
     public abstract String writeEntityContent(EntityTypeModel entityModel);
 
-    public enum Type {
+
+    public enum TypeGroup {
         HEADER,
-        CONTENT_LIFECYCLE,
-        CONTENT_FEATURES,
-        CONTENT_ACCESSORS,
-        CONTENT_MEMBERS,
-        CONTENT_INTERNAL,
-        HELPERS,
-        OPERATORS
+        CONTENT,
+        AFTER,
     }
+
+    public enum Type {
+        HEADER(TypeGroup.HEADER),
+        LIFECYCLE(TypeGroup.CONTENT),
+        FEATURES(TypeGroup.CONTENT),
+        ACCESSORS(TypeGroup.CONTENT),
+        MEMBERS(TypeGroup.CONTENT),
+        INTERNAL(TypeGroup.CONTENT),
+        HELPERS(TypeGroup.AFTER),
+        OPERATORS(TypeGroup.AFTER);
+
+        TypeGroup _group;
+
+        Type(TypeGroup group) {
+            _group = group;
+        }
+
+        public TypeGroup getGroup() {
+            return _group;
+        }
+    }
+
 
     protected Type _type;
 

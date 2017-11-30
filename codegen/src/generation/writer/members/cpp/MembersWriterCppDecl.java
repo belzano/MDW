@@ -13,13 +13,13 @@ import java.util.Set;
 public class MembersWriterCppDecl extends EntityWriter {
 
     public MembersWriterCppDecl() {
-        super(Type.CONTENT_MEMBERS);
+        super(Type.MEMBERS);
     }
 
     @Override
     public String writeEntityContent(EntityTypeModel entityModel) {
         Set<EntityDataField> fields = entityModel.getDataFields();
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
 
         buffer.append("private:" + WriterHelperCpp.EOL);
         for(EntityDataField field : fields) {

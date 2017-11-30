@@ -24,8 +24,25 @@ public class CodeGenManager {
 
     public void generate(Set<TargetOutput> targets, EntityModelContext context) {
         Set<ContextGenDriver> generators = getGenerators(targets);
+
+        Set<String> targetFiles = new HashSet<>();
+        Set<String> existingFiles = new HashSet<>();
+        for (ContextGenDriver generator: generators) {
+            String genOutDirectory = generator.getOutDir();
+            //TODO
+            //existingFiles.addAll(collectFiles(genOutDirectory));
+        }
+
         for (ContextGenDriver generator: generators) {
             generator.generate(context);
+        }
+
+        // Remove all files not generated
+        for (String file: existingFiles) {
+            if (targetFiles.contains(file)){
+                continue;
+            }
+            //TODO delete file
         }
     }
 

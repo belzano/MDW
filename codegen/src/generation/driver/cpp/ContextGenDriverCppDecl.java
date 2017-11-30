@@ -1,5 +1,6 @@
 package generation.driver.cpp;
 
+import com.google.common.collect.ImmutableSet;
 import generation.TargetOutput;
 import generation.driver.ContextGenDriver;
 import generation.driver.FilesystemHelper;
@@ -16,54 +17,68 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileAttribute;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
-public class ContextGenDriverCppDecl implements ContextGenDriver {
-
-    private String _outDir;
+public class ContextGenDriverCppDecl extends ContextGenDriver {
 
     public ContextGenDriverCppDecl(String outDir) {
-        _outDir = outDir;
-        FilesystemHelper.mkdir(new File(_outDir));
+        super(outDir);
     }
 
     @Override
-    public void generate(EntityModelContext context){
+    public Set<String> generate(EntityModelContext context){
+        Set<String> files = new HashSet<>();
         for(EntityTypeModel model: context.getEntityModels()) {
-            writeEntityCode(model);
+            files.add(writeEntityCode(model));
         }
-        writeContextCode(context);
+        files.addAll(writeContextCode(context));
+        return files;
     }
 
-    void writeEntityCode(EntityTypeModel entityModel) {
+    private String writeEntityCode(EntityTypeModel entityModel) {
         StringBuffer headerBuffer = new StringBuffer();
         buildDeclaration(entityModel, headerBuffer);
 
         EntityTypeDescriptor desc = entityModel.getDescriptor();
-        FilesystemHelper.mkFile(getEntityTypeAbsPath(desc), getEntityTypeFileName(desc),headerBuffer.toString());
+        FilesystemHelper.setFile(getEntityTypeAbsPath(desc), getEntityTypeFileName(desc),headerBuffer.toString());
+        return Paths.get(getEntityTypeAbsPath(desc), getEntityTypeFileName(desc)).toString();
     }
 
-    String getEntityTypeAbsPath(EntityTypeDescriptor desc) {
-        return Paths.get(_outDir, getEntityTypeRelPath(desc)).toString();
+    private String getEntityTypeAbsPath(EntityTypeDescriptor desc) {
+        return Paths.get(getOutDir(), getEntityTypeRelPath(desc)).toString();
     }
 
-    String getEntityTypeRelPath(EntityTypeDescriptor desc) {
+    private String getEntityTypeRelPath(EntityTypeDescriptor desc) {
         return desc.getNamespace().stream().collect(Collectors.joining("/"));
     }
 
-    String getEntityTypeFileName(EntityTypeDescriptor desc) {
+    private String getEntityTypeFileName(EntityTypeDescriptor desc) {
         return desc.getClassName() + ".hpp";
     }
 
-    void writeContextCode(EntityModelContext entityModelContext) {
+    private Set<String> writeContextCode(EntityModelContext entityModelContext) {
         StringBuffer headerBuffer = new StringBuffer();
         buildContextFiles(entityModelContext, headerBuffer);
+
+        // TODO FS dump
+
+        return ImmutableSet.<String>of();
     }
 
     private void buildDeclaration(EntityTypeModel model, StringBuffer buffer) {
+        Map<EntityWriter.TypeGroup, Set<EntityWriter>> writers = model.getWritersByTypeGroup(TargetOutput.HPP);
+
+        for (EntityWriter writer: writers.get(EntityWriter.TypeGroup.HEADER)) {
+            buffer.append(writer.writeEntityContent(model));
+        }
+
         // Pragma
         buffer.append("#pragma once" + WriterHelperCpp.EOL);
+
         // Includes
         buffer.append(WriterHelperCpp.getIncludes(model.getDependencies()));
 
@@ -74,7 +89,7 @@ public class ContextGenDriverCppDecl implements ContextGenDriver {
         buffer.append(getClassDeclarationStart(model.getDescriptor(), model.getParentDescriptor()));
 
         // contents: Lifecyle, Features, Inlined Accessors, members
-        for (EntityWriter writer: model.getWriters(TargetOutput.HPP)) {
+        for (EntityWriter writer: writers.get(EntityWriter.TypeGroup.CONTENT)) {
             buffer.append(writer.writeEntityContent(model));
         }
 
@@ -85,6 +100,9 @@ public class ContextGenDriverCppDecl implements ContextGenDriver {
         buffer.append(WriterHelperCpp.getNamespaceEnd(model.getDescriptor().getNamespace()));
 
         // global namespace operators
+        for (EntityWriter writer: writers.get(EntityWriter.TypeGroup.AFTER)) {
+            buffer.append(writer.writeEntityContent(model));
+        }
     }
 
 
@@ -102,7 +120,7 @@ public class ContextGenDriverCppDecl implements ContextGenDriver {
     }
 
 
-    void buildContextFiles(EntityModelContext entityModelContext, StringBuffer buffer) {
+    private void buildContextFiles(EntityModelContext entityModelContext, StringBuffer buffer) {
 
     }
 

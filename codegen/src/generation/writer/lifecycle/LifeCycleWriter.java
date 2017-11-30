@@ -6,7 +6,7 @@ import model.EntityTypeModel;
 public class LifeCycleWriter extends EntityWriter {
 
     public LifeCycleWriter() {
-        super(Type.CONTENT_LIFECYCLE);
+        super(Type.LIFECYCLE);
     }
 
     @Override

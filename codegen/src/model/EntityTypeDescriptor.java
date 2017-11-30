@@ -1,10 +1,11 @@
 package model;
 
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 
 import java.util.List;
 
-public abstract class EntityTypeDescriptor {
+public abstract class EntityTypeDescriptor implements Comparable<EntityTypeDescriptor> {
 
     public abstract List<String> getNamespace();
 
@@ -20,6 +21,14 @@ public abstract class EntityTypeDescriptor {
         EntityTypeDescriptor other = (EntityTypeDescriptor) o;
         return getNamespace().equals(other.getNamespace())
                 && getClassName().equals(other.getClassName());
+    }
+
+    @Override
+    public int compareTo(EntityTypeDescriptor o) {
+        return ComparisonChain.start()
+                //.compare(getNamespace(), o.getNamespace())
+                .compare(getClassName(), o.getClassName())
+                .result();
     }
 
     public static EntityTypeDescriptor of(Class<?> clazz) {

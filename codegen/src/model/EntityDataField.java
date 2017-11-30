@@ -1,11 +1,13 @@
 package model;
 
+import com.google.common.collect.ComparisonChain;
+
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EntityDataField {
+public class EntityDataField implements Comparable<EntityDataField> {
 
    private EntityTypeDescriptor _fieldType;
    private String _fieldName;
@@ -57,5 +59,11 @@ public class EntityDataField {
         return "set" + getNameCamelCase();
     }
 
-
+    @Override
+    public int compareTo(EntityDataField entityDataField) {
+        return ComparisonChain.start()
+                .compare(getDescriptor(), entityDataField.getDescriptor())
+                .compare(getName(), entityDataField.getName())
+                .result();
+    }
 }

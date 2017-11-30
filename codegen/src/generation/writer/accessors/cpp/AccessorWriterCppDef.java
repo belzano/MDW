@@ -15,7 +15,7 @@ import java.util.Set;
 public class AccessorWriterCppDef extends EntityWriter {
 
     public AccessorWriterCppDef() {
-        super(Type.CONTENT_ACCESSORS);
+        super(Type.ACCESSORS);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class AccessorWriterCppDef extends EntityWriter {
         EntityTypeDescriptor entityTypeDesc = entityModel.getDescriptor();
         for(EntityDataField field : fields) {
 
-            EntityTypeDescriptor typeDesc = TypeMappingCpp.convertType(field.getDescriptor());
+            EntityTypeDescriptor typeDesc = field.getDescriptor();
 
             if (field.hasAnnotation(Getter.class)) {
                 buffer.append("const ");

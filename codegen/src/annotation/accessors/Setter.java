@@ -5,7 +5,9 @@ import annotation.EntityTypeDecorator;
 import annotation.FieldDecorator;
 import annotation.TypeDecorator;
 import generation.TargetOutput;
+import generation.writer.accessors.java.AccessorWriterJava;
 import generation.writer.members.cpp.MembersWriterCppDecl;
+import generation.writer.members.java.MembersWriterJava;
 import model.EntityTypeModel;
 import model.EntityModelContext;
 import generation.writer.accessors.cpp.AccessorWriterCppDecl;
@@ -26,8 +28,10 @@ public @interface Setter {
         public void updateModel(EntityTypeModel model, EntityModelContext context) {
             model.addWriter(TargetOutput.HPP, new AccessorWriterCppDecl());
             model.addWriter(TargetOutput.CPP, new AccessorWriterCppDef());
+            model.addWriter(TargetOutput.JAVA, new AccessorWriterJava());
 
             model.addWriter(TargetOutput.HPP, new MembersWriterCppDecl());
+            model.addWriter(TargetOutput.JAVA, new MembersWriterJava());
         }
     }
 }

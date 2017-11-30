@@ -4,6 +4,7 @@ import annotation.accessors.*;
 import annotation.*;
 
 @Template
+@Header
 public class Bobby54 {
 
     @GetterSetter

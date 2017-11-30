@@ -1,8 +1,11 @@
 import annotation.accessors.*;
 import annotation.json.*;
+import annotation.qualifiers.*;
+import annotation.*;
 import package1.*;
 
 @JsonEntity
+@Header(comments="Bobby is a JsonEntity reflecting XXX")
 public class Bobby {
     int prout;
 
@@ -12,8 +15,8 @@ public class Bobby {
     @Getter
     Bobby54 otherBobby;
 
-    //@Const
-    //@Pointer
+    @Const
+    @Pointer
     @GetterSetter
     Bobby54 BobbyConstPtr;
 }

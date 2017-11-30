@@ -1,6 +1,7 @@
 package annotation.json;
 
 import annotation.EntityTypeDecorator;
+import annotation.Header;
 import annotation.Template;
 import annotation.lifecycle.Constructor;
 import annotation.lifecycle.Destructor;
@@ -15,6 +16,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constructor
 @EntityTypeDecorator(extend = {Template.class,
+                               Header.class,
                                Constructor.class,
                                Destructor.class,
                                Serializable.class,

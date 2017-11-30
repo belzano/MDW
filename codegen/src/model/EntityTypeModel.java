@@ -14,11 +14,12 @@ public class EntityTypeModel {
     private Map<TargetOutput, Set<EntityWriter>> _writers = new HashMap<>();
     private Set<EntityTypeDescriptor> _additionalDependencies = new HashSet<>();
 
-    private Set<EntityDataField> _dataFields = new HashSet<>();
+    private Set<EntityDataField> _dataFields = new TreeSet<>();
 
     public EntityTypeModel(Class<?> entityClass, Set<Class<? extends Annotation>> entityAnnotations) {
         _entityClass = entityClass;
         _entityAnnotations = entityAnnotations;
+        Arrays.stream(TargetOutput.values()).forEach(target -> _writers.put(target, new TreeSet<>((t0, t1) -> t0.getType().compareTo(t1.getType()))));
     }
 
     public Class<?> getEntityClass() {
@@ -70,22 +71,24 @@ public class EntityTypeModel {
     }
 
     public void addWriter(TargetOutput target, EntityWriter e) {
-        if (_writers.get(target) == null) {
-            _writers.put(target, new TreeSet<>(new Comparator<EntityWriter>() {
-                @Override
-                public int compare(EntityWriter t0, EntityWriter t1) {
-                    return t0.getType().compareTo(t1.getType());
-                }
-            }));
-        }
         _writers.get(target).add(e);
     }
 
     public Set<EntityWriter> getWriters(TargetOutput target) {
+        return  _writers.get(target);
+    }
+
+    public Map<EntityWriter.TypeGroup, Set<EntityWriter>> getWritersByTypeGroup(TargetOutput target) {
         Set<EntityWriter> writers =  _writers.get(target);
         if (writers == null) {
-            return new HashSet<>() ;
+            return new HashMap<>() ;
         }
-        return writers;
+        Map<EntityWriter.TypeGroup, Set<EntityWriter>> sortedWriters = new HashMap<>();
+        Arrays.stream(EntityWriter.TypeGroup.values()).forEach(typeGroup -> sortedWriters.put(typeGroup, new TreeSet<>((t0, t1) -> t0.getType().compareTo(t1.getType()))));
+        for (EntityWriter writer : writers) {
+            EntityWriter.TypeGroup group = writer.getType().getGroup();
+            sortedWriters.get(group).add(writer);
+        }
+        return sortedWriters;
     }
 }
